@@ -5,7 +5,14 @@ Alexia, Leonardo, Nathan e Rafael
 
 Repositório com os materiais para o Curso de Programação para Ciências Sociais
 
-Organização do Material
+Fluxo de Trabalho
 =======================
 
-Lembre-se que os materias devem realizar um `knit` sem problemas, caso contrário o material não será carregado no site.
+1. Crie um arquivo .md ou .Rmd na pasta tutoriais
+
+Caso crie um .Rmd, esse arquivo necessariamente de rodar todos os chunks, senão a função dará problemas.
+
+2. Execute o _script_ `build_materials`.
+
+3. Verifique o arquivo na pasta __content__
+    
