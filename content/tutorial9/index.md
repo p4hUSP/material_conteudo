@@ -1,8 +1,7 @@
 ---
-title: "MySQL e dplyr"
+title: "MySQL e Dplyr"
+date: "2018-04-05"
 ---
-
-# MySQL e dplyr
 
 Uma das soluções mais simples para trabalharmos com bases de dados grandes em R é, em vez de carregar os dados na memória, conectar o R a uma fonte remota de dados e usar a gramática que aprendemos nos tutoriais anteriores para manipularmos os dados. Veremos a seguir um exemplo para dados em um servidor MySQL, mas ele vale para outros sistemas de gerenciamento de dados como PostgreSQL, MariaDB ou BigQuery. 
 

@@ -1,8 +1,7 @@
 ---
-title: "Treinando Funções no R"
+title: "Funções no R"
+date: "2018-04-05"
 ---
-
-# Treinando funções no R
 
 Neste tutorial vamos treinar a construção de funções no R. Cada um dos 7 tópico abaixo contém um desafio de criação de uma função.
 

@@ -1,13 +1,9 @@
 ---
-title: "Condicionais, loops e funções"
-date: "March 20, 2017"
+title: "Teste Lógico"
+date: "2018-04-05"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-# Botando o computador para trabalhar
+## Botando o computador para trabalhar
 
 Se há um tutorial sobre lógica de programação, é este. Os tópicos deste tutorial são os mais importantes para que possamos escrever algoritmos e botar o computador para fazer o que sabe de melhor: repetir instruções e tarefas. Veremos, em primeiro lugar, operadores relacionais e lógicos, cláusulas condicionais, loops e funções.
 
@@ -382,7 +378,3 @@ conversor_moeda <- function(valor, cotacao){
 
 conversor_moeda(42, 3.2)
 ```
-
-## Paramos por aqui
-
-Hoje percorremos um caminho longo no aprendizado da linguagem R. Vamos parar por aqui para respirar e assentar o que aprendemos.

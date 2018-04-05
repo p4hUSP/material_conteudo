@@ -1,8 +1,7 @@
 ---
 title: "Texto no R"
+date: "2018-04-05"
 ---
-
-# Texto no R
 
 ## O pacote _stringr_
 

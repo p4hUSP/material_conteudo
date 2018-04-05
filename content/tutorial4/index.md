@@ -1,8 +1,7 @@
 ---
 title: "Abrindo Dados no R"
+date: "2018-04-05"
 ---
-
-# Abrindo dados no R
 
 Neste tutorial vamos cobrir uma série de métodos disponíveis para abrirmos arquivos de texto. excel e de outros softwares de análise de dadoss no R. Vamos dar atenção aos argumentos das funções de forma a solucionar dificuldades de abertura de dados com diferentes características ou em sistemas operacionais variados.
 

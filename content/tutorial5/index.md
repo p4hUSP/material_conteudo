@@ -1,8 +1,9 @@
 ---
 title: "Manipulação de Dados"
+date: "2018-04-05"
 ---
 
-# Manipulação de dados com a gramática básica do R
+## Manipulação de dados com a gramática básica do R
 
 A esta altura do campeonato, você já tem bastante recursos para programar em R. Combinando seu conhecimento sobre vetores, _data frames_, tipos de dados, loops, condicionais e funções dá para fazer um bocado de coisas legais. Depois deste tutorial, voltaremos a esteś tópicos para exercitar o que aprendemos.
 
@@ -425,5 +426,3 @@ names(fake)[6] <- "casado"
 ```
 
 Simples, porém um pouco mala.
-
-## Fim

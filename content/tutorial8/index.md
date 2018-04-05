@@ -1,11 +1,9 @@
 ---
 title: "Mapas"
+date: "2018-04-05"
 ---
 
-# Mapas no R
-
 Data frames foram, até este momento do curso, o protagonista de nossa análise de dados. Vimos como manipular dados que estão sempre no mesmo formato
-
 
 ## Informação espacial armazenada em data frames - pontos no google maps
 
@@ -222,8 +220,6 @@ Antes disso, poré, vamos conhecer o formato mais comum para armazenar dados esp
 ```{r}
 library(sp)
 ```
-
-
 Ademais de precisarmos de outras classes de objetos em R para armazenarmos informação espacial, precisamos também de formatos de arquivos diferentes para compartilhar dados espaciais. _Shapefiles_ são os mais populares e diversos repositórios de dados espaciais, como a [Prefeitura de São Paulo](http://www.prefeitura.sp.gov.br/cidade/secretarias/urbanismo/dados_estatisticos/index.php?p=160798) e 
 o [Centro de Estudos da Metrópole (CEM)](http://www.fflch.usp.br/centrodametropole/).
 
@@ -455,5 +451,3 @@ ggplot(data = rmsp_df,
 ```
 
 A grande vantagem de trabalharmos com a gramática do _ggplot2_ é que podemos editar os mapas da mesma forma que editamos gráficos e as possibilidades são inúmeras.
-
-## Fim

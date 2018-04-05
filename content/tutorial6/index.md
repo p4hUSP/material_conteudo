@@ -1,13 +1,9 @@
 ---
-title: "Manipulação de dados em R"
-date: "April 03, 2017"
+title: "Gramática do Dplyr"
+date: "2018-04-05"
 ---
-  
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-# Manipulação de dados com a gramática básica do pacote dplyr
+## Manipulação de dados com a gramática básica do pacote dplyr
 
 ## Um primeiro exemplo
 
