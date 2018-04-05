@@ -20,6 +20,6 @@ mtcars %>%
   geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-2](img//unnamed-chunk-2-1.png)
+![plot of chunk unnamed-chunk-2](figures//unnamed-chunk-2-1.png)
 
 

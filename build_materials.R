@@ -20,7 +20,7 @@ create_content <- function(dir = "./tutoriais"){
 }
 
 create_md <- function(dir_file){
-  system(stringr::str_replace_all("mv ./tutoriais/FILE.md ./content/FILE/index.md",
+  system(stringr::str_replace_all("cp ./tutoriais/FILE.md ./content/FILE/index.md",
                                   "FILE",
                                   dir_file))
 }
@@ -28,7 +28,7 @@ create_md <- function(dir_file){
 create_Rmd <- function(file, dir_file){
   ezknitr::ezknit(stringr::str_c("./tutoriais/", file),
                   out_dir = stringr::str_c("./content/", dir_file),
-                  fig_dir = "img",
+                  fig_dir = "figures",
                   keep_html = FALSE)
   system(sprintf("mv ./content/%s/%s.md ./content/%s/index.md", dir_file, dir_file, dir_file))
 }
