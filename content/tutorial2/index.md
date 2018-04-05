@@ -1,13 +1,9 @@
 ---
-title: "Operações matemáticas, vetores e matrizes"
+title: "R Básico"
 date: "March 20, 2017"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-# Começando do zero - O básico do R
+## Começando do zero - O básico do R
 
 No tutorial anterior, começamos "do meio", ou seja, fizemos a primeira incursão na linguagem R aprendendo um pouco sobre _data frames_. Esperamos que, com isso, o seu primeiro contato com essa linguagem tenha sido um pouco menos esquisito e até divertido.
 

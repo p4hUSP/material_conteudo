@@ -1,9 +1,9 @@
 ---
-title: "Básico da Linguagem e Data Frame"
-date: "March 13, 2017"
+title: "Começando pelo Meio"
+date: "2018-04-05"
 ---
 
-# Começando pelo meio: data frames
+## Data frames
 
 Uma característica distintiva da linguagem de programação R é ter sido desenvolvida para a análise de dados. E quando pensamos em análise de dados, a protagonista do show é a _base de dados_ ou, como vamos conhecer a partir de agora, __data frame__.
 
@@ -12,7 +12,7 @@ Por esta razão, em vez de aprender como fazer aritmética, elaborar funções o
 As principais características de um data frame são: (1) cada coluna representa uma variável (ou característica) de um conjunto de observações; (2) cada linha representa uma observação e contém os valores de cada variável para tal observação. Vejamos um exemplo:
 
 | Candidato | Partido  | Votos | 
-| --------- |----------| ------|
+|-----------|----------|-------|
 | Beatriz   | PMDB     |   350 | 
 | Danilo    | PSOL     |  1598 | 
 | Pedro     | PTB      |   784 | 
