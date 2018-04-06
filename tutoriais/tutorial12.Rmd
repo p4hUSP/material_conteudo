@@ -1,6 +1,6 @@
 ---
 title: "Gráficos no R"
-date: "2018-04-05"
+date: '2018-04-05'
 ---
 
 # Treinando gráficos no R
