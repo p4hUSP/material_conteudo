@@ -1,6 +1,6 @@
 ---
 title: "R Básico"
-date: "March 20, 2017"
+date: "2018-04-05"
 ---
 
 ## Começando do zero - O básico do R
