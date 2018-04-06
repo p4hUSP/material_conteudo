@@ -23,8 +23,6 @@ As principais características de um data frame são: (1) cada coluna representa
 |Davi      |PSD     |   580|
 |Mateus    |PV      |     2|
 
-
-
 Note que em uma linha os elementos são de tipos de diferentes: na primeira coluna há uma nome (texto), na segunda uma sigla de partido (texto, mas limitado a um conjunto de siglas) e na terceira votos (número inteiros). 
 
 Por outro lado, em cada coluna há somente elementos de um tipo. Por exemplo, há apenas números inteiros na coluna votos. Colunas são variáveis e por isso aceitam registros de um único tipo. Se você já fez um curso de estatísticas básica ou de métodos quantitativos deve se lembrar que as variáveis são classificadas da seguinte maneira:
@@ -45,7 +43,7 @@ Data frame e vetores são __objetos__ na linguagem R.
 
 Vamos ver como o R representa vetores e data frames na tela. Antes disso, é preciso "abrir" um data frame.
 
-## Pausa para pacotes
+### Pausa para pacotes
 
 Uma das características mais atrativas da linguagem R é o desenvolvimento de __pacotes__ pela comunidade de usuários. Pacotes são conjuntos de funções (aka comandos) e, por vezes, guardam também dados em diversos formatos.
 
@@ -56,7 +54,7 @@ Vamos carregar um pacote chamado _datasets_, que contém diversos conjuntos de d
 library(datasets)
 ```
 
-## De volta aos dataframes
+### De volta aos dataframes
 
 Com a função _data_ podemos carregar um conjunto de dados disponível na sua sessão de R. Utilizaremos a base _mtcars_, que contém dados da revista _Motor Trend US_ sobre características (variáveis) de 32 automóveis (esse é um dos conjuntos de dados mais populares em cursos introdutórios de R).
 
@@ -85,13 +83,13 @@ View(mtcars)
 
 Com apenas 32 observações, não fica tão difícil "olhar" para os dados. Mas e se estívessemos trabalhando com, por exemplo, o total de candidatos vereadores no Brasil em 2016 (aprox. meio milhão de candidatos)? Seria útil utilizar o comando _View_?
 
-## Do editor de planilhas ao R - parte 1
+### Do editor de planilhas ao R - parte 1
 
 A partir desse ponto no curso vamos resistir à tentação de "olhar" para os dados. O hábito de quem utiliza com editores de planilha como MS Excel ou Libre Office Calc, ou ainda com algums softwares de análise de dados como SPSS e Minitab, é trabalhar "olhando" para os dados, ou seja, para os valores de cada célula de uma base dados.
 
 Você perceberá em pouco tempo que isso não é necessário. Na verdade, é contraproducente. Nas primeiras aulas vamos nos munir de ferramentas que nos permitirão conhecer os dados sem olhá-los diretamente.
 
-## Head no lugar de View
+### Head no lugar de View
 
 Por exemplo, podemos substituir a função _View_ pela função _head_. Veja o resultado:
 
@@ -204,7 +202,7 @@ head(x = mtcars, n = 10)
 
 _x_ é o argumento que já havíamos utilizado anteriormente e indica em que objeto a função _head_ será aplicada. Dica: você pode omitir tanto "x =" quanto "n =" se você já conhecer a ordem de cada argumento no uso da função. Veja que neste caso estamos utilizando o símbolo "=" sem fazer a atribuição de dados a um objeto, mas para atribuir valores (ou objetos) aos argumento de uma função. Para não haver confusão é preferível usar o símbolo "<-" para atribuição e o "=" para as demais situações.
 
-## Pausa para um comentário
+### Pausa para um comentário
 
 Podemos fazer comentários no meio do código. Basta usar # e tudo que seguir até o final da linha não será interpertado pelo R como código. Por exemplo:
 
@@ -230,7 +228,7 @@ names(mtcars) # Repetindo o comando acima com comentario em outro lugar
 
 Comentários são extremamente úteis para documentar seu código. Documentar é parte de programar e você deve pensar nas pessoas com as quais vai compartilhar o código e no fato de que com certeza não se lembrará do que fez em pouco tempo (garanto, você vai esquecer).
 
-## Construindo vetores e data frames
+### Construindo vetores e data frames
 
 Vamos esquecer o _data frame_ com o qual estávamos trabalhando até agora. Para remover um objeto do __Workspace__ fazemos:
 

@@ -5,6 +5,7 @@
 rm(list = ls())
 
 create_content <- function(dir = "./tutoriais"){
+  system("rm -Rf ./content") #Exclui a pasta de content
   file <- list.files("./tutoriais/")
   dir_file <- stringr::str_remove(file, "\\.md$|\\.Rmd$")
   for(i in seq_along(file)){
@@ -34,9 +35,3 @@ create_Rmd <- function(file, dir_file){
 }
 
 create_content()
-
-
-
-
-
-

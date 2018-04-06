@@ -3,6 +3,11 @@ title: "Teste Lógico"
 date: "2018-04-05"
 ---
 
+```{r, echo = FALSE}
+library(magrittr)
+```
+
+
 ## Botando o computador para trabalhar
 
 Se há um tutorial sobre lógica de programação, é este. Os tópicos deste tutorial são os mais importantes para que possamos escrever algoritmos e botar o computador para fazer o que sabe de melhor: repetir instruções e tarefas. Veremos, em primeiro lugar, operadores relacionais e lógicos, cláusulas condicionais, loops e funções.
@@ -119,12 +124,14 @@ votos16 > 500 & votos16 <= 1500
 
 Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "e":
 
-| Proposição 1 | Proposição 2 | Combinação | 
-| ------------ | ------------ | ---------- |
-| TRUE         | TRUE         | TRUE       |  
-| TRUE         | FALSE        | FALSE      |
-| FALSE        | TRUE         | FALSE      |
-| FALSE        | FALSE        | FALSE      |
+```{r}
+tibble::tribble(~`Proposição 1`, ~`Proposição 2`, ~Combinação,
+                  TRUE         , TRUE           , TRUE       ,  
+                  TRUE         , FALSE          , FALSE      ,
+                  FALSE        , TRUE           , FALSE      ,
+                  FALSE        , FALSE          , FALSE      ) %>% 
+  kable()
+```
 
 Se o valor atende às duas condições, então o resultado é TRUE. Se ao menos uma proposição é falsa, sob a conjunção é, então a combinação das proposições também é.
 
@@ -136,12 +143,14 @@ votos16 < 500 | votos12 > 1500
 
 Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "ou":
 
-| Proposição 1 | Proposição 2 | Combinação | 
-| ------------ | ------------ | ---------- |
-| TRUE         | TRUE         | TRUE       |  
-| TRUE         | FALSE        | TRUE       |
-| FALSE        | TRUE         | TRUE       |
-| FALSE        | FALSE        | FALSE      |
+```{r}
+tibble::tribble(~`Proposição 1`, ~`Proposição 2`, ~Combinação,
+                  TRUE         , TRUE           , TRUE       ,  
+                  TRUE         , FALSE          , TRUE      ,
+                  FALSE        , TRUE           , TRUE      ,
+                  FALSE        , FALSE          , FALSE      ) %>% 
+  kable()
+```
 
 Finalmente, o operador lógico "não" tem a única função de reverter um proposição:
 
@@ -351,7 +360,7 @@ Para criar uma função, usamos _function_. Basicamente, o "construtor" tem duas
 
 Crie uma função chamada "quadrado" que recebe um número "x" e retorna o quadrado de x.
 
-## Reposta
+### Reposta
 
 ```{r}
 quadrado <- function(x){
@@ -368,7 +377,7 @@ quadrado(17)
 - Crie uma função que recebe um valor em reais e retorna o valor em dólares (use a 3.2 como cotação do dólar)
 - Crie uma função que recebe um valor em reais e uma cotação do dólar e retorna o valor em dólares.
 
-## Reposta do segundo item
+### Reposta
 
 ```{r}
 conversor_moeda <- function(valor, cotacao){
