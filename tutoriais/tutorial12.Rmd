@@ -244,9 +244,9 @@ ggplot(fake, aes(x = income, y = savings)) +
 
 ## Salvando os gáficos
 
-Você pode usar tanto o botão "Export" no RStudio quanto a função "ggsave". Veja o exemplo abaixo, que salva o gráfico disponível no ferramenta de visualização em diversos formatos, respectivamente .png, pdf e .jpeg, e com dimensões definidas pelos argumentos _width_ e _height_.
+Você pode usar tanto o botão "Export" no RStudio quanto a função `ggsave`. Veja o exemplo abaixo, que salva o gráfico disponível no ferramenta de visualização em diversos formatos, respectivamente .png, pdf e .jpeg, e com dimensões definidas pelos argumentos _width_ e _height_.
 
-```{r}
+```{r, eval = F}
 ggsave("plot.png", width = 5, height = 5)
 ggsave("plot.pdf", width = 5, height = 5)
 ggsave("plot.jpeg", width = 5, height = 5)

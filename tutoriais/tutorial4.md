@@ -383,8 +383,3 @@ lat <- read_stata("C:\\User\\fcslab18\\Downloads\\Latinobarometro_2015_Eng.sav")
 lat <- as_factor(lat)
 head(lat)
 ```
-
-## Fim
-
-
-
