@@ -287,17 +287,6 @@ votos16 > 500 & votos16 <= 1500
 Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "e":
 
 
-```r
-tibble::tribble(~`Proposição 1`, ~`Proposição 2`, ~Combinação,
-                  TRUE         , TRUE           , TRUE       ,  
-                  TRUE         , FALSE          , FALSE      ,
-                  FALSE        , TRUE           , FALSE      ,
-                  FALSE        , FALSE          , FALSE      ) %>% 
-  kable()
-```
-
-
-
 |Proposição 1 |Proposição 2 |Combinação |
 |:------------|:------------|:----------|
 |TRUE         |TRUE         |TRUE       |
@@ -319,17 +308,6 @@ votos16 < 500 | votos12 > 1500
 ```
 
 Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "ou":
-
-
-```r
-tibble::tribble(~`Proposição 1`, ~`Proposição 2`, ~Combinação,
-                  TRUE         , TRUE           , TRUE       ,  
-                  TRUE         , FALSE          , TRUE      ,
-                  FALSE        , TRUE           , TRUE      ,
-                  FALSE        , FALSE          , FALSE      ) %>% 
-  kable()
-```
-
 
 
 |Proposição 1 |Proposição 2 |Combinação |
