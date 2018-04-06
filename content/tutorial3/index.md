@@ -296,9 +296,14 @@ tibble::tribble(~`Proposição 1`, ~`Proposição 2`, ~Combinação,
   kable()
 ```
 
-```
-## Error in kable(.): could not find function "kable"
-```
+
+
+|Proposição 1 |Proposição 2 |Combinação |
+|:------------|:------------|:----------|
+|TRUE         |TRUE         |TRUE       |
+|TRUE         |FALSE        |FALSE      |
+|FALSE        |TRUE         |FALSE      |
+|FALSE        |FALSE        |FALSE      |
 
 Se o valor atende às duas condições, então o resultado é TRUE. Se ao menos uma proposição é falsa, sob a conjunção é, então a combinação das proposições também é.
 
@@ -325,9 +330,14 @@ tibble::tribble(~`Proposição 1`, ~`Proposição 2`, ~Combinação,
   kable()
 ```
 
-```
-## Error in kable(.): could not find function "kable"
-```
+
+
+|Proposição 1 |Proposição 2 |Combinação |
+|:------------|:------------|:----------|
+|TRUE         |TRUE         |TRUE       |
+|TRUE         |FALSE        |TRUE       |
+|FALSE        |TRUE         |TRUE       |
+|FALSE        |FALSE        |FALSE      |
 
 Finalmente, o operador lógico "não" tem a única função de reverter um proposição:
 
