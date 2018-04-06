@@ -31,122 +31,122 @@ library(ggplot2)
 
 Vamos começar com gráficos de barras, adequados para uma única variável discreta. Contrua o gráfico abaixo, para a variável "party". O código esta propositalmente omitido e você deve "se virar" para construir o gráfico.
 
-![plot of chunk unnamed-chunk-3](figures//unnamed-chunk-3-1.png)
+![plot of chunk unnamed-chunk-9](figures//unnamed-chunk-9-1.png)
 
 Se utilizarmos no argumento "fill" na "aesthetics" do ggplot uma outra variável discreta, obtemos. Teste você mesm@:
 
-![plot of chunk unnamed-chunk-4](figures//unnamed-chunk-4-1.png)
+![plot of chunk unnamed-chunk-10](figures//unnamed-chunk-10-1.png)
 
 Vamos agora variar as posições das barras alterando os valores do argumento "position" em _geom\_bar_. Os valores para "position" são: "stack" (default, mostrado acima), "dodge" e "fill":
 
-![plot of chunk unnamed-chunk-5](figures//unnamed-chunk-5-1.png)
+![plot of chunk unnamed-chunk-11](figures//unnamed-chunk-11-1.png)
 
-![plot of chunk unnamed-chunk-6](figures//unnamed-chunk-6-1.png)
+![plot of chunk unnamed-chunk-12](figures//unnamed-chunk-12-1.png)
 
 ## Gráficos para uma variável contínua
 
 Comecemos com a variável "income". Vamos construir um histograma. Por termos poucos dados, use "bins = 10" como argumento para construção do histograma:
 
-![plot of chunk unnamed-chunk-7](figures//unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-13](figures//unnamed-chunk-13-1.png)
 
 Novamente, inclua "turnout" no argumento "fill" de "aesthetics" e observe o resultado
 
-![plot of chunk unnamed-chunk-8](figures//unnamed-chunk-8-1.png)
+![plot of chunk unnamed-chunk-14](figures//unnamed-chunk-14-1.png)
 
 Tal como com os gráficos de barra, varie a posição do histograma. O argumento "position" pode receber os valores: "stack" (default, mostrado acima), "dodge" e "fill":
 
 
-![plot of chunk unnamed-chunk-9](figures//unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-15](figures//unnamed-chunk-15-1.png)
 
 
 ```
 ## Warning: Removed 4 rows containing missing values (geom_bar).
 ```
 
-![plot of chunk unnamed-chunk-10](figures//unnamed-chunk-10-1.png)
+![plot of chunk unnamed-chunk-16](figures//unnamed-chunk-16-1.png)
 
-![plot of chunk unnamed-chunk-11](figures//unnamed-chunk-11-1.png)
+![plot of chunk unnamed-chunk-17](figures//unnamed-chunk-17-1.png)
 
 Gráficos de densidade costumam ser uma opção mais atrativa para variáveis verdadeiramente contínuas (e não númericas discretas, como idade em anos, por exemplo). Produza a densidade de "income":
 
-![plot of chunk unnamed-chunk-12](figures//unnamed-chunk-12-1.png)
+![plot of chunk unnamed-chunk-18](figures//unnamed-chunk-18-1.png)
 
 Vamos agora separar as densidades inserindo uma variável discreta no argumento "fill", tal como "turnout":
 
-![plot of chunk unnamed-chunk-13](figures//unnamed-chunk-13-1.png)
+![plot of chunk unnamed-chunk-19](figures//unnamed-chunk-19-1.png)
 
 Veja que só conseguimos separar as densidades por estarmos trabalhando com uma única variável contínua separada por uma variável discreta. Se quisermos, porém, sobrepor as densidades de duas variáveis contínuas, temos que passar os argumentos "aesthetics" da função _ggplot_ para dentro de _geom\_density_. Tente reproduzir o gráfico abaixo usando "income" e "savings". Não se preocupe com os rótulos dos eixos por enquanto:
 
-![plot of chunk unnamed-chunk-14](figures//unnamed-chunk-14-1.png)
+![plot of chunk unnamed-chunk-20](figures//unnamed-chunk-20-1.png)
 
 ## Uma variável discreta e uma contínua
 
 Uma das opções para apresentarmos conjuntamente uma variável discreta e uma contínua é utilizarmos o gráfico de barras com o argumento 'stat = "identity"' em _geom\_bar_. Note que a variável discreta é o argumento "x" e a contínua, "y". Tente você:
 
-![plot of chunk unnamed-chunk-15](figures//unnamed-chunk-15-1.png)
+![plot of chunk unnamed-chunk-21](figures//unnamed-chunk-21-1.png)
 
 Box-plots também são opções excelentes:
 
-![plot of chunk unnamed-chunk-16](figures//unnamed-chunk-16-1.png)
+![plot of chunk unnamed-chunk-22](figures//unnamed-chunk-22-1.png)
 
 
 ## Duas variáveis contínua:
 
 Vamos agora trabalhar com a apresentação conjunta de duas variáveis contínuas, "income" (x) e "savings" (y). O gráfico de dispersão é obviamente a opção básica:
 
-![plot of chunk unnamed-chunk-17](figures//unnamed-chunk-17-1.png)
+![plot of chunk unnamed-chunk-23](figures//unnamed-chunk-23-1.png)
 
 A reta que descreve uma função linear entre as duas variáveis é outra opção. Dica: use _geom\_smooth_ e adota o argumento 'method = "lm"', onde "lm" significa "linear model"
 
-![plot of chunk unnamed-chunk-18](figures//unnamed-chunk-18-1.png)
+![plot of chunk unnamed-chunk-24](figures//unnamed-chunk-24-1.png)
 
 Combine os dois gráficos anteriores:
 
-![plot of chunk unnamed-chunk-19](figures//unnamed-chunk-19-1.png)
+![plot of chunk unnamed-chunk-25](figures//unnamed-chunk-25-1.png)
 
 Se quiser retirar o intervalo de confiança do modelo linear, representado pela área cinza, use "se = FALSE":
 
-![plot of chunk unnamed-chunk-20](figures//unnamed-chunk-20-1.png)
+![plot of chunk unnamed-chunk-26](figures//unnamed-chunk-26-1.png)
 
 Há alternativas ao modelo linear. Use 'method = "loess"' para um ajuste polinomial:
 
-![plot of chunk unnamed-chunk-21](figures//unnamed-chunk-21-1.png)
+![plot of chunk unnamed-chunk-27](figures//unnamed-chunk-27-1.png)
 
 Voltando ao gráfico de dispersão básico, podemos separa os pontos por uma terceira variável (discreta). Use o argumento "color" em "aesthetics". Vamos separar por "turnout":
 
-![plot of chunk unnamed-chunk-22](figures//unnamed-chunk-22-1.png)
+![plot of chunk unnamed-chunk-28](figures//unnamed-chunk-28-1.png)
 
 Podemos apresentar um modelo linear para cada grupo de "turnout":
 
-![plot of chunk unnamed-chunk-23](figures//unnamed-chunk-23-1.png)
+![plot of chunk unnamed-chunk-29](figures//unnamed-chunk-29-1.png)
 
 Se no lugar de colocarmos "turnout" no argumento "color", colocarmos em "shape", teremos variação no formato dos pontos:
 
-![plot of chunk unnamed-chunk-24](figures//unnamed-chunk-24-1.png)
+![plot of chunk unnamed-chunk-30](figures//unnamed-chunk-30-1.png)
 
 ## Mais opções gráficas
 
 Se quisermos separar os dados em diferentes paineis, digamos, por grupo candidato de preferência (variável "candidate"), usamos _facet\_wrap_ com a seguinte fórmula "(~ candidate)":
 
-![plot of chunk unnamed-chunk-25](figures//unnamed-chunk-25-1.png)
+![plot of chunk unnamed-chunk-31](figures//unnamed-chunk-31-1.png)
 
 Podemos alterar as legendas de um gráfico usando as funções _xlab_ e _ylab_:
 
-![plot of chunk unnamed-chunk-26](figures//unnamed-chunk-26-1.png)
+![plot of chunk unnamed-chunk-32](figures//unnamed-chunk-32-1.png)
 
 E podemos adicionar título com _ggtitle_:
 
-![plot of chunk unnamed-chunk-27](figures//unnamed-chunk-27-1.png)
+![plot of chunk unnamed-chunk-33](figures//unnamed-chunk-33-1.png)
 
 Há um conjunto de funções que alteram os "temas" dos gráficos. Por padrão, usamos _theme\_grey_. Os temas básicos são: _theme\_classic_, _theme\_bw_, _theme\_minimal_, _theme\_void_. Teste cada uma deles, como na sequência abaixo. Há um pacote chamado _ggthemes_ que contém diversos outros "temas":
 
-![plot of chunk unnamed-chunk-28](figures//unnamed-chunk-28-1.png)
+![plot of chunk unnamed-chunk-34](figures//unnamed-chunk-34-1.png)
 
-![plot of chunk unnamed-chunk-29](figures//unnamed-chunk-29-1.png)
+![plot of chunk unnamed-chunk-35](figures//unnamed-chunk-35-1.png)
 
-![plot of chunk unnamed-chunk-30](figures//unnamed-chunk-30-1.png)
+![plot of chunk unnamed-chunk-36](figures//unnamed-chunk-36-1.png)
 
-![plot of chunk unnamed-chunk-31](figures//unnamed-chunk-31-1.png)
+![plot of chunk unnamed-chunk-37](figures//unnamed-chunk-37-1.png)
 
 ## Salvando os gáficos
 
