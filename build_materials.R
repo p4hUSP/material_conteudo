@@ -25,7 +25,11 @@ create_md <- function(dir_file){
 }
 
 create_Rmd <- function(file, dir_file){
-  system(sprintf("cp ./tutoriais/%s.Rmd ./content/%s/index.Rmd", dir_file, dir_file))
+  ezknitr::ezknit(stringr::str_c("./tutoriais/", file),
+                  out_dir = stringr::str_c("./content/", dir_file),
+                  fig_dir = "figures",
+                  keep_html = FALSE)
+  system(sprintf("mv ./content/%s/%s.md ./content/%s/index.md", dir_file, dir_file, dir_file))
 }
 
 create_content()

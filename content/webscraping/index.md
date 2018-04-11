@@ -3,9 +3,7 @@ title: 'Web Scraping'
 date: '2018-04-06'
 ---
 
-```{r setup, include=FALSE, echo = F}
-knitr::opts_chunk$set(eval = FALSE)
-```
+
 
 ##Atividade 1
 
@@ -13,7 +11,8 @@ knitr::opts_chunk$set(eval = FALSE)
 
 Algumas das funções que vamos utilizar nesta atividade não estão na biblioteca básica do R. Temos, dessa forma, que começar instalando uma biblioteca chamada "rvest". A biblioteca já está instalada nos computadores que vamos utilizar hoje. Porém, vamos refazer o processo de instalação para aprender um pouco mais. Execute o comando abaixo:
 
-```{r}
+
+```r
 #install.packages("rvest")
 #install.packages("dplyr")
 #install.packages("stringr")
@@ -21,7 +20,8 @@ Algumas das funções que vamos utilizar nesta atividade não estão na bibliote
 
 Uma vez instalada a biblioteca, as funções não estão automaticamente disponíveis. Para torná-las disponíveis é preciso "chamar" a biblioteca. Vamos fazer isso com a biblioteca "rvest", "dplyr" e "stringr". Execute o comando abaixo:
 
-```{r}
+
+```r
 library(rvest) # Web Scraping
 library(dplyr) # Manipular os dados
 library(stringr) # Substituir padroes nos textos
@@ -48,7 +48,8 @@ Nossa primeira tarefa consiste em capturar estas informações. Vamos, no decorr
 
 Vamos armazenar a URL em um objeto ("url_base", mas você pode dar qualquer nome que quiser).
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=1&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 ```
 
@@ -60,14 +61,16 @@ Podemos ver que há muitas páginas de resultado para a palavra-chave que utiliz
 
 Loops são processos iterativos e são extremamente úteis para instruir o computador a repetir uma tarefa por um número finito de vezes. Por exemplo, vamos começar "imprimindo" na tela os números de 1 a 9:
 
-```{r}
+
+```r
 for (i in 1:9) {
   print(i)
 }
 ```
 Simples, não? Vamos ler esta instrução da seguinte maneira: "para cada número i no conjunto que vai de 1 até 9 (essa é a parte no parênteses) imprimir o número i (instrução entre chaves)". E se quisermos imprimir o número i multiplicado por 7 (o que nos dá a tabuada do 7!!!), como devemos fazer?
 
-```{r}
+
+```r
 for (i in 1:9) {
   print(i * 7)
 }
@@ -87,7 +90,8 @@ Os argumentos (o que vai entre os parenteses) da função são, em ordem, objeto
 
 Na prática, ela funciona da seguinte forma:
 
-```{r}
+
+```r
 o_que_procuro_para_susbtituir <- "palavra"
 o_que_quero_substituir_por <- "batata"
 meu_texto <- "quero substituir essa palavra"
@@ -105,13 +109,15 @@ Vamos agora substituir na URL da página 2 da nossa busca o número por algo que
 
 Obs: Lembremos que ao colocar na URL, não devemos usar as aspas mas elas se mantêm ao escrever a função, pois queremos dizer que procuramos a palavra "NUM_PAG" e não o objeto chamado NUMPAG.
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 ```
 
 Por exemplo, se quisermos gerar o link da página 6, podemos escrever:
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 
 url <- stringr::str_replace(url_base, "NUMPAG", "6")
@@ -119,14 +125,16 @@ url <- stringr::str_replace(url_base, "NUMPAG", "6")
 
 Ou, em vez de usar um número diretamente na substituição, podemos usar uma variável que represente um número -- por exemplo a variável i, que já usamos no loop anteriormente.
 
-```{r}
+
+```r
 i = "6"
 url <- stringr::str_replace(url_base, "NUMPAG", i)
 print(url)
 ```
 Agora que temos o código substituindo funcionando, vamos implementar o loop para que as URLs das páginas sejam geradas automaticamente. Por exemplo, se quisermos "imprimir" na tela as páginas 0 a 5, podemos usar o seguinte código:
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 for(i in 0:5){
   url <- stringr::str_replace(url_base, "NUMPAG", as.character(i))
@@ -142,7 +150,8 @@ Por enquanto, vamos usar apenas as funções `xml2::read_html()` e `rvest::html_
 
 Vamos ver como ela funciona para a página 2 (ou seja, currentPage=1) contendo tabelas com os resultados em que aparecem o nosso termo pesquisado:
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 i <- "1"
 url <- stringr::str_replace(url_base, "NUMPAG", i)
@@ -161,7 +170,8 @@ No site da ALESP, já nessa pesquisa nos deparamos que a função `html_table` r
 
 Como acessar objetos em uma lista? Podemos ulitizar colchetes. Porém, se utilizarmos apenas um colchete, estamos obtendo uma sublista. Por exemplo, vamos criar diferentes objetos e combiná-los em uma lista:
 
-```{r}
+
+```r
 # Objetos variados
 matriz <- matrix(c(1:6), nrow=2)
 vetor.inteiros <- c(42:1)
@@ -177,7 +187,8 @@ print(minha.lista)
 
 Para produzirmos uma sublista, usamos um colchete (mesmo que a lista só tenha um elemento!):
 
-```{r}
+
+```r
 print(minha.lista[1:3])
 class(minha.lista[1:3])
 print(minha.lista[4])
@@ -186,14 +197,16 @@ class(minha.lista[4])
 
 Se quisermos usar o objeto de uma lista, ou seja, extraí-lo da lista, devemos usar dois colchetes:
 
-```{r}
+
+```r
 print(minha.lista[[4]])
 class(minha.lista[[4]])
 ```
 
 Ao obter as tabelas de uma página como uma lista de tabelas (nem sempre vai parecer que são tabelas, exceto se você entender um pouco de HTML), devemos, portanto, utilizar dois colchetes para extrair a tabela que queremos (para poder combiná-las com as tabelas das demais páginas, algo que faremos ao final). Exemplo (no nosso caso já sabemos que a tabela que queremos ocupa a posição 1 da lista, mas é necessário examinar sempre):
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 i <- "1"
 url <- stringr::str_replace(url_base, "NUMPAG", i)
@@ -211,7 +224,8 @@ Vamos tentar capturar as cinco primeiras páginas do resultado da pesquisa de pr
 
 Avance devagar neste ponto. Leia o código abaixo com calma e veja se entendeu o que acontece em cada linha. Já temos um primeiro script de captura de dados quase pronto e é importante estarmos seguros para avançar.
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 for (i in 0:4) {
   url <- stringr::str_replace(url_base, "NUMPAG", as.character(i))
@@ -229,7 +243,8 @@ Excelente, não? Mas e aí? Cadê os dados? O problema é que até agora ainda n
 
 Neste último passo, vamos fazer o seguinte: precisamos de uma estrutura que armazene as informações, então criamos um data frame vazio (chamado "dados") e, para cada iteração no nosso loop (ou seja, para cada "i"), vamos inserir a tabela da página i como novas linhas no nosso data frame. A função nova que precisamos se chama `dplyr::bind_rows()`. Ela serve para unir diferentes data frames (ou vetores ou matrizes), colocando suas linhas uma debaixo da outra. Vejamos um exemplo antes de avançar:
 
-```{r}
+
+```r
 # Criando 2 data frames separados
 meus.dados1 <- data.frame("id" = 1:10, "Experimento" = rep(c("Tratamento"), 10))
 print(meus.dados1)
@@ -247,7 +262,8 @@ Pronto. Podemos agora criar um data frame vazio ("dados") e preenchê-lo com os 
 
 Novamente vamos trabalhar apenas com as cinco primeiras páginas, mas bastaria alterar um único número para que o processo funcionasse para todas as páginas de resultados - desde que sua conexão de internet e a memória RAM do seu computador sejam boas! (Obs: vamos inserir um "contador" das páginas capturadas com "print(i)". Isso será muito útil quando quisermos capturar um número grande de páginas, pois o contador nos dirá em qual iteração (sic, é sem "n" mesmo) do loop estamos. Além disso, incluímos o argumento "stringsAsFactors = FALSE" na função readHTMLTable para garantir que as variáveis de texto sejam lidas como "character" e não como "factors" -- este é um assunto para você pesquisar após a oficina).
 
-```{r}
+
+```r
 url_base <- "http://www.al.sp.gov.br/alesp/pesquisa-proposicoes/?direction=acima&lastPage=75&currentPage=NUMPAG&act=detalhe&idDocumento=&rowsPerPage=10&currentPageDetalhe=1&tpDocumento=&method=search&text=merenda&natureId=&legislativeNumber=&legislativeYear=&natureIdMainDoc=&anoDeExercicio=&legislativeNumberMainDoc=&legislativeYearMainDoc=&strInitialDate=&strFinalDate=&author=&supporter=&politicalPartyId=&tipoDocumento=&stageId=&strVotedInitialDate=&strVotedFinalDate="
 dados <- data.frame()
 for (i in 0:4) {
@@ -263,7 +279,8 @@ Vamos observar o resultado utilizando a função `dplyr::glimpse()`, que retorna
 
 São 50 observações (5 páginas com 10 resultados) e 4 variáveis (data, título, autor, etapa), exatamente como esperávamos. As 4 variáveis são do tipo "character" contêm as informações corretas. As 6 observações apresentam o resultado adequado, o que nos dá uma boa dica que que tudo ocorreu bem até a última página capturada.
 
-```{r}
+
+```r
 # Estrutura do data frame
 dplyr::glimpse(dados)
 
@@ -507,7 +524,8 @@ Vamos agora voltar ao R e aprender a usar os caminhos para criar objetos no R.
 
 O primeiro passo na captura de uma página de internet é criar um objeto que contenha o código HTML da página. Para tanto, usamos a função "readLines" do pacote _rvest_ -- que é a mesma que utilizaríamos para qualquer documento de texto, Vamos usar a segunda página da busca pela palavra "merenda" na ALESP como exemplo:
 
-```{r}
+
+```r
 rm(list = ls())
 
 library(rvest)
@@ -521,7 +539,8 @@ Em primeiro lugar, observe que a estrutura do endereço URL é bastante simples:
 
 Note também que essa função apenas captura o texto de uma página e o salva. No objeto criado, não há referências à estrutura de um HTML. Logo se utilizar a função "class" ou "typeof" para identificar a natureza do vetor, recebemos como resposta um "character".
 
-```{r}
+
+```r
 class(pagina)
 ```
 
@@ -529,11 +548,11 @@ Após usar a função "readLines" o R sabe apenas que um texto foi capturado, ma
 
 Para páginas em HTML, usaremos a função "read_html". Essa função recebe um URL como argumento e retorna um objeto "xml_document":
 
-```{r}
+
+```r
 pagina <- read_html(url)
 
 class(pagina)
-
 ```
 
 A partir de agora, sempre que capturarmos uma página, seja em HTML ou em XML (como são os RSSs), vamos fazer um "parse". Com a página HTML salva em um objeto "xml_document" podemos começar a trabalhar sobre as "tags" e os "nodes" a fim de coletar as informações de nosso interesse.
@@ -548,19 +567,22 @@ Vamos trabalhar com a ferramenta de busca da página inicial da ALESP, em partic
 
 Em primeiro lugar, criamos um objeto com o endereço da página:
 
-```{r}
+
+```r
 url <- "http://www.al.sp.gov.br/alesp/busca/?q=merenda&page=2"
 ```
 
 Dessa vez, podemos usar o "read_html" diretamente
 
-```{r}
+
+```r
 pagina <- read_html(url)
 ```
 
 E, finalmente, usamos uma função nova chamada "xml_root" para eliminar quaisquer conteúdos (normalmente "sujeira") que estejam foram da tag de maior nível hierárquico no documento (o que é necessário com frequência em páginas de internet e é mais raro em documentos XML):
 
-```{r}
+
+```r
 pagina <- xml_root(pagina)
 ```
 
@@ -570,7 +592,8 @@ Vamos começar usando a função "xml_find_all". Essa função, como o próprio 
 
 Nesse exemplo, o xPath é "//ul[@class='lista_navegacao']/li/a". Antes de rodar a função, você consegue entender esse xPath?
 
-```{r}
+
+```r
 nodes_link <- xml_find_all(pagina, "//ul[@class='lista_navegacao']/li/a")
 
 print(nodes_link)
@@ -578,7 +601,8 @@ print(nodes_link)
 
 Note que o resultado é uma lista que contém em cada posição o primeiro "node set". Ele poderia, inclusive, ter tags filhas, além de seu conteúdo e atributos. Vamos examinar melhor o primeiro node. Precisamos usar dois colchetes para indicar a posição, pois se trata de uma lista e não de um vetor.
 
-```{r}
+
+```r
 print(nodes_link[[1]])
 ```
 
@@ -586,7 +610,8 @@ Trata-se de uma tag "a", com dois atributos, "class" e "href", sendo que o valor
 
 O que nos interessa é extrair diretamente o valor dos atributos (se tiverem alguma informação valiosa) e o conteúdo. Vamos treinar com a primeira posição e extratir primeiro o conteúdo:
 
-```{r}
+
+```r
 conteudo_1 <- xml_text(nodes_link[[1]])
 
 print(conteudo_1)
@@ -594,7 +619,8 @@ print(conteudo_1)
 
 Pronto, conseguimos extrair o texto. Depois, podemos extrair o valor do atributo "href":
 
-```{r}
+
+```r
 atributo_1 <- xml_attr(nodes_link[[1]], attr = "href")
 
 print(atributo_1)
@@ -604,7 +630,8 @@ Excelente, não? Se quisessemos apenas a informação do primeiro link resultant
 
 Sem usar o "for loop":
 
-```{r}
+
+```r
 conteudo_1 <- xml_text(nodes_link[[1]])
 conteudo_2 <- xml_text(nodes_link[[2]])
 conteudo_3 <- xml_text(nodes_link[[3]])
@@ -638,7 +665,8 @@ head(dados)
 
 Usando for loops:
 
-```{r}
+
+```r
 conteudos <- c()
 atributos <- c()
 for (i in 1:10){
@@ -662,7 +690,8 @@ A ideia do map segue na mesma linha, porém com uma pequena diferença. Dessa ve
 
 Veja como funciona e note que a função "xml_text" entra como argumento da função "map":
 
-```{r}
+
+```r
 library(tidyverse)
 conteudos <- map(nodes_link, xml_text)
 
@@ -671,7 +700,8 @@ print(conteudos)
 
 Incrível, não? Veja como economizamos na "quantidade" de código para a tarefa de capturar os conteúdos. Porém, a respposta da função "map" é uma lista, o que pode ser um pouco assustador já que estávamos trabalhando com vetores. Para resolver esse problema, basta utilizar a função "map_chr". Ela devolve um vetor de "characters".
 
-```{r}
+
+```r
 conteudos <- map_chr(nodes_link, xml_text)
 
 print(conteudos)
@@ -679,7 +709,8 @@ print(conteudos)
 
 Vamos repetir o procedimento para os valores dos atributos, com o cuidado de nota que o argumento "attr" necessário para a função "xml_attr" deve vir como argumento também quando usamos a função "map" após os demais. Vamos economizar tempo e pedir, dessa vez, "map_chr" diretamente:
 
-```{r}
+
+```r
 atributos <- map_chr(nodes_link, xml_attr, attr = "href")
 
 print(atributos)
@@ -687,7 +718,8 @@ print(atributos)
 
 Encerramos juntando ambos vetores em um data frame:
 
-```{r}
+
+```r
 dados <- data.frame(conteudos, atributos)
 head(dados)
 ```
@@ -704,7 +736,8 @@ Para isso, vamos usar o "for loop" da atividade 1 para ir de uma página a outra
 
 O primeiro passo é, mais uma vez, ter o nosso link da pesquisa que queremos coletar armazenado em um objeto. 
 
-```{r}
+
+```r
 rm(list = ls()) #limpa a área de trabalho do R
 library(tidyverse)
 library(rvest)
@@ -720,7 +753,8 @@ O que faremos é colar nosso contador (o "i", aquilo que vai mudar a cada vez qu
 
 Na linguagem do R, escreveremos assim para o nosso caso:
 
-```{r}
+
+```r
 i = 10
 
 str_c(urlbase, i, sep = "")
@@ -734,7 +768,8 @@ A lógica de coleta do atributo e do conteúdo de um node continua o mesma. A ú
 
 No momento que essa atividade foi feita, a pesquisa pelo termo "merenda" tinha 1068 páginas de resultado, o que implica que o nosso loop irá de 1, a primeira página, até a página 1068, a última. Colocamos um "print(i)" para mostrar que página o loop está durante a execução.
 
-```{r, eval = F}
+
+```r
 for (i in 1:1068){
   print(i)
 }
@@ -742,7 +777,8 @@ for (i in 1:1068){
 
 O que precisamos agora é incluir o que foi discutido ao longo da atividade 2.1. Para extrair as informações de uma página da internet precisamos examinar o código HTML, ler no R e transformar em um objeto XML.
 
-```{r, eval = F}
+
+```r
 pagina <- read_html(urlbase)
 
 pagina <- xml_root(pagina)
@@ -750,7 +786,8 @@ pagina <- xml_root(pagina)
 
 Sabemos também coletar de forma eficiente todos os títulos e links por meio do "xml_text" e "xml_attr", respectivamente.
 
-```{r, eval = F}
+
+```r
 nodes_link <- xml_find_all(pagina, "//ul[@class='lista_navegacao']/li/a")
 
 conteudos <- map_chr(nodes_link, xml_text)
@@ -760,7 +797,8 @@ atributos <- map_chr(nodes_link, xml_attr, attr = "href")
 
 Falta empilhar o que produziremos em cada iteração do loop de uma forma que facilite a visualização. Usaremos a função "bind_row" com data frames, pois para cada página agora, teremos 10 resultados em uma tabela com duas variáveis. O que queremos é a junção dos 10 resultados em cada uma das 162 páginas.
 
-```{r, eval = F}
+
+```r
 dados <- rbind(dados, data.frame(conteudos, atributos))
 ```
 
@@ -768,7 +806,8 @@ Chegou o momento de colocar dentro loop tudo o que queremos que execute em cada 
 
 Por questão de tempo, não iremos criar um data.frame das 1000 páginas. Vamos nos concentrar nas 30 primeiras. Caso queira, sinta-se a vontade para colocar a quantidade que quiser no loop.
 
-```{r}
+
+```r
 urlbase <- "http://www.al.sp.gov.br/alesp/busca/?q=merenda&page="
 
 dados <- tibble()
@@ -805,7 +844,8 @@ http://search.folha.uol.com.br/search?q=elei%E7%F5es&site=datafolha%2Feleicoes&s
 
 Antes de começar, vamos chamar a biblioteca `rvest` para tornar suas funções disponíveis em nossa sessão do R:
 
-```{r}
+
+```r
 library(rvest)
 library(dplyr)
 ```
@@ -813,7 +853,8 @@ Nossa primeira tarefa será escolher uma única notícia (a primeira da busca, p
 
 O primeiro passo é criar um objeto com endereço URL da notícia e outro que contenha o código HTML da página:
 
-```{r}
+
+```r
 url <- "http://datafolha.folha.uol.com.br/eleicoes/2016/02/1744581-49-nao-votariam-em-lula.shtml"
 
 pagina <- xml2::read_html(url)
@@ -821,7 +862,8 @@ pagina <- xml2::read_html(url)
 
 Felizmente, a função `read_html` já estrutura os dados de forma que o R seja capaz de identificar as estruturas de um HTML, como por exemplo, tags, atributos, valores e conteúdo das tags. Para olharmos a estrutura do HTML que nós lemos, podemos utilizar a função `xml_structure(pagina)` do pacote `xml2`
 
-```{r}
+
+```r
 xml2::xml_structure(pagina)
 ```
 
@@ -839,7 +881,8 @@ A resposta é: "//h1[@class = 'main_color main_title']"
 
 Usando agora as funções `rvest::html_node()` e `rvest::html_text()`, como vimos no tutorial anterior, vamos capturar o título da notícia:
 
-```{r}
+
+```r
 titulo <- rvest::html_node(pagina ,
                            xpath = '//h1[@class = "main_color main_title"]') %>% 
   rvest::html_text()
@@ -848,7 +891,8 @@ print(titulo)
 
 Simples, não? Repita agora o mesmo procedimento para data e hora (tente sozinh@ antes de copiar a resposta abaixo!):
 
-```{r}
+
+```r
 datahora <- rvest::html_node(pagina ,
                            xpath = '//time') %>% 
   rvest::html_text()
@@ -857,7 +901,8 @@ print(datahora)
 
 E também para o link do .pdf disponibilizado pelo DataFolha com o conteúdo completo da pesquisa -- dica: o link é o valor do atributo "href" da tag "a" que encontramos ao inspecionar o botão para donwload:
 
-```{r}
+
+```r
 pesquisa <- rvest::html_node(pagina ,
                            xpath = '//p[@class = "stamp download"]/a') %>% 
   rvest::html_attr("href")
@@ -868,7 +913,8 @@ Note que para obtermos o atributo "href" mudamos da função `html_text()` para 
 
 Finalmente, peguemos o texto. Note que o texto está dividido em vários parágrafos cujo conteúdo está inseridos em tags "p", todas filhas da tag "article". Se escolhemos o xpath sem especificar a tag "p" ao final, como abaixo, capturamos um monte de "sujeira", como os botões de twitter e facebook.
 
-```{r}
+
+```r
 texto <- rvest::html_node(pagina ,
                            xpath = '//article[@class = "news"]') %>% 
   rvest::html_text()
@@ -878,7 +924,8 @@ print(texto)
 
 Por outro lado, se espificamos a tag "p" ao final do xpath, recebemos um vetor contendo cada um dos parágrafos do texto. Precisaríamos "juntar" (concatenar) todos os parágrafos para formar um texto único.
 
-```{r}
+
+```r
 texto <- rvest::html_nodes(pagina ,
                            xpath = '//article[@class = "news"]/p') %>% 
   rvest::html_text()
@@ -893,7 +940,8 @@ Por simplicidade, usaremos a primeira opção. Ao final, construímos um código
 
 Tente agora raspar a notícia seguinte usando a mesma estratégia. É fundamental notar que variamos a notícia, mas as informações continuam tendo o mesmo caminho. Essa é a propriedade fundamental do portal raspado que nos permite obter todas as notícias sem nos preocuparmos em abrir uma por uma. O link para a próxima notícia está no objeto "url" abaixo:
 
-```{r}
+
+```r
 url<- "http://datafolha.folha.uol.com.br/eleicoes/2015/11/1701573-russomanno-larga-na-frente-em-disputa-pela-prefeitura-de-sp.shtml"
 ```
 
@@ -903,7 +951,8 @@ Por vezes, queremos fazer donwload de um arquivo cujo link encontramos na págin
 
 Em primeiro lugar, obtemos seu endereço URL, como acabamos de fazer com a notícia que capturamos na busca do DataFolha (tente ler o código e veja se o entende por completo):
 
-```{r}
+
+```r
 library(rvest)
 library(dplyr)
 url <- "http://datafolha.folha.uol.com.br/eleicoes/2016/02/1744581-49-nao-votariam-em-lula.shtml"
@@ -915,20 +964,23 @@ pesquisa <- rvest::html_nodes(pagina ,
 
 O link está no objeto "pesquisa":
 
-```{r}
+
+```r
 print(pesquisa)
 ```
 
 Usando a função `download.file`, rapidamente salvamos o link no "working directory" (use "getwd()" para descobrir qual é o seu) e com o nome "pesquisa.pdf" (poderíamos salvar com o nome que quisessemos):
 
-```{r, eval = F}
+
+```r
 getwd()
 download.file(pesquisa, "pesquisa.pdf")
 ```
 
 Caso você tenha problemas com essa função, talvez você tenha que substiuir as barras "\\" por "/". Para isso, utilizaremos o `gsub`.
 
-```{r, eval=F}
+
+```r
 pesquisa2 <- gsub("\\\\","/", pesquisa)
 
 download.file(pesquisa2, "pesquisa.pdf")
@@ -964,7 +1016,8 @@ Em primeiro lugar, vamos observar o URL da página de busca (poderíamos buscar 
 
 Parece difícil, mas é extremamente simples. Veja o loop abaixo, que imprime a sequência desejada multiplicando (i - 1) por 25 e somando 1 ao final:
 
-```{r}
+
+```r
 for (i in 1:21){
   i <- (i - 1) * 25 + 1
   print(i)
@@ -973,13 +1026,15 @@ for (i in 1:21){
 
 Vamos, dessa forma, criar o objeto "url_base" a partir do URL da página 2 e substituir o número 26 em "sr=26" por um "place holder", "CONTADORLINK", por exemplo:
 
-```{r}
+
+```r
 url_base <- "http://search.folha.uol.com.br/search?q=elei%E7%F5es&site=datafolha%2Feleicoes&skin=datafolha&results_count=516&search_time=0.044&url=http%3A%2F%2Fsearch.folha.uol.com.br%2Fsearch%3Fq%3Delei%25E7%25F5es%26site%3Ddatafolha%252Feleicoes%26skin%3Ddatafolha&sr=CONTADORLINK"
 ```
 
 Capturar os links das notícias de uma única página é simples: examinamos o código HTML, lemos no R, transformamos em um objeto XML ("parse") procuramos o "xpath" que caracteriza os links e extraímos o valor do atríbuto "href". Este seria o Passo 1 descrito acima. Veja abaixo.
 
-```{r}
+
+```r
 pagina <- read_html(url)
 
 link <- rvest::html_nodes(pagina, xpath = '//h2[@class = "title"]/a') %>% 
@@ -988,7 +1043,8 @@ link <- rvest::html_nodes(pagina, xpath = '//h2[@class = "title"]/a') %>%
 
 Combinando o que vimos até agora, podemos executar o Passo 2. Falta apenas criar antes do loop um vetor vazio -- por exemplo, o vetor "links_datafolha" no código abaixo -- que, a cada iteração do loop "guarda" os links raspados da página. Sua tarefa é gastar MUITOS minutos no código abaixo para entendê-lo na totalidade.
 
-```{r, eval = F}
+
+```r
 links_datafolha <- c()
 for (i in 1:21){
   print(i)
@@ -1010,7 +1066,8 @@ No começo da atividade resolvemos a captura do título, data e hora, link para 
 
 Vamos rever o procedimento, para uma URL qualquer, da captura do título, data e hora e texto (vamos deixar o link para o relatório de pesquisa de lado por enquanto, posto que algumas notícias não contêm o link e esta pequena ausência interromperia o funcionamento do código).
 
-```{r}
+
+```r
 pagina <- read_html("http://datafolha.folha.uol.com.br/eleicoes/2016/02/1744581-49-nao-votariam-em-lula.shtml")
 
 titulo <- rvest::html_node(pagina ,
@@ -1025,7 +1082,8 @@ texto <- rvest::html_node(pagina , xpath = "//article[@class = 'news']") %>%
 
 Para fazermos a captura de todos os links em "loop" deve ter o seguinte aspecto, como se vê no código abaixo que imprime todos os 516 links cujo conteúdo queremos capturar. Note que a forma de utilizar o loop é ligeiramente diferente da que havíamos visto até então. No lugar de uma variável "i" que "percorre" um vetor numérico (1:21, por exemplo), temos uma variável "link" que recebe, a cada iteração, um endereço URL do vetor "links_datafolha", em ordem. Assim, na primeira iteração temos que "link" será igual "links_datafolha[1]", na segunda "links_datafolha[2]" e assim por diante até a última posição do vetor "links_datafolha" -- no nosso caso a posição 516.
 
-```{r, eval = F}
+
+```r
 for (link in links_datafolha){
   print(link)
 }
@@ -1033,7 +1091,8 @@ for (link in links_datafolha){
 
 Combinando os dois código, e criando um data frame "dados" que é vazio antes do loop temos o código completo da captura. Tal como quando trabalhamos com tabelas, utilizando a função "rbind" para combinar o data frame que resultou da iteração anterior com a linha que combina o conteúdo armazenado em "titulo", "datahora" e "texto".
 
-```{r}
+
+```r
 dados <- data.frame()
 
 for (link in links_datafolha){
@@ -1055,7 +1114,8 @@ Antes disso, sua tarefa é a seguinte: executar ambas as etapas do código e com
 
 #### EXTRA: versão do código com links para pesquisa e com texto "limpo"
 
-```{r}
+
+```r
 nullToNA <- function(x) {
   if (is.null(x)){
     return(NA)
@@ -1065,7 +1125,8 @@ nullToNA <- function(x) {
 }
 ```
 
-```{r}
+
+```r
 texto_vetor <- rvest::html_nodes(pagina ,
                            xpath = '//article[@class = "news"]/p') %>% 
   rvest::html_text()
