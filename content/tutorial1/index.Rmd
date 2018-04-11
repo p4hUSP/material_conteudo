@@ -3,7 +3,9 @@ title: "Começando pelo Meio"
 date: "2018-04-05"
 ---
 
-
+```{r, echo = F}
+library(magrittr)
+```
 
 
 ## Data frames
@@ -14,14 +16,15 @@ Por esta razão, em vez de aprender como fazer aritmética, elaborar funções o
 
 As principais características de um data frame são: (1) cada coluna representa uma variável (ou característica) de um conjunto de observações; (2) cada linha representa uma observação e contém os valores de cada variável para tal observação. Vejamos um exemplo:
 
-
-|Candidato |Partido | Votos|
-|:---------|:-------|-----:|
-|Beatriz   |PMDB    |   350|
-|Danilo    |PSOL    |  1598|
-|Pedro     |PTB     |   784|
-|Davi      |PSD     |   580|
-|Mateus    |PV      |     2|
+```{r, echo = F}
+tibble::tribble(~Candidato, ~Partido, ~Votos,
+                "Beatriz" ,   "PMDB",   350 ,
+                "Danilo"  , "PSOL"  ,  1598 , 
+                "Pedro"   , "PTB"   ,   784 , 
+                "Davi"    , "PSD"   ,   580 , 
+                "Mateus"  , "PV"    ,   2   ) %>% 
+  knitr::kable()
+```
 
 Note que em uma linha os elementos são de tipos de diferentes: na primeira coluna há uma nome (texto), na segunda uma sigla de partido (texto, mas limitado a um conjunto de siglas) e na terceira votos (número inteiros). 
 
@@ -49,8 +52,7 @@ Uma das características mais atrativas da linguagem R é o desenvolvimento de _
 
 Vamos carregar um pacote chamado _datasets_, que contém diversos conjuntos de dados úteis para fins didáticos. Para carregar um pacote (e, portanto, tornar as funções disponíveis para uso naquela sessão de R) usamos a função _library_:
 
-
-```r
+```{r}
 library(datasets)
 ```
 
@@ -58,8 +60,7 @@ library(datasets)
 
 Com a função _data_ podemos carregar um conjunto de dados disponível na sua sessão de R. Utilizaremos a base _mtcars_, que contém dados da revista _Motor Trend US_ sobre características (variáveis) de 32 automóveis (esse é um dos conjuntos de dados mais populares em cursos introdutórios de R).
 
-
-```r
+```{r}
 data(mtcars)
 ```
 
@@ -67,8 +68,7 @@ Pronto! Logo mais veremos como abrir conjuntos de dados de outras fontes (arquiv
 
 Antes de avançar, vamos usar o __help__ (documentação) do R para descobrir o que há no _data frame_ chamado _mtcars_:
 
-
-```r
+```{r}
 ?mtcars
 ```
 
@@ -76,8 +76,7 @@ Você pode ler com calma antes de avançar.
 
 Se quiseremos olhar para os dados que acabamos de carregar utilizamos a função _View_ (com V maiúsculo, algo pouco usual em R):
 
-
-```r
+```{r}
 View(mtcars)
 ```
 
@@ -93,86 +92,34 @@ Você perceberá em pouco tempo que isso não é necessário. Na verdade, é con
 
 Por exemplo, podemos substituir a função _View_ pela função _head_. Veja o resultado:
 
-
-```r
+```{r}
 head(mtcars)
-```
-
-```
-##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 
 Com apenas as 6 primeiras linhas do _data frame_ temos noção de todo o conjunto. Sabemos rapidamente que os nomes dos carros são o nome de cada uma das linhas, e que o nome das colunas indicam qual característica está armazenada coluna (lembra-se da documentação de _mtcars_ que você acabou de ler).
 
 Alternativamente, podemos usar a função _str_ (atalho para "structure"):
 
-
-```r
+```{r}
 str(mtcars)
-```
-
-```
-## 'data.frame':	32 obs. of  11 variables:
-##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-##  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
-##  $ disp: num  160 160 108 258 360 ...
-##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
-##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
-##  $ qsec: num  16.5 17 18.6 19.4 17 ...
-##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
-##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
-##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
-##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...
 ```
 
 Com _str_ sabemos qual é a lista de variáveis (colunas) no _data frame_, de qual tipo são -- no caso, todas são numéricas e vamos falar sobre esse tema mais tarde -- e os primeiros valores de cada uma, além do número total de observações e variáveis mostrados no topo do __output__.
 
 Há outras maneiras de obter o número linhas e colunas de um _data frame_:
 
-
-```r
+```{r}
 nrow(mtcars)
-```
-
-```
-## [1] 32
-```
-
-```r
 ncol(mtcars)
-```
-
-```
-## [1] 11
-```
-
-```r
 dim(mtcars)
-```
-
-```
-## [1] 32 11
 ```
 
 _nrow_ retorna o número de linhas; _ncol_, o de coluna; _dim_ as dimensões (na ordem linha e depois coluna) do objeto.
 
 _names_, por sua vez, retorna os nomes das variáveis do _data frame_
 
-
-```r
+```{r}
 names(mtcars)
-```
-
-```
-##  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear"
-## [11] "carb"
 ```
 
 ## Argumentos ou parâmetros das funções
@@ -181,23 +128,8 @@ Note que em todas as funções que utilizamos até agora, _mtcars_ está dentro 
 
 Uma função pode receber mais de um argumento. Pode também ter argumentos não obrigatórios, ou seja, para os quais não é necessário informar nada se você não quiser alterar os valores pré-definidos. Por exemplo, a função _head_ contém o argumento _n_, que se refere ao número de linhas a serem __impressas__ na tela, pré-estabelecido em 6 (você pode conhecer os argumentos da função na documentação do R usando _?_ antes do nome da função). Para alterá-lo para 10, por exemplo, basta fazer:
 
-
-```r
+```{r}
 head(x = mtcars, n = 10)
-```
-
-```
-##                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-## Valiant           18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
 ```
 
 _x_ é o argumento que já havíamos utilizado anteriormente e indica em que objeto a função _head_ será aplicada. Dica: você pode omitir tanto "x =" quanto "n =" se você já conhecer a ordem de cada argumento no uso da função. Veja que neste caso estamos utilizando o símbolo "=" sem fazer a atribuição de dados a um objeto, mas para atribuir valores (ou objetos) aos argumento de uma função. Para não haver confusão é preferível usar o símbolo "<-" para atribuição e o "=" para as demais situações.
@@ -206,24 +138,11 @@ _x_ é o argumento que já havíamos utilizado anteriormente e indica em que obj
 
 Podemos fazer comentários no meio do código. Basta usar # e tudo que seguir até o final da linha não será interpertado pelo R como código. Por exemplo:
 
-
-```r
+```{r}
 # Imprime o nome das variaveis do data frame mtcars
 names(mtcars)
-```
 
-```
-##  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear"
-## [11] "carb"
-```
-
-```r
 names(mtcars) # Repetindo o comando acima com comentario em outro lugar
-```
-
-```
-##  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear"
-## [11] "carb"
 ```
 
 Comentários são extremamente úteis para documentar seu código. Documentar é parte de programar e você deve pensar nas pessoas com as quais vai compartilhar o código e no fato de que com certeza não se lembrará do que fez em pouco tempo (garanto, você vai esquecer).
@@ -232,13 +151,8 @@ Comentários são extremamente úteis para documentar seu código. Documentar é
 
 Vamos esquecer o _data frame_ com o qual estávamos trabalhando até agora. Para remover um objeto do __Workspace__ fazemos:
 
-
-```r
+```{r}
 rm(mtcars)
-```
-
-```
-## Warning in rm(mtcars): object 'mtcars' not found
 ```
 
 Vamos fazer isso de forma menos entediante. Vamos montar um banco de dados de notícias.
@@ -258,10 +172,10 @@ Insira as informações nos vetores em ordem de coleta das notícias
 
 Com cada informação, vamos construir um vetor. Vejam meus exemplos. Começando com o nome do jornal ou portal:
 
-
-```r
+```{r}
 jornal <- c("The Guardian", "The Guardian", "The Guardian", "Folha de São Paulo", 
             "Folha de São Paulo", "Folha de São Paulo") 
+
 ```
 
 Opa, calma! Temos um monte de coisas novas aqui!
@@ -274,23 +188,16 @@ Posso usar o símbolo __=__ no lugar de __<-__? Sim. Funciona. Mas nem sempre fu
 
 Se o objetivo fosse criar o vetor sem "guardá-lo" em um objeto, bastaria repetir a parte do código acima que começa após o símbolo de atribuição. _c_ ( do inglês "concatenate") é a função do R que combina valores de texto, número ou lógicos (ainda não falamos destes últimos) em um vetor. É um função muito utilizada ao programar em R.
 
-
-```r
+```{r}
 c("The Guardian", "The Guardian", "The Guardian", "Folha de São Paulo",
   "Folha de São Paulo", "Folha de São Paulo")
-```
-
-```
-## [1] "The Guardian"       "The Guardian"       "The Guardian"      
-## [4] "Folha de São Paulo" "Folha de São Paulo" "Folha de São Paulo"
 ```
 
 Note que há uma quebra de linha no código. Não há problema algum. Uma vez que o parêntese que indica o fim do vetor não foi encontrado, o R entende o que estiver na próxima como continuidade do código (e, portanto, do vetor). Dica: quebras de linha ajudam a vizualizar o código e com o tempo você também usará.
 
 Vamos seguir com nossa tarefa de criar vetores. Já temos o vetor jornal (que você pode observar no workspace). Os demais, na minha coleta de dados, estão a seguir:
 
-
-```r
+```{r}
 # Data
 # Obs: ha uma funcao em R com nome "data".
 # Evite dar a objetos nome de funcoes
@@ -322,14 +229,8 @@ video <- c(FALSE, FALSE, TRUE, FALSE, FALSE, TRUE)
 
 Para onde vão os objetos de R criados? Para o workspace. Se quisermos uma fotografia do nosso workspace, usamos a função _ls_, com parêntese vazio (ou seja, sem argumentos além dos pré-estabelecidos):
 
-
-```r
+```{r}
 ls()
-```
-
-```
-## [1] "autor"      "caracteres" "date"       "esporte"    "jornal"    
-## [6] "politica"   "titulo"     "video"
 ```
 
 ## Detalhes importantes nos vetores acima
@@ -348,26 +249,19 @@ Como vimos acima, _data frames_ são um conjunto de vetores na vertical. Se voc�
 
 Obviamente, se estiverem pareados, os vetores devem ter o mesmo comprimento. Há uma função bastante útil para checar o comprimento:
 
-
-```r
+```{r}
 length(jornal)
-```
-
-```
-## [1] 6
 ```
 
 Vamos criar com os vetores que construímos um _data frame_ com o nome _dados_. Vamos produzí-lo, discutir a função _data.frame_ e depois examiná-lo:
 
-
-```r
+```{r}
 dados <- data.frame(jornal, date, titulo, autor, caracteres, politica, esporte, video)
 ```
 
 A função _data.frame_ cria um _data frame_ a partir de vetores ou matrizes (que ainda não vimos). Quando criamos a partir de vetores, automaticamente os nomes das variáveis (colunas) no novo objeto serão os nomes dos vetores. Mas poderíamos querer nomes novos (por exemplo, em inglês). Bastaria fazer:
 
-
-```r
+```{r}
 dados <- data.frame(newspaper = jornal, 
                     date = date, 
                     title = titulo, 
@@ -380,70 +274,18 @@ dados <- data.frame(newspaper = jornal,
 
 Usando as funções que aprendemos nessa aula:
 
-
-```r
+```{r}
 # 6 primeiras (e unicas, no caso) linhas
 head(dados)
-```
 
-```
-##            newspaper       date
-## 1       The Guardian 10/03/2017
-## 2       The Guardian 10/03/2017
-## 3       The Guardian 10/03/2017
-## 4 Folha de São Paulo 10/03/2017
-## 5 Folha de São Paulo 10/03/2017
-## 6 Folha de São Paulo 10/03/2017
-##                                                                                title
-## 1 'Trump lies all the time': Bernie Sanders indicts president's assault on democracy
-## 2    Bruno, still guilty of murder but bafflingly welcome to walk back into football
-## 3                    BBC interviewee interrupted by his children live on air – video
-## 4                   Bolsista negra é hostilizada em atividade no campus da FGV de SP
-## 5                            Meninas podem ser o que quiserem, inclusive matemáticas
-## 6                      Favela de Paraisópolis tem novo incêndio em menos de dez dias
-##                       author n_char politica esporte video
-## 1             Ed Pilkington    5873        1       0 FALSE
-## 2               Barney Ronay   6301        0       1 FALSE
-## 3                       <NA>    358        0       0  TRUE
-## 4 Joana Cunha; Jairo Marques   3644        0       0 FALSE
-## 5              Marcelo Viana   4086        0       0 FALSE
-## 6                       <NA>   3454        0       0  TRUE
-```
-
-```r
 # Estrutura do data frame
 str(dados)
-```
 
-```
-## 'data.frame':	6 obs. of  8 variables:
-##  $ newspaper: Factor w/ 2 levels "Folha de São Paulo",..: 2 2 2 1 1 1
-##  $ date     : Factor w/ 1 level "10/03/2017": 1 1 1 1 1 1
-##  $ title    : Factor w/ 6 levels "BBC interviewee interrupted by his children live on air – video",..: 6 3 1 2 5 4
-##  $ author   : Factor w/ 4 levels "Barney Ronay",..: 2 1 NA 3 4 NA
-##  $ n_char   : num  5873 6301 358 3644 4086 ...
-##  $ politica : num  1 0 0 0 0 0
-##  $ esporte  : num  0 1 0 0 0 0
-##  $ video    : logi  FALSE FALSE TRUE FALSE FALSE TRUE
-```
-
-```r
 # Nome das variaveis
 names(dados)
-```
 
-```
-## [1] "newspaper" "date"      "title"     "author"    "n_char"    "politica" 
-## [7] "esporte"   "video"
-```
-
-```r
 # Dimensoes do data frame
 dim(dados)
-```
-
-```
-## [1] 6 8
 ```
 
 ## Tipos de dados em R e vetores
@@ -456,47 +298,22 @@ __doubles__, __integers__, __characters__, __logicals__, __complex__, e __raw__.
 
 _doubles_ são utilizados para guardar números. Por exemplo, o vetor _caracteres_, que indica o número de caracteres em cada texto, é do tipo _double_ (ops, desculpe por criar um vetor com este nome para números!). Vamos repetir o comando que cria este vetor:
 
-
-```r
+```{r}
 caracteres <- c(5873, 6301, 358, 3644, 4086, 3454)
 ```
 
 Com a função _typeof_ você consegue descobrir o tipo de cada vetor:
 
-
-```r
+```{r}
 typeof(caracteres)
-```
-
-```
-## [1] "double"
 ```
 
 É possível fazer operações com vetores númericos (_integers_ também são vetores numéricos, mas vamos esquecer deles por um segundo e fazer _double_ sinônimo de numérico). Por exemplo, podemos somar 1 a todos os seus elementos, dobrar o valor de cada elemento ou somar todos:
 
-
-```r
+```{r}
 caracteres + 1
-```
-
-```
-## [1] 5874 6302  359 3645 4087 3455
-```
-
-```r
 caracteres * 2
-```
-
-```
-## [1] 11746 12602   716  7288  8172  6908
-```
-
-```r
 sum(caracteres)
-```
-
-```
-## [1] 23716
 ```
 
 Note que as duas primeiras funções retornam vetores de tamanho igual ao original, enquanto a aplicação da função _sum_ a um vetor retorna apenas um número, ou melhor, um __vetor atômico__ (que contém um único elemento). Tal como aplicamos as operações matemáticas e a função _sum_, podemos aplicar diversas outras operações matemáticas e funções que descrevem de forma sintética os dados (média, desvio padrão, etc) a vetores numéricos. Veremos operações e funções com calma num futuro breve.
@@ -505,50 +322,19 @@ Note que as duas primeiras funções retornam vetores de tamanho igual ao origin
 
 Os vetores _politica_ e _esporte_ também são do tipo _double_. Mesmo registrando apenas a presença e ausência de uma característica, os valores inseridos são números. Mas e o vetor _video_? Vejamos:
 
-
-```r
+```{r}
 typeof(politica)
-```
-
-```
-## [1] "double"
-```
-
-```r
 typeof(esporte)
-```
-
-```
-## [1] "double"
-```
-
-```r
 typeof(video)
-```
-
-```
-## [1] "logical"
 ```
 
 Em vez de armazenarmos a sim/não, presença/ausência, etc com os números 0 e 1, podemos em R usar o tipo _logical_, cujos valores são TRUE e FALSE (ou T e F maiúsculos, para poupar tempo e dígitos). Diversas operações e resultados no R usam vetores lógicos (por exemplo, "filtrar uma base dados") e os utilizaremos com frequência.
 
 O que acontece se fizermos operações matemáticas com vetores lógicos?
 
-
-```r
+```{r}
 video + 1
-```
-
-```
-## [1] 1 1 2 1 1 2
-```
-
-```r
 sum(video)
-```
-
-```
-## [1] 2
 ```
 
 Automaticamente, o R transforma FALSE em 0 e TRUE em 1. Por exemplo, ao somar 4 FALSE e 2 TRUE obtemos o valor 2, que é o total de notícias que contêm vídeos.
@@ -583,22 +369,15 @@ Observe duas mudanças na sua tela. Agora você encontrará o objeto _votacao\_c
 
 Um detalhe importante: agora temos dois _data frames_ (_dados_ e _votacao\_candidato\_munzona\_2014\_AC_ ) em nosso _workspace_ convivendo com os vetores que criamos. Veja:
 
-
-```r
+```{r}
 ls()
-```
-
-```
-## [1] "autor"      "caracteres" "dados"      "date"       "esporte"   
-## [6] "jornal"     "politica"   "titulo"     "video"
 ```
 
 Em outros softwares, como Stata e SPSS, costumamos trabalhar com um único objeto, que é o banco de dados. Apenas um _data frame_ por vez vai para a memória do software. No R, entretanto, temos um "espaço" no qual vários objetos coexistem.
 
 Veja que não precisamos usar o botão de importação do RStudio para abrir o arquivo de dados. Podemos escrever a função _read.table_ e todos os seus argumentos. Repetindo o comando:
 
-
-```r
+```{r}
 # OBS 1: insira o endereco do arquivo no computador que estiver 
 # utilizando no lugar do endereco de arquivo abaixo
 #
@@ -608,16 +387,6 @@ Veja que não precisamos usar o botão de importação do RStudio para abrir o a
 votacao_candidato_munzona_2014_AC <- read.table(
   "c:/Users/fcslab122/Downloads/votacao_candidato_munzona_2014_AC.txt", 
   sep = ";", fileEncoding="latin1")
-```
-
-```
-## Warning in file(file, "rt", encoding = fileEncoding): cannot open file 'c:/
-## Users/fcslab122/Downloads/votacao_candidato_munzona_2014_AC.txt': No such
-## file or directory
-```
-
-```
-## Error in file(file, "rt", encoding = fileEncoding): cannot open the connection
 ```
 
 No curso, vamos evitar usar o botão. Ao sair do curso, use-o sem problemas. Mas, como estamos em treinamento, precisamos dominar bem a função _read table_ e seus argumentos.
@@ -638,13 +407,8 @@ Alguns outros argumentos da função _read.table_ a se notar: _dec_ indica qual 
 
 Nem sempre teremos os nomes das variáveis na primeira linha do arquivo (e por isso utilizamos _header_ = F). Quando isso ocorre o R preenche automaticamente os nomes com V1, V2, ..., Vn, onde n é o total de colunas. Veja:
 
-
-```r
+```{r}
 names(votacao_candidato_munzona_2014_AC)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'votacao_candidato_munzona_2014_AC' not found
 ```
 
 Onde obter essa informação? No caso do TSE, no arquivo LEIAME. Em geral, precisamos de um arquivo que acompanhe o arquivo de dados para compreender a base de dados. Ou teremos que advinhar.
@@ -655,24 +419,14 @@ No próximo tutorial aprenderemos a transformar o _data frame_ e alterar os nome
 
 Uma vez que importamos os dados, podemos trabalhar com as colunas do _data frame_ como se fossem vetores. Por exemplo, vamos tirar a média (com a função _mean_) da coluna V29, que é a coluna "votos" -- no caso, de cada candidato em cada zona eleitoral. Veja:
 
-
-```r
+```{r, error=TRUE}
 mean(X29)
-```
-
-```
-## Error in mean(X29): object 'X29' not found
 ```
 
 Opa! O vetor X29 não foi encontrado! Isso ocorre porque V29 não é um objeto no nosso _workspace_. Como podemos ter mais de um _data frame_, se houvesse dois _data frames_ com variáveis com nome V29 haveria confusão. O vetor com o qual queremos trabalhar está dentro do objeto _votacao\_candidato\_munzona\_2014\_AC_. Indicamos sua localização colocando primeiro o nome do _data frame_, seguido do símbolo $ e depois do nome da coluna:
 
-
-```r
+```{r, error=TRUE}
 mean(votacao_candidato_munzona_2014_AC$X29)
-```
-
-```
-## Error in mean(votacao_candidato_munzona_2014_AC$X29): object 'votacao_candidato_munzona_2014_AC' not found
 ```
 
 ## Paramos por aqui
