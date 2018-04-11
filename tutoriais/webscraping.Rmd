@@ -7,16 +7,16 @@ date: '2018-04-06'
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-##Atividade 1
+## Atividade 1
 
 ### Pacotes no R
 
 Algumas das funções que vamos utilizar nesta atividade não estão na biblioteca básica do R. Temos, dessa forma, que começar instalando uma biblioteca chamada "rvest". A biblioteca já está instalada nos computadores que vamos utilizar hoje. Porém, vamos refazer o processo de instalação para aprender um pouco mais. Execute o comando abaixo:
 
 ```{r}
-#install.packages("rvest")
-#install.packages("dplyr")
-#install.packages("stringr")
+install.packages("rvest")
+install.packages("dplyr")
+install.packages("stringr")
 ```
 
 Uma vez instalada a biblioteca, as funções não estão automaticamente disponíveis. Para torná-las disponíveis é preciso "chamar" a biblioteca. Vamos fazer isso com a biblioteca "rvest", "dplyr" e "stringr". Execute o comando abaixo:
@@ -276,7 +276,7 @@ tail(dados)
 
 Pronto! Conseguimos fazer nossa primeira captura de dados. Se quiser, você pode repetir o procedimento para pegar o resto dos resultados ou reproduzir o mesmo processo para capturar outras informações do site. 
 
-##Atividade 2
+## Atividade 2
 
 Na primeira atividades utilizamos o _rvest_ para capturar uma tebela de um site. Quando a informação de interesse já se encontra dentro de uma tabela, o trabalho é relativamente fácil e com algumas linhas de código podemos criar um _data.frame_.
 
