@@ -1,6 +1,7 @@
+[![Travis-CI Build Status](https://travis-ci.org/R4CS/material.svg?branch=master)](https://travis-ci.org/R4CS/material)
+
 Materiais do R4CS
 ================
-[![Travis-CI Build Status](https://travis-ci.org/R4CS/material.svg?branch=master)](https://travis-ci.org/R4CS/material)
 Alexia, Leonardo, Nathan e Rafael
 2018-04-05
 
