@@ -81,6 +81,14 @@ Se quiseremos olhar para os dados que acabamos de carregar utilizamos a função
 View(mtcars)
 ```
 
+```
+## Warning in View(mtcars): unable to open display
+```
+
+```
+## Error in .External2(C_dataviewer, x, title): unable to start data viewer
+```
+
 Com apenas 32 observações, não fica tão difícil "olhar" para os dados. Mas e se estívessemos trabalhando com, por exemplo, o total de candidatos vereadores no Brasil em 2016 (aprox. meio milhão de candidatos)? Seria útil utilizar o comando _View_?
 
 ### Do editor de planilhas ao R - parte 1
@@ -419,7 +427,7 @@ str(dados)
 ## 'data.frame':	6 obs. of  8 variables:
 ##  $ newspaper: Factor w/ 2 levels "Folha de São Paulo",..: 2 2 2 1 1 1
 ##  $ date     : Factor w/ 1 level "10/03/2017": 1 1 1 1 1 1
-##  $ title    : Factor w/ 6 levels "BBC interviewee interrupted by his children live on air – video",..: 6 3 1 2 5 4
+##  $ title    : Factor w/ 6 levels "'Trump lies all the time': Bernie Sanders indicts president's assault on democracy",..: 1 4 2 3 6 5
 ##  $ author   : Factor w/ 4 levels "Barney Ronay",..: 2 1 NA 3 4 NA
 ##  $ n_char   : num  5873 6301 358 3644 4086 ...
 ##  $ politica : num  1 0 0 0 0 0
