@@ -10,11 +10,19 @@ Repositório com os materiais para o Curso de Programação para Ciências Socia
 Fluxo de Trabalho
 =======================
 
-1. Crie um arquivo .md ou .Rmd na pasta tutoriais
+1. Crie um tutorial dentro de um direotório tu.
 
-Caso crie um .Rmd, esse arquivo necessariamente de rodar todos os chunks, senão a função dará problemas.
+2. Escreva um .md ou .Rmd.
 
-2. Execute o _script_ `build_materials`.
+3. Caso utilize um .Rmd, certifique-se de que o seu arquivo realize o `knit`.
 
-3. Verifique o arquivo na pasta __content__
+4. Utilize `##` para marcar títulos de seções no seu documento
+
+5. Faça um `push` e espero o Travis implementar o seu tutorial na branch __content__
+
+Créditos:
+
+- Os autores originais dos materiais foram o [Leonarndo Barone](https://github.com/leobarone) e a [Alexia Aslan](https://github.com/alexiaaslan)
+
+- As soluções desenvolvidas dentro desse repositório foram baseadas no [Curso R](https://github.com/curso-r) 
     
