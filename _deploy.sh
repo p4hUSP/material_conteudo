@@ -1,9 +1,10 @@
 #!/bin/sh
 
-git init
+git clone -b content https://github.com/R4CS/material.git deploy
 
-git add content
+cd deploy
+cp -r ../content/* ./
 
-git commit -m "atualização das aulas"
-
-git push origin m
+git add -A
+git commit -m "Atualização Material"
+git push origin content
