@@ -1,7 +1,5 @@
 language: R
 cache: packages
-dist: xenial
-sudo: false
 
 before_script:
     - chmod -x ./_build.sh
