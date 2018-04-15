@@ -1,6 +1,9 @@
 #!/bin/sh
 
-git clone -b content https://github.com/R4CS/material.git deploy
+git config --global user.name "Rafael Coelho"
+git config --global user.email "rafael.coelho.x@gmail.com"
+
+git clone -b content https://${TR_TOKEN}@github.com/R4CS/material.git deploy
 
 cd deploy
 cp -r ../content/* ./
