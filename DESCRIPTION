@@ -1,0 +1,8 @@
+Package: material
+Type: material.holder
+Title: Does not matter.
+Version: 0.0.1
+Imports:
+  purrr,
+  stringr,
+  ezknitr
