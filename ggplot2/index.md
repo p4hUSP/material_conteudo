@@ -5,6 +5,9 @@ output:
     df_print: paged
 ---
 
+
+
+
 ## Tópicos do tutorial
 
   1. Rever os tutoriais passados de _web scraping_ e _tidyverse_
@@ -21,58 +24,15 @@ As informações podem vir de diversas maneiras, sejam por meio de tabelas ou te
 
 Porém, antes de falarmos sobre gráficos, vamos retomar um pouco da aula passada, pois não é possível criar visualizações sem base de dados, não?
 
-
-```r
-knitr::include_graphics("img/imagem2.jpg")
-```
-
-![plot of chunk unnamed-chunk-1](img/imagem2.jpg)
+<img src="img/imagem2.jpg" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
 
 ## Web Scraping
 
 
 ```r
 library(rvest)
-```
-
-```
-## Loading required package: xml2
-```
-
-```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(readr)
-```
-
-```
-## 
-## Attaching package: 'readr'
-```
-
-```
-## The following object is masked from 'package:rvest':
-## 
-##     guess_encoding
 ```
 
 Neste tutorial iremos manipular uma [bases de dados]("https://github.com/fivethirtyeight/data/tree/master/bad-drivers") com informação de acidentes de carro nos EUA.
@@ -142,20 +102,6 @@ Com o link em mão podemos abrir o banco de dados
 
 ```r
 tabela <- read_csv(banco_de_dados)
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   State = col_character(),
-##   `Number of drivers involved in fatal collisions per billion miles` = col_double(),
-##   `Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding` = col_integer(),
-##   `Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired` = col_integer(),
-##   `Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted` = col_integer(),
-##   `Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents` = col_integer(),
-##   `Car Insurance Premiums ($)` = col_double(),
-##   `Losses incurred by insurance companies for collisions per insured driver ($)` = col_double()
-## )
 ```
 
 Parece que deu certo, não? Quantas linhas e colunas temos?
@@ -245,10 +191,6 @@ View(tabela)
 ```
 
 ```
-## Warning in View(tabela): unable to open display
-```
-
-```
 ## Error in .External2(C_dataviewer, x, title): unable to start data viewer
 ```
 
@@ -256,12 +198,7 @@ Agora podemos ir ao que interessa, os gráficos!
 
 ## `ggplot2`
 
-
-```r
-knitr::include_graphics("img/imagem3.png")
-```
-
-![plot of chunk unnamed-chunk-13](img/imagem3.png)
+<img src="img/imagem3.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 Como foi brevemente discutido, visualizações gráficas são muito importantes para transmitir informações, juntanto inclusive elementos da estatística e design para resultar em visualizações que buscam informar e explorar algum fenomêno de interesse.
 
@@ -304,69 +241,54 @@ Como vamos ver os gráficos com `ggplot2` seguem um padrão de _"building blocks
 
 Vamos então começar com a adição dos layers `data` e `aesthetics`
 
-
-```r
-knitr::include_graphics("img/montar_grafico_1.png")
-```
-
-![plot of chunk unnamed-chunk-15](img/montar_grafico_1.png)
+<img src="img/montar_grafico_1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance))
 ```
 
-![plot of chunk unnamed-chunk-16](figures//unnamed-chunk-16-1.png)
+<img src="figures//unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" style="display: block; margin: auto;" />
 
 Cade os pontos? É só isso? Não!
 
 O código que acabamos de executar apenas mapeia os dados em um plano, ou seja, ele retorna, neste caso um plano cartesiano vazio, com as variáveis e suas respectivas escalas. Para que possamos ver os pontos, temos que adicionar os `geoms` que neste caso será o `geom_point`
 
-
-```r
-knitr::include_graphics("img/montar_grafico_2.png")
-```
-
-![plot of chunk unnamed-chunk-17](img/montar_grafico_2.png)
+<img src="img/montar_grafico_2.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance)) + geom_point()
 ```
 
-![plot of chunk unnamed-chunk-18](figures//unnamed-chunk-18-1.png)
+<img src="figures//unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
 
 Agora podemos ter uma noção de como o dado se comporta! O que você pode nos dizer sobre esse gráfico? Um palpite pode ser que quanto maior as perdas incorridas pelas companhias de seguros, mais o motorista paga de seguro.
 
 Podemos nos perguntar se essa característica muda de região para região, não é mesmo? Para verificarmos se esta mudança ocorre podemos incluir os `facets`.
 
-
-```r
-knitr::include_graphics("img/montar_grafico_3.png")
-```
-
-![plot of chunk unnamed-chunk-19](img/montar_grafico_3.png)
+<img src="img/montar_grafico_3.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + facet_wrap(~census_region)
 ```
 
-![plot of chunk unnamed-chunk-20](figures//unnamed-chunk-20-1.png)
+<img src="figures//unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + facet_grid(census_region~.)
 ```
 
-![plot of chunk unnamed-chunk-21](figures//unnamed-chunk-21-1.png)
+<img src="figures//unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + facet_grid(.~census_region)
 ```
 
-![plot of chunk unnamed-chunk-22](figures//unnamed-chunk-22-1.png)
+<img src="figures//unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
 
 Como podemos notar, exitem duas funções que são responsáveis por incluir os _facets_ no ggplot2. 
 
@@ -380,12 +302,7 @@ Bom destacar que `.~` é diferente de `~.`! Apesar de ambos serem usados apenas 
 
 Dando continuidade à construção dos gráficos, o próximo layer que iremos utilizar é o `Statistics`. Ele é muito importante para verificarmos distribuições de variáveis, contagem de casos e visualização de odelos estatísticos.
 
-
-```r
-knitr::include_graphics("img/montar_grafico_4.png")
-```
-
-![plot of chunk unnamed-chunk-23](img/montar_grafico_4.png)
+<img src="img/montar_grafico_4.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 
 ### `geom_smooth`
 
@@ -396,7 +313,7 @@ Auxilia na localização de padrões nos dados, como por exemplo, uma reta de um
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + geom_smooth(method = "lm", se = FALSE)
 ```
 
-![plot of chunk unnamed-chunk-24](figures//unnamed-chunk-24-1.png)
+<img src="figures//unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
 
 Os argumentos `method = "lm"` e `se = FALSE`, significam ajustar uma regressão linear nos dados e retirar o intervalo de confiança. Caso você tenha curiosidade, mude o `se` para `se = TRUE` e `method` para `method = "auto"`.
 
@@ -409,7 +326,7 @@ Auxilia na contagem de variáveis, como por exemplo, quantos estados norte ameri
 ggplot(data = tabela, aes(x =census_region)) + geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-25](figures//unnamed-chunk-25-1.png)
+<img src="figures//unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 ### `geom_histogram`
 
@@ -420,11 +337,7 @@ Permite obtermos a distribuição de uma variável contínua, como por exemplo, 
 ggplot(data = tabela, aes(x =losses_incurred))+geom_histogram()
 ```
 
-```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-```
-
-![plot of chunk unnamed-chunk-26](figures//unnamed-chunk-26-1.png)
+<img src="figures//unnamed-chunk-26-1.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 
 ### `geom_boxplot` e `geom_violin`
 
@@ -435,14 +348,14 @@ Permite obtermos a distribuição de variáveis continuas, porém diferente do h
 ggplot(data = tabela, aes(y =losses_incurred, x = census_region)) +geom_boxplot()
 ```
 
-![plot of chunk unnamed-chunk-27](figures//unnamed-chunk-27-1.png)
+<img src="figures//unnamed-chunk-27-1.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(y =losses_incurred, x = census_region)) +geom_violin()
 ```
 
-![plot of chunk unnamed-chunk-28](figures//unnamed-chunk-28-1.png)
+<img src="figures//unnamed-chunk-28-1.png" title="plot of chunk unnamed-chunk-28" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
 
 O próximo layer que iremos ver são as `coordinates`, que no ggplot2 são indicadas por `coord_`. Vamos começar pelo seguinte exemplo,
 
@@ -451,7 +364,7 @@ O próximo layer que iremos ver são as `coordinates`, que no ggplot2 são indic
 ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() # Não se preocupe com o fill neste momento veremos ele mais adiante. O importante é saber que ele preenche as colunas com cores padrões do R.
 ```
 
-![plot of chunk unnamed-chunk-29](figures//unnamed-chunk-29-1.png)
+<img src="figures//unnamed-chunk-29-1.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
 
 O ggplot2 possibilita utilizarmos muitos sistemas de coordenadas, porém focaremos apenas em dois:
 
@@ -462,7 +375,7 @@ O ggplot2 possibilita utilizarmos muitos sistemas de coordenadas, porém focarem
 ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + coord_flip()
 ```
 
-![plot of chunk unnamed-chunk-30](figures//unnamed-chunk-30-1.png)
+<img src="figures//unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 - `coord_polar`
 
@@ -471,16 +384,11 @@ ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + co
 ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + coord_polar(theta = 'y')
 ```
 
-![plot of chunk unnamed-chunk-31](figures//unnamed-chunk-31-1.png)
+<img src="figures//unnamed-chunk-31-1.png" title="plot of chunk unnamed-chunk-31" alt="plot of chunk unnamed-chunk-31" style="display: block; margin: auto;" />
 
 Por fim, temos os `Themes`, que modificam tudo aquilo que não é considerado como dado, como por exemplo, a cor do título do gráfico.
 
-
-```r
-knitr::include_graphics("img/montar_grafico_6.png")
-```
-
-![plot of chunk unnamed-chunk-32](img/montar_grafico_6.png)
+<img src="img/montar_grafico_6.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
 
 
 ```r
@@ -499,14 +407,9 @@ ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance)) + geom_point()
         panel.grid.major.x = element_line( size=.8, color="red"))
 ```
 
-![plot of chunk unnamed-chunk-33](figures//unnamed-chunk-33-1.png)
+<img src="figures//unnamed-chunk-33-1.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
-
-```r
-knitr::include_graphics("img/imagem4.jpg")
-```
-
-![plot of chunk unnamed-chunk-34](img/imagem4.jpg)
+<img src="img/imagem4.jpg" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 Pensa que acabou? Precisamos ver um pouco mais de `Aesthetics` antes de irmos para os gráficos interativos.
 
@@ -519,27 +422,27 @@ Pensa que acabou? Precisamos ver um pouco mais de `Aesthetics` antes de irmos pa
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, color = census_region))+geom_point()
 ```
 
-![plot of chunk unnamed-chunk-35](figures//unnamed-chunk-35-1.png)
+<img src="figures//unnamed-chunk-35-1.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, shape = census_region))+geom_point()
 ```
 
-![plot of chunk unnamed-chunk-36](figures//unnamed-chunk-36-1.png)
+<img src="figures//unnamed-chunk-36-1.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, color = census_region, shape = census_region))+geom_point()
 ```
 
-![plot of chunk unnamed-chunk-37](figures//unnamed-chunk-37-1.png)
+<img src="figures//unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, size = car_insurance))+geom_point()
 ```
 
-![plot of chunk unnamed-chunk-38](figures//unnamed-chunk-38-1.png)
+<img src="figures//unnamed-chunk-38-1.png" title="plot of chunk unnamed-chunk-38" alt="plot of chunk unnamed-chunk-38" style="display: block; margin: auto;" />
 
 
 Perceba que neste caso nós colocamos os parâmetros dentro de `aes()`. Nós chamamos isto de _aesthetics mapping_, ou seja, o valor do dado determina a característica visual dele, seja cor, tamanho, ou forma. Porém, se nós quisermos um valor constante, na qual a cor seja a mesma para o gráfico inteiro, devemos colocar os parêmetros de cor, forma, tamanho e entre outros fora do `aes()` e sim dentro do geom que estamos utilizando (em alguns casos também funciona colocar dentro do `ggplot()` ainda que fora do `aes()`). Isto se chama de _parameter setting_.
@@ -549,28 +452,28 @@ Perceba que neste caso nós colocamos os parâmetros dentro de `aes()`. Nós cha
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(size = 6)
 ```
 
-![plot of chunk unnamed-chunk-39](figures//unnamed-chunk-39-1.png)
+<img src="figures//unnamed-chunk-39-1.png" title="plot of chunk unnamed-chunk-39" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(color = "red")
 ```
 
-![plot of chunk unnamed-chunk-40](figures//unnamed-chunk-40-1.png)
+<img src="figures//unnamed-chunk-40-1.png" title="plot of chunk unnamed-chunk-40" alt="plot of chunk unnamed-chunk-40" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(alpha = 1/5)
 ```
 
-![plot of chunk unnamed-chunk-41](figures//unnamed-chunk-41-1.png)
+<img src="figures//unnamed-chunk-41-1.png" title="plot of chunk unnamed-chunk-41" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(shape = 7)
 ```
 
-![plot of chunk unnamed-chunk-42](figures//unnamed-chunk-42-1.png)
+<img src="figures//unnamed-chunk-42-1.png" title="plot of chunk unnamed-chunk-42" alt="plot of chunk unnamed-chunk-42" style="display: block; margin: auto;" />
 
 ## Gráficos interativos com `Plotly`
 
@@ -584,29 +487,6 @@ Para instalar o pacote, nós utilizamos o `install.packages("plotly")` e depois 
 library(plotly)
 ```
 
-```
-## 
-## Attaching package: 'plotly'
-```
-
-```
-## The following object is masked from 'package:ggplot2':
-## 
-##     last_plot
-```
-
-```
-## The following object is masked from 'package:stats':
-## 
-##     filter
-```
-
-```
-## The following object is masked from 'package:graphics':
-## 
-##     layout
-```
-
 Feito isso, precisamos fazer um gráfico no `ggplot2` e em seguida usar a função `ggplotly()` para fazer o gráfico interativo.
 
 
@@ -617,12 +497,7 @@ p <- ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance, color = ce
 ggplotly(p)
 ```
 
-```
-## We recommend that you use the dev version of ggplot2 with `ggplotly()`
-## Install it with: `devtools::install_github('hadley/ggplot2')`
-```
-
-![plot of chunk unnamed-chunk-44](figures//unnamed-chunk-44-1.png)
+<img src="figures//unnamed-chunk-44-1.png" title="plot of chunk unnamed-chunk-44" alt="plot of chunk unnamed-chunk-44" style="display: block; margin: auto;" />
 
 ## Desafio
 
@@ -640,12 +515,13 @@ ggplot(data = tabela)+
   ggthemes::theme_fivethirtyeight() + 
   ggthemes::scale_fill_fivethirtyeight()+
   theme(panel.grid.major.y = element_blank(), 
-        panel.grid.major.x = element_line( size=.2, color="gray"))+
+        panel.grid.major.x = element_line(size=.2, color="gray"))+
   labs(title = "Drivers Involved In Fatal Collisions Who Were Not\nDistracted", 
-       subtitle = "As a share of number of fatal collisions per billion miles, 2012")
+       subtitle = "As a share of number of fatal collisions per billion miles, 2012",
+       caption = "SOURCE: NATIONAL HIGHWAY TRAFFIC SAFETY ADMINISTRATION")
 ```
 
-![plot of chunk unnamed-chunk-45](figures//unnamed-chunk-45-1.png)
+<img src="figures//unnamed-chunk-45-1.png" title="plot of chunk unnamed-chunk-45" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" />
 
 Ficou parecido? Sua vez!
 
