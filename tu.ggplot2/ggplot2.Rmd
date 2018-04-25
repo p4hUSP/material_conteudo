@@ -1,6 +1,8 @@
 ---
 title: "ggplot2"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ## Tópicos do tutorial
@@ -48,7 +50,8 @@ pagina
 Vamos utilizar o `%>%` para ficar mais fácil de emendar as funções. Lembrando que o pipe vai pegar o primeiro argumento da função, que no nosso caso é o objeto `pagina`, e aplicar sobre ele outras funções.
 
 ```{r}
-prefixo <- pagina%>% html_nodes(xpath = '//td/span/a[@title="bad-drivers.csv"]') %>% 
+prefixo <- pagina %>%
+  html_nodes(xpath = '//td/span/a[@title="bad-drivers.csv"]') %>% 
   html_attr('href')
 
 prefixo
