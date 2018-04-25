@@ -7,7 +7,10 @@ Imports:
   dplyr,
   readr,
   plotly,
-  ggplot2,
   purrr,
   stringr,
-  ezknitr
+  ezknitr,
+  webshot,
+  ggthemes
+Remote:
+  hadley/ggplot2
