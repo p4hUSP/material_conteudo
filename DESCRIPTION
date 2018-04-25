@@ -3,6 +3,11 @@ Type: material.holder
 Title: Does not matter.
 Version: 0.0.1
 Imports:
+  rvest,
+  dplyr,
+  readr,
+  plotly,
+  ggplot2,
   purrr,
   stringr,
   ezknitr
