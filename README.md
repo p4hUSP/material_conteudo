@@ -16,9 +16,9 @@ Fluxo de Trabalho
 
 3. Caso utilize um .Rmd, certifique-se de que o seu arquivo realize o `knit`.
 
-4. Utilize `##` para marcar títulos de seções no seu documento
+4. Utilize `##` para marcar títulos de seções no seu documento.
 
-5. Faça um `push` e espero o Travis implementar o seu tutorial na branch __content__
+5. Faça um `push` e espero o Travis implementar o seu tutorial na branch __content__.
 
 Créditos:
 
