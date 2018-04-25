@@ -622,9 +622,7 @@ ggplotly(p)
 ## Install it with: `devtools::install_github('hadley/ggplot2')`
 ```
 
-```
-## Error in loadNamespace(name): there is no package called 'webshot'
-```
+![plot of chunk unnamed-chunk-44](figures//unnamed-chunk-44-1.png)
 
 ## Desafio
 
@@ -647,9 +645,7 @@ ggplot(data = tabela)+
        subtitle = "As a share of number of fatal collisions per billion miles, 2012")
 ```
 
-```
-## Error in loadNamespace(name): there is no package called 'ggthemes'
-```
+![plot of chunk unnamed-chunk-45](figures//unnamed-chunk-45-1.png)
 
 Ficou parecido? Sua vez!
 
