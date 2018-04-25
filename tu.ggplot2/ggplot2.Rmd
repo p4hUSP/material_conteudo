@@ -5,6 +5,16 @@ output:
     df_print: paged
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.align = "center",
+                      fig.width = 6.0,
+                      fig.height = 4.0)
+```
+
+
 ## Tópicos do tutorial
 
   1. Rever os tutoriais passados de _web scraping_ e _tidyverse_
@@ -21,7 +31,7 @@ As informações podem vir de diversas maneiras, sejam por meio de tabelas ou te
 
 Porém, antes de falarmos sobre gráficos, vamos retomar um pouco da aula passada, pois não é possível criar visualizações sem base de dados, não?
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/imagem2.jpg")
 ```
 
@@ -151,7 +161,7 @@ Agora podemos ir ao que interessa, os gráficos!
 
 ## `ggplot2`
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/imagem3.png")
 ```
 
@@ -195,7 +205,7 @@ Como vamos ver os gráficos com `ggplot2` seguem um padrão de _"building blocks
 
 Vamos então começar com a adição dos layers `data` e `aesthetics`
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/montar_grafico_1.png")
 ```
 
@@ -207,7 +217,7 @@ Cade os pontos? É só isso? Não!
 
 O código que acabamos de executar apenas mapeia os dados em um plano, ou seja, ele retorna, neste caso um plano cartesiano vazio, com as variáveis e suas respectivas escalas. Para que possamos ver os pontos, temos que adicionar os `geoms` que neste caso será o `geom_point`
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/montar_grafico_2.png")
 ```
 
@@ -219,7 +229,7 @@ Agora podemos ter uma noção de como o dado se comporta! O que você pode nos d
 
 Podemos nos perguntar se essa característica muda de região para região, não é mesmo? Para verificarmos se esta mudança ocorre podemos incluir os `facets`.
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/montar_grafico_3.png")
 ```
 
@@ -247,7 +257,7 @@ Bom destacar que `.~` é diferente de `~.`! Apesar de ambos serem usados apenas 
 
 Dando continuidade à construção dos gráficos, o próximo layer que iremos utilizar é o `Statistics`. Ele é muito importante para verificarmos distribuições de variáveis, contagem de casos e visualização de odelos estatísticos.
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/montar_grafico_4.png")
 ```
 
@@ -311,7 +321,7 @@ ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + co
 
 Por fim, temos os `Themes`, que modificam tudo aquilo que não é considerado como dado, como por exemplo, a cor do título do gráfico.
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/montar_grafico_6.png")
 ```
 
@@ -332,7 +342,7 @@ ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance)) + geom_point()
 
 ```
 
-```{r}
+```{r, echo = F}
 knitr::include_graphics("img/imagem4.jpg")
 ```
 
@@ -402,7 +412,7 @@ As informações que nós utilizamos neste tutorial fazem parte de uma [notícia
 
 Os gráficos deste site são muito populares e feitos majoritariamente no R! Que tal nós tentarmos reproduzir um dos gráficos desta notícia? O gráfico abaixo reproduz o primeiro gráfico que aparece na página e o mais legal é que ele serve de padrão para os próximos
 
-```{r}
+```{r fig.height=16, fig.width=7.5}
 ggplot(data = tabela)+
   geom_col(aes(x = state, y = (p_not_distracted*n_involved_fatal)/100), fill = "#FBB506")+
   coord_flip()+
@@ -411,9 +421,10 @@ ggplot(data = tabela)+
   ggthemes::theme_fivethirtyeight() + 
   ggthemes::scale_fill_fivethirtyeight()+
   theme(panel.grid.major.y = element_blank(), 
-        panel.grid.major.x = element_line( size=.2, color="gray"))+
+        panel.grid.major.x = element_line(size=.2, color="gray"))+
   labs(title = "Drivers Involved In Fatal Collisions Who Were Not\nDistracted", 
-       subtitle = "As a share of number of fatal collisions per billion miles, 2012")
+       subtitle = "As a share of number of fatal collisions per billion miles, 2012",
+       caption = "SOURCE: NATIONAL HIGHWAY TRAFFIC SAFETY ADMINISTRATION")
 ```
 
 Ficou parecido? Sua vez!
