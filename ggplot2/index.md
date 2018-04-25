@@ -36,7 +36,7 @@ library(rvest)
 ```
 
 ```
-## Error in library(rvest): there is no package called 'rvest'
+## Loading required package: xml2
 ```
 
 ```r
@@ -44,7 +44,20 @@ library(dplyr)
 ```
 
 ```
-## Error in library(dplyr): there is no package called 'dplyr'
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
 ```
 
 ```r
@@ -52,7 +65,14 @@ library(readr)
 ```
 
 ```
-## Error in library(readr): there is no package called 'readr'
+## 
+## Attaching package: 'readr'
+```
+
+```
+## The following object is masked from 'package:rvest':
+## 
+##     guess_encoding
 ```
 
 Neste tutorial iremos manipular uma [bases de dados]("https://github.com/fivethirtyeight/data/tree/master/bad-drivers") com informação de acidentes de carro nos EUA.
@@ -67,18 +87,15 @@ Precisamos começar estruturando O HTML de forma que o R possa interpretá-lo.
 
 ```r
 pagina <- read_html(url)
-```
 
-```
-## Error in read_html(url): could not find function "read_html"
-```
-
-```r
 pagina
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'pagina' not found
+## {xml_document}
+## <html lang="en">
+## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset= ...
+## [2] <body class="logged-out env-production">\n    \n\n  <div class="posi ...
 ```
 
 Vamos utilizar o `%>%` para ficar mais fácil de emendar as funções. Lembrando que o pipe vai pegar o primeiro argumento da função, que no nosso caso é o objeto `pagina`, e aplicar sobre ele outras funções.
@@ -88,18 +105,12 @@ Vamos utilizar o `%>%` para ficar mais fácil de emendar as funções. Lembrando
 prefixo <- pagina %>%
   html_nodes(xpath = '//td/span/a[@title="bad-drivers.csv"]') %>% 
   html_attr('href')
-```
 
-```
-## Error in pagina %>% html_nodes(xpath = "//td/span/a[@title=\"bad-drivers.csv\"]") %>% : could not find function "%>%"
-```
-
-```r
 prefixo
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'prefixo' not found
+## [1] "/fivethirtyeight/data/blob/master/bad-drivers/bad-drivers.csv"
 ```
 
 Para não ficarmos perdidos vamos entender o que aconteceu acima. Nós aplicamos a função `html_nodes` que vai localizar a tag do HTML que temos interesse. Em seguida para obter a informação que queremos vamos obter um atributo especifico da tag desejada.
@@ -113,10 +124,6 @@ Porém, objeto acima nos retornou apenas o fim das url. Precisamos juntar as inf
 link <- paste0("https://github.com", prefixo)
 ```
 
-```
-## Error in paste0("https://github.com", prefixo): object 'prefixo' not found
-```
-
 Agora com o link montado vamos ler o HTML e pegar o link para o banco de dados que iramos utilizar.
 
 
@@ -124,18 +131,10 @@ Agora com o link montado vamos ler o HTML e pegar o link para o banco de dados q
 link_dados <- link %>% read_html() %>% html_node(xpath = '//a[@id="raw-url"]') %>% html_attr('href')
 ```
 
-```
-## Error in link %>% read_html() %>% html_node(xpath = "//a[@id=\"raw-url\"]") %>% : could not find function "%>%"
-```
-
 
 
 ```r
 banco_de_dados <- paste0("https://github.com", link_dados)
-```
-
-```
-## Error in paste0("https://github.com", link_dados): object 'link_dados' not found
 ```
 
 Com o link em mão podemos abrir o banco de dados
@@ -146,7 +145,17 @@ tabela <- read_csv(banco_de_dados)
 ```
 
 ```
-## Error in read_csv(banco_de_dados): could not find function "read_csv"
+## Parsed with column specification:
+## cols(
+##   State = col_character(),
+##   `Number of drivers involved in fatal collisions per billion miles` = col_double(),
+##   `Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding` = col_integer(),
+##   `Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired` = col_integer(),
+##   `Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted` = col_integer(),
+##   `Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents` = col_integer(),
+##   `Car Insurance Premiums ($)` = col_double(),
+##   `Losses incurred by insurance companies for collisions per insured driver ($)` = col_double()
+## )
 ```
 
 Parece que deu certo, não? Quantas linhas e colunas temos?
@@ -157,7 +166,16 @@ glimpse(tabela)
 ```
 
 ```
-## Error in glimpse(tabela): could not find function "glimpse"
+## Observations: 51
+## Variables: 8
+## $ State                                                                                                    <chr> ...
+## $ `Number of drivers involved in fatal collisions per billion miles`                                       <dbl> ...
+## $ `Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding`                                   <int> ...
+## $ `Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired`                           <int> ...
+## $ `Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted`                             <int> ...
+## $ `Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents` <int> ...
+## $ `Car Insurance Premiums ($)`                                                                             <dbl> ...
+## $ `Losses incurred by insurance companies for collisions per insured driver ($)`                           <dbl> ...
 ```
 
 Pelo visto temos 8 variáveis, porém apesar de intuitivas para nós, elas são mais chatas para o computador entender, então vamos renomeá-las outros nomes!
@@ -172,18 +190,15 @@ tabela <- tabela %>% rename(state = State,
                             p_not_previous_accident = `Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents`,
                             car_insurance = `Car Insurance Premiums ($)`,
                             losses_incurred = `Losses incurred by insurance companies for collisions per insured driver ($)`)
-```
 
-```
-## Error in tabela %>% rename(state = State, n_involved_fatal = `Number of drivers involved in fatal collisions per billion miles`, : could not find function "%>%"
-```
-
-```r
 colnames(tabela) # nome das colunas
 ```
 
 ```
-## Error in is.data.frame(x): object 'tabela' not found
+## [1] "state"                   "n_involved_fatal"       
+## [3] "p_speeding"              "p_alcohol"              
+## [5] "p_not_distracted"        "p_not_previous_accident"
+## [7] "car_insurance"           "losses_incurred"
 ```
 
 Para aqueles que possuem dúvidas sobre o que significa cada variável, vamos dar uma olhada na tabela abaixo:
@@ -220,35 +235,21 @@ geo_census_areas <- tibble(
                  rep("West South Central",4), rep("Mountain",8),
                  rep("Pacific",5))
 )
-```
 
-```
-## Error in tibble(state = c("Connecticut", "Maine", "Massachusetts", "New Hampshire", : could not find function "tibble"
-```
-
-```r
 tabela <- left_join(tabela, geo_census_areas, by = c("state"= "state"))
-```
 
-```
-## Error in left_join(tabela, geo_census_areas, by = c(state = "state")): could not find function "left_join"
-```
-
-```r
 # Vamos colocar os nomes em ordem crescente para não ter problemas na hora de fazer os gráficos
 tabela$state <- factor(tabela$state, levels = tabela$state[order(tabela$state)])
-```
 
-```
-## Error in factor(tabela$state, levels = tabela$state[order(tabela$state)]): object 'tabela' not found
-```
-
-```r
 View(tabela)
 ```
 
 ```
-## Error in as.data.frame(x): object 'tabela' not found
+## Warning in View(tabela): unable to open display
+```
+
+```
+## Error in .External2(C_dataviewer, x, title): unable to start data viewer
 ```
 
 Agora podemos ir ao que interessa, os gráficos!
@@ -299,10 +300,6 @@ A primeira coisa que precisamos fazer é habilitar o pacote do `ggplot2`
 library(ggplot2)
 ```
 
-```
-## Error in library(ggplot2): there is no package called 'ggplot2'
-```
-
 Como vamos ver os gráficos com `ggplot2` seguem um padrão de _"building blocks"_, ou seja, adicionamos layers sobre layers até que resulte na visualização gráfica desejada.
 
 Vamos então começar com a adição dos layers `data` e `aesthetics`
@@ -319,9 +316,7 @@ knitr::include_graphics("img/montar_grafico_1.png")
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance))
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-16](figures//unnamed-chunk-16-1.png)
 
 Cade os pontos? É só isso? Não!
 
@@ -339,9 +334,7 @@ knitr::include_graphics("img/montar_grafico_2.png")
 ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance)) + geom_point()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = losses_incurred, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-18](figures//unnamed-chunk-18-1.png)
 
 Agora podemos ter uma noção de como o dado se comporta! O que você pode nos dizer sobre esse gráfico? Um palpite pode ser que quanto maior as perdas incorridas pelas companhias de seguros, mais o motorista paga de seguro.
 
@@ -359,27 +352,21 @@ knitr::include_graphics("img/montar_grafico_3.png")
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + facet_wrap(~census_region)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-20](figures//unnamed-chunk-20-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + facet_grid(census_region~.)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-21](figures//unnamed-chunk-21-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + facet_grid(.~census_region)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-22](figures//unnamed-chunk-22-1.png)
 
 Como podemos notar, exitem duas funções que são responsáveis por incluir os _facets_ no ggplot2. 
 
@@ -409,9 +396,7 @@ Auxilia na localização de padrões nos dados, como por exemplo, uma reta de um
 ggplot(data = tabela, aes(x =n_involved_fatal, y = car_insurance)) + geom_point() + geom_smooth(method = "lm", se = FALSE)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-24](figures//unnamed-chunk-24-1.png)
 
 Os argumentos `method = "lm"` e `se = FALSE`, significam ajustar uma regressão linear nos dados e retirar o intervalo de confiança. Caso você tenha curiosidade, mude o `se` para `se = TRUE` e `method` para `method = "auto"`.
 
@@ -424,9 +409,7 @@ Auxilia na contagem de variáveis, como por exemplo, quantos estados norte ameri
 ggplot(data = tabela, aes(x =census_region)) + geom_bar()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = census_region)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-25](figures//unnamed-chunk-25-1.png)
 
 ### `geom_histogram`
 
@@ -438,8 +421,10 @@ ggplot(data = tabela, aes(x =losses_incurred))+geom_histogram()
 ```
 
 ```
-## Error in ggplot(data = tabela, aes(x = losses_incurred)): could not find function "ggplot"
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
+
+![plot of chunk unnamed-chunk-26](figures//unnamed-chunk-26-1.png)
 
 ### `geom_boxplot` e `geom_violin`
 
@@ -450,18 +435,14 @@ Permite obtermos a distribuição de variáveis continuas, porém diferente do h
 ggplot(data = tabela, aes(y =losses_incurred, x = census_region)) +geom_boxplot()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(y = losses_incurred, x = census_region)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-27](figures//unnamed-chunk-27-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(y =losses_incurred, x = census_region)) +geom_violin()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(y = losses_incurred, x = census_region)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-28](figures//unnamed-chunk-28-1.png)
 
 O próximo layer que iremos ver são as `coordinates`, que no ggplot2 são indicadas por `coord_`. Vamos começar pelo seguinte exemplo,
 
@@ -470,9 +451,7 @@ O próximo layer que iremos ver são as `coordinates`, que no ggplot2 são indic
 ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() # Não se preocupe com o fill neste momento veremos ele mais adiante. O importante é saber que ele preenche as colunas com cores padrões do R.
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = factor(1), fill = census_region)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-29](figures//unnamed-chunk-29-1.png)
 
 O ggplot2 possibilita utilizarmos muitos sistemas de coordenadas, porém focaremos apenas em dois:
 
@@ -483,9 +462,7 @@ O ggplot2 possibilita utilizarmos muitos sistemas de coordenadas, porém focarem
 ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + coord_flip()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = factor(1), fill = census_region)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-30](figures//unnamed-chunk-30-1.png)
 
 - `coord_polar`
 
@@ -494,9 +471,7 @@ ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + co
 ggplot(data = tabela, aes(x =factor(1), fill = census_region)) + geom_bar() + coord_polar(theta = 'y')
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = factor(1), fill = census_region)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-31](figures//unnamed-chunk-31-1.png)
 
 Por fim, temos os `Themes`, que modificam tudo aquilo que não é considerado como dado, como por exemplo, a cor do título do gráfico.
 
@@ -524,9 +499,7 @@ ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance)) + geom_point()
         panel.grid.major.x = element_line( size=.8, color="red"))
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = losses_incurred, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-33](figures//unnamed-chunk-33-1.png)
 
 
 ```r
@@ -546,35 +519,27 @@ Pensa que acabou? Precisamos ver um pouco mais de `Aesthetics` antes de irmos pa
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, color = census_region))+geom_point()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, : could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-35](figures//unnamed-chunk-35-1.png)
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, shape = census_region))+geom_point()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, : could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-36](figures//unnamed-chunk-36-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, color = census_region, shape = census_region))+geom_point()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, : could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-37](figures//unnamed-chunk-37-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, size = car_insurance))+geom_point()
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance, : could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-38](figures//unnamed-chunk-38-1.png)
 
 
 Perceba que neste caso nós colocamos os parâmetros dentro de `aes()`. Nós chamamos isto de _aesthetics mapping_, ou seja, o valor do dado determina a característica visual dele, seja cor, tamanho, ou forma. Porém, se nós quisermos um valor constante, na qual a cor seja a mesma para o gráfico inteiro, devemos colocar os parêmetros de cor, forma, tamanho e entre outros fora do `aes()` e sim dentro do geom que estamos utilizando (em alguns casos também funciona colocar dentro do `ggplot()` ainda que fora do `aes()`). Isto se chama de _parameter setting_.
@@ -584,36 +549,28 @@ Perceba que neste caso nós colocamos os parâmetros dentro de `aes()`. Nós cha
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(size = 6)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-39](figures//unnamed-chunk-39-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(color = "red")
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-40](figures//unnamed-chunk-40-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(alpha = 1/5)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-41](figures//unnamed-chunk-41-1.png)
 
 
 ```r
 ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance))+geom_point(shape = 7)
 ```
 
-```
-## Error in ggplot(data = tabela, aes(x = n_involved_fatal, y = car_insurance)): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-42](figures//unnamed-chunk-42-1.png)
 
 ## Gráficos interativos com `Plotly`
 
@@ -628,7 +585,26 @@ library(plotly)
 ```
 
 ```
-## Error in library(plotly): there is no package called 'plotly'
+## 
+## Attaching package: 'plotly'
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     last_plot
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     filter
+```
+
+```
+## The following object is masked from 'package:graphics':
+## 
+##     layout
 ```
 
 Feito isso, precisamos fazer um gráfico no `ggplot2` e em seguida usar a função `ggplotly()` para fazer o gráfico interativo.
@@ -637,18 +613,17 @@ Feito isso, precisamos fazer um gráfico no `ggplot2` e em seguida usar a funç�
 ```r
 p <- ggplot(data = tabela, aes(x =losses_incurred, y = car_insurance, color = census_region)) + 
   geom_point(size = 2, shape = 8)
-```
 
-```
-## Error in ggplot(data = tabela, aes(x = losses_incurred, y = car_insurance, : could not find function "ggplot"
-```
-
-```r
 ggplotly(p)
 ```
 
 ```
-## Error in ggplotly(p): could not find function "ggplotly"
+## We recommend that you use the dev version of ggplot2 with `ggplotly()`
+## Install it with: `devtools::install_github('hadley/ggplot2')`
+```
+
+```
+## Error in loadNamespace(name): there is no package called 'webshot'
 ```
 
 ## Desafio
@@ -673,7 +648,7 @@ ggplot(data = tabela)+
 ```
 
 ```
-## Error in ggplot(data = tabela): could not find function "ggplot"
+## Error in loadNamespace(name): there is no package called 'ggthemes'
 ```
 
 Ficou parecido? Sua vez!
