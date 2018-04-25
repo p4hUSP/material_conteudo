@@ -25,4 +25,3 @@ Créditos:
 - Os autores originais dos materiais foram o [Leonarndo Barone](https://github.com/leobarone) e a [Alexia Aslan](https://github.com/alexiaaslan)
 
 - As soluções desenvolvidas dentro desse repositório foram baseadas no [Curso R](https://github.com/curso-r) 
-    
