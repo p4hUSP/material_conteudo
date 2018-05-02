@@ -479,5 +479,5 @@ Vamos trabalhar com dados da Secretaria de Segurança Pública de São Paulo. No
 ```{r, eval = FALSE}
 library(readxl)
 
-dados <- read_xlsx("bo_homicidio_2017_12.xlsx")
+dados <- read_xlsx("https://github.com/R4CS/material/blob/master/dados/bo_homicidio_2017_12.xlsx?raw=true")
 ```
