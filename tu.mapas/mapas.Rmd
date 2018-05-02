@@ -180,7 +180,7 @@ ceu <- escolas  %>%
 Com a função _geocode_, procuraremos a latitude e longitude dos 46 CEUs. Vamos ver o exemplo do primeiro CEU:
 
 ```{r}
-ceu1 <- geocode(ceu$endereco[1], source = "sdk")
+ceu1 <- geocode(ceu$endereco[1], source = "dsk")
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = ceu1)) +
   geom_point()
@@ -197,7 +197,7 @@ ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
 ceu <- ceu[!is.na(ceu$endereco),]
 latlong <- data.frame()
 for (i in 1:nrow(ceu)){
-  latlong <- bind_rows(latlong, geocode(ceu$endereco[i], source = "sdk"))
+  latlong <- bind_rows(latlong, geocode(ceu$endereco[i], source = "dsk"))
 }
 
 ceu <- bind_cols(ceu, latlong)
