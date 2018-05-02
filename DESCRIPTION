@@ -12,6 +12,8 @@ Imports:
   ezknitr,
   webshot,
   ggthemes,
-  ggmap
+  ggmap,
+  rgdal,
+  sp
 Remote:
   hadley/ggplot2

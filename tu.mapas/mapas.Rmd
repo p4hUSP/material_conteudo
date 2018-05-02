@@ -476,8 +476,7 @@ ggplot(data = rmsp_df,
 
 Vamos trabalhar com dados da Secretaria de Segurança Pública de São Paulo. No [site de transparência](http://www.ssp.sp.gov.br/transparenciassp/) existem diferentes conjuntos de bancos de dados sobre diferentes ocorrências. Especificamente iremos trabalhar com os BOs de homicídio doloso registrados em Dezembro de 2017. O objetivo é baixar esse banco e _plotar_ os pontos no mapa da Região Metropolotina de São Paulo. Você irá reparar que algumas observações ficam fora da região metropolitana já que estamos trabalhando com um _shape_ da RMSP. Recomendamos que você utilize a função `filter` para selecionar apenas BOs emitidos na cidade de São Paulo ou, caso queira, de algumas cidades da RMSP.
 
-```{r}
-library(tidyverse)
+```{r, eval = FALSE}
 library(readxl)
 
 dados <- read_xlsx("bo_homicidio_2017_12.xlsx")
