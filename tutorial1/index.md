@@ -4,6 +4,16 @@ date: "2018-04-05"
 ---
 
 
+```
+## 
+## Attaching package: 'magrittr'
+```
+
+```
+## The following object is masked from 'package:ggmap':
+## 
+##     inset
+```
 
 
 ## Data frames

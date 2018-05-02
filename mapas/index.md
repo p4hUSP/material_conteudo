@@ -130,13 +130,6 @@ A função _get\_map_ requer como argumento principal um par de coordenadas a pa
 
 ```r
 library(ggmap)
-```
-
-```
-## Error in library(ggmap): there is no package called 'ggmap'
-```
-
-```r
 se <- c(lon = -46.6362714, lat = -23.5500806)
 ```
 
@@ -145,19 +138,10 @@ Com as coordenadas da Praça de Sé, vamos obter um mapa de São Paulo:
 
 ```r
 map_sp <- get_map(se)
-```
-
-```
-## Error in get_map(se): could not find function "get_map"
-```
-
-```r
 plot(map_sp)
 ```
 
-```
-## Error in plot(map_sp): object 'map_sp' not found
-```
+<img src="figures//unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 Por padrão, _get\_map_ retorna um mapa de "terreno" e utiliza a API da Google, com zoom e escala automáticos.
 
@@ -169,9 +153,7 @@ ggmap(map_sp) +
   geom_point(aes(lon, lat), data = emef)
 ```
 
-```
-## Error in ggmap(map_sp): could not find function "ggmap"
-```
+<img src="figures//unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 Feio ainda, porém bastante mais informativo. Veja que combinamos duas fontes de dados: o cadastro da PMSP e um mapa obtido na API da Google.
 
@@ -231,20 +213,13 @@ Convém, por conta da gramática da família de funções _ggplot_, definir uma 
 
 ```r
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 11)
-```
-
-```
-## Error in get_map(se, source = "google", maptype = "roadmap", zoom = 11): could not find function "get_map"
-```
-
-```r
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = emef)) +
   geom_point()
 ```
 
 ```
-## Error in ggmap(map_sp, base_layer = ggplot(aes(lon, lat), data = emef)): could not find function "ggmap"
+## Error in ggplot(aes(lon, lat), data = emef): object 'emef' not found
 ```
 
 Finalmente, vamos usar uma informação sobre as escolas para diferenciar os pontos. Os dados do cadastro não trazem informações muito interessantes sobre a escola e por isso utilizaremos o ano de criação. Em nosso desafio seguinte trabalharemos com informações sobre a escola que vêm de outra base do mesmo portal da prefeitura.
@@ -257,7 +232,7 @@ map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 12)
 ```
 
 ```
-## Error in get_map(se, source = "google", maptype = "roadmap", zoom = 12): could not find function "get_map"
+## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=12&size=640x640&scale=2&maptype=roadmap&language=en-EN&sensor=false'
 ```
 
 ```r
@@ -267,7 +242,7 @@ ggmap(map_sp,
 ```
 
 ```
-## Error in ggmap(map_sp, base_layer = ggplot(aes(lon, lat, color = ano), : could not find function "ggmap"
+## Error in ggplot(aes(lon, lat, color = ano), data = emef): object 'emef' not found
 ```
 
 Como era de se esperar, os pontos mais claros na cidade estão nos extremos e as EMEFs mais antigas, e geral, nos bairros que consolidaram mais cedo no processo de urbanização.
@@ -290,20 +265,13 @@ Com a função _geocode_, procuraremos a latitude e longitude dos 46 CEUs. Vamos
 
 ```r
 ceu1 <- geocode(ceu$endereco[1])
-```
-
-```
-## Error in geocode(ceu$endereco[1]): could not find function "geocode"
-```
-
-```r
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = ceu1)) +
   geom_point()
 ```
 
 ```
-## Error in ggmap(map_sp, base_layer = ggplot(aes(lon, lat), data = ceu1)): could not find function "ggmap"
+## Error in ggplot(aes(lon, lat), data = ceu1): object 'ceu1' not found
 ```
 
 Usando o que já havíamos visto, obtivemos um mapa com um único ponto. De fato, se procurarmos a informação deste CEU (CEU Alvarenga), veremos que obtivemos a latitude e longitude corretas.
@@ -320,13 +288,7 @@ latlong <- data.frame()
 for (i in 1:nrow(ceu)){
   latlong <- bind_rows(latlong, geocode(ceu$endereco[i]))
 }
-```
 
-```
-## Error in geocode(ceu$endereco[i]): could not find function "geocode"
-```
-
-```r
 ceu <- bind_cols(ceu, latlong)
 ```
 
@@ -342,7 +304,7 @@ ggmap(map_sp,
 ```
 
 ```
-## Error in ggmap(map_sp, base_layer = ggplot(aes(lon, lat), data = ceu)): could not find function "ggmap"
+## Error in ggplot(aes(lon, lat), data = ceu): object 'ceu' not found
 ```
 
 ## Pontos, linhas, polígonos e classes sp
@@ -362,10 +324,6 @@ Antes disso, porém, vamos conhecer o formato mais comum para armazenar dados es
 
 ```r
 library(sp)
-```
-
-```
-## Error in library(sp): there is no package called 'sp'
 ```
 
 Ademais de precisarmos de outras classes de objetos em R para armazenarmos informação espacial, precisamos também de formatos de arquivos diferentes para compartilhar dados espaciais. _Shapefiles_ são os mais populares e diversos repositórios de dados espaciais, como a [Prefeitura de São Paulo](http://www.prefeitura.sp.gov.br/cidade/secretarias/urbanismo/dados_estatisticos/index.php?p=160798) e 
@@ -795,3 +753,30 @@ ggplot(data = rmsp_df,
 ```
 
 ## Desafio
+
+Vamos trabalhar com dados da Secretaria de Segurança Pública de São Paulo. No [site de transparência](http://www.ssp.sp.gov.br/transparenciassp/) existem diferentes conjuntos de bancos de dados sobre diferentes ocorrências. Especificamente iremos trabalhar com os BOs de homicídio doloso registrados em Dezembro de 2017. O objetivo é baixar esse banco e _plotar_ os pontos no mapa da Região Metropolotina de São Paulo. Você irá reparar que algumas observações ficam fora da região metropolitana já que estamos trabalhando com um _shape_ da RMSP. Recomendamos que você utilize a função `filter` para selecionar apenas BOs emitidos na cidade de São Paulo ou, caso queira, de algumas cidades da RMSP.
+
+
+```r
+library(tidyverse)
+```
+
+```
+## Error in library(tidyverse): there is no package called 'tidyverse'
+```
+
+```r
+library(readxl)
+```
+
+```
+## Error in library(readxl): there is no package called 'readxl'
+```
+
+```r
+dados <- read_xlsx("bo_homicidio_2017_12.xlsx")
+```
+
+```
+## Error in read_xlsx("bo_homicidio_2017_12.xlsx"): could not find function "read_xlsx"
+```
