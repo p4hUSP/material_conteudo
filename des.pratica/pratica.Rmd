@@ -1,0 +1,38 @@
+---
+title: "Prática"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(tidyverse)
+library(readxl)
+
+input <- read_xls("dicionario_PNAD_CONTINUA_MICRODADOS_5_visita_2017.xls", col_names = F) %>% 
+  rename(start     = X__1,
+         tamanho   = X__2,
+         col_names = X__3)
+
+input <- input %>% 
+  mutate(start = as.numeric(start)) %>% 
+  select(start, tamanho, col_names) %>% 
+  filter(!is.na(start))
+
+input <- input %>% 
+  mutate(end = start + tamanho - 1)
+
+input <- input %>% 
+  select(start, end, col_names)
+
+colluns <- fwf_positions(start = input$start, end = input$end, col_names = input$col_names)
+
+data <- read_fwf("PNADC_2017_entr5.txt", colluns)
+
+
+```
+
