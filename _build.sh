@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo apt-get install libgdal1-dev libproj-dev apt-file
+sudo apt-get install apt-file
 
 sudo apt-file update
 
