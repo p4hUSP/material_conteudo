@@ -257,7 +257,7 @@ Com a função _geocode_, procuraremos a latitude e longitude dos 46 CEUs. Vamos
 
 
 ```r
-ceu1 <- geocode(ceu$endereco[1])
+ceu1 <- geocode(ceu$endereco[1], source = "dsk")
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = ceu1)) +
   geom_point()
@@ -279,7 +279,7 @@ ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
 ceu <- ceu[!is.na(ceu$endereco),]
 latlong <- data.frame()
 for (i in 1:nrow(ceu)){
-  latlong <- bind_rows(latlong, geocode(ceu$endereco[i]))
+  latlong <- bind_rows(latlong, geocode(ceu$endereco[i], source = "dsk"))
 }
 
 ceu <- bind_cols(ceu, latlong)
@@ -351,18 +351,14 @@ A biblioteca para abertura de dados espaciais em R é _rgdal_. _readORG_, funç�
 
 ```r
 library(rgdal)
-```
-
-```
-## Error in library(rgdal): there is no package called 'rgdal'
-```
-
-```r
 rmsp <- readOGR("rmsp", "MunRM07")
 ```
 
 ```
-## Error in readOGR("rmsp", "MunRM07"): could not find function "readOGR"
+## OGR data source with driver: ESRI Shapefile 
+## Source: "/home/travis/build/R4CS/material/rmsp", layer: "MunRM07"
+## with 39 features
+## It has 8 fields
 ```
 
 Vamos observar a classe do objeto importado:
@@ -373,7 +369,9 @@ class(rmsp)
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'rmsp' not found
+## [1] "SpatialPolygonsDataFrame"
+## attr(,"package")
+## [1] "sp"
 ```
 
 "SpatialPolygonsDataFrame" é, como é fácil deduzir, um objeto espacial que contém polígonos (municípios da Região Metropolitana de São Paulo) e que acompanha um data frame. Falaremos sobre essa classe de objetos a seguir.
@@ -385,9 +383,7 @@ Tal classe de objetos pode ser rapidamente visualizada utilizando o comando _plo
 plot(rmsp)
 ```
 
-```
-## Error in plot(rmsp): object 'rmsp' not found
-```
+<img src="figures//unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
 
 Podemos utilizar o pacote _ggplot2_ e sua gramática para plotar objetos da classe "SpatialPolygonsDataFrame":
 
@@ -399,9 +395,7 @@ ggplot(data = rmsp,
   coord_map()
 ```
 
-```
-## Error in ggplot(data = rmsp, aes(x = long, y = lat, group = group)): object 'rmsp' not found
-```
+<img src="figures//unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 
 #### Exercício:
 
@@ -421,7 +415,13 @@ str(rmsp, max.level = 2)
 ```
 
 ```
-## Error in str(rmsp, max.level = 2): object 'rmsp' not found
+## Formal class 'SpatialPolygonsDataFrame' [package "sp"] with 5 slots
+##   ..@ data       :'data.frame':	39 obs. of  8 variables:
+##   ..@ polygons   :List of 39
+##   ..@ plotOrder  : int [1:39] 12 37 10 5 11 1 16 6 3 4 ...
+##   ..@ bbox       : num [1:2, 1:2] -47.2 -24.1 -45.7 -23.2
+##   .. ..- attr(*, "dimnames")=List of 2
+##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
 ```
 
 Um "SpatialPolygonsDataFrame" contém vários elementos. O principal deles são, obviamente, os polígonos. Para o objeto "rmsp", são 39 polígonos. Já entraremos no detalhe de cada um. "plotOrder" e "bbox" são elementos do objeto que definem, respectivamente, a ordem de "plotagem" e as dimensões de um retângulo que contém todos os polígonos e raramente nos importaremos cm ambos.
@@ -437,26 +437,8 @@ Podemos selecionar um elemento da estrutura de um objeto das classes do pacote _
 
 ```r
 rmsp_data <- rmsp@data
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp' not found
-```
-
-```r
 rmsp_poligonos <- rmsp@polygons
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp' not found
-```
-
-```r
 rmsp_projecao <- rmsp@proj4string
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp' not found
 ```
 
 "rmsp_data" é um data frame com os dados dos municípios:
@@ -467,7 +449,20 @@ head(rmsp_data)
 ```
 
 ```
-## Error in head(rmsp_data): object 'rmsp_data' not found
+##    ID COD_IBGE SIGLA           NOME       NOMECAPS POP_2000 DENS_DEMO
+## 0  74  3546801   SIS   Santa Isabel   SANTA ISABEL    43740       120
+## 1  76  3518305   GMA      Guararema      GUARAREMA    21904        81
+## 2  75  3506607   BBM Biritiba-Mirim BIRITIBA MIRIM    24653        77
+## 3 211  3518800   GRU      Guarulhos      GUARULHOS  1072717      3361
+## 4 238  3545001   SPS Sales\xf3polis    SALESOPOLIS    14357        34
+## 5 246  3528502   MRP   Mairipor\xe3      MAIRIPORA    60111       187
+##   AREA_KM2
+## 0 364.1687
+## 1 271.8909
+## 2 318.7029
+## 3 319.0683
+## 4 424.5088
+## 5 321.4058
 ```
 
 Conhecendo a estrutura de tais classes, já temos uma pista do que precisamos para (1) colocar duas projeções no mesmo sistema de coordenadas (alterando a informação sobre projeção) e (2) adicionar dados provenientes de um data frame (combinando-o com o que estiverem em \@data). Faremos este último a seguir e não cobriremos o primeiro. Antes disso, vamos entender a complexa estrutura dos elementos em @polygons.
@@ -477,18 +472,22 @@ Vamos criar o objeto "poligono1" com o primeiro elemento de "rmsp_poligonos" e e
 
 ```r
 poligono1 <- rmsp_poligonos[[1]]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp_poligonos' not found
-```
-
-```r
 str(poligono1)
 ```
 
 ```
-## Error in str(poligono1): object 'poligono1' not found
+## Formal class 'Polygons' [package "sp"] with 5 slots
+##   ..@ Polygons :List of 1
+##   .. ..$ :Formal class 'Polygon' [package "sp"] with 5 slots
+##   .. .. .. ..@ labpt  : num [1:2] -46.2 -23.3
+##   .. .. .. ..@ area   : num 0.0321
+##   .. .. .. ..@ hole   : logi FALSE
+##   .. .. .. ..@ ringDir: int 1
+##   .. .. .. ..@ coords : num [1:436, 1:2] -46.2 -46.2 -46.2 -46.2 -46.2 ...
+##   ..@ plotOrder: int 1
+##   ..@ labpt    : num [1:2] -46.2 -23.3
+##   ..@ ID       : chr "0"
+##   ..@ area     : num 0.0321
 ```
 
 Note que ele é da classe "Polygons", também do pacote _sp_. Um polígono contém várias informações: os vértices do polígono; as conexões entre os vértices; a existências de "buracos" no polígono (que o buraco é também um polígono e polígonos com buracos lembram rosquinhas); etc. Não vamos examinar o que há em cada polígono, mas você já deve ter percebido que "SpatialPolygons" e "SpatialPolygonsDataFrame" são conjuntos de "Polygons" com algumas informações adicionais (dentre as quais um data frame com características de cada polígono no caso do último). "SpatialPoints" e "Lines" são classes análogas.
@@ -505,7 +504,27 @@ rmsp_data$NOME
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'rmsp_data' not found
+##  [1] Santa Isabel                Guararema                  
+##  [3] Biritiba-Mirim              Guarulhos                  
+##  [5] Sales\xf3polis              Mairipor\xe3               
+##  [7] Franco da Rocha             Santana de Parna\xedba     
+##  [9] Pirapora do Bom Jesus       Juquitiba                  
+## [11] S\xe3o Bernardo do Campo    S\xe3o Paulo               
+## [13] Cajamar                     Itapevi                    
+## [15] Santo Andr\xe9              Cotia                      
+## [17] S\xe3o Louren\xe7o da Serra Osasco                     
+## [19] Carapicu\xedba              Jandira                    
+## [21] Francisco Morato            Rio Grande da Serra        
+## [23] Itaquaquecetuba             Suzano                     
+## [25] Mau\xe1                     Itapecerica da Serra       
+## [27] Embu                        Tabo\xe3o da Serra         
+## [29] Diadema                     S\xe3o Caetano do Sul      
+## [31] Aruj\xe1                    Po\xe1                     
+## [33] Embu-Gua\xe7u               Barueri                    
+## [35] Caieiras                    Ferraz de Vasconcelos      
+## [37] Moji das Cruzes             Ribeir\xe3o Pires          
+## [39] Vargem Grande Paulista     
+## 39 Levels: Aruj\xe1 Barueri Biritiba-Mirim Caieiras ... Vargem Grande Paulista
 ```
 
 Podemos separar o polígono de São Paulo e criar seu mapa da seguinte forma:
@@ -513,19 +532,10 @@ Podemos separar o polígono de São Paulo e criar seu mapa da seguinte forma:
 
 ```r
 saopaulo <- rmsp[12,]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp' not found
-```
-
-```r
 plot(saopaulo)
 ```
 
-```
-## Error in plot(saopaulo): object 'saopaulo' not found
-```
+<img src="figures//unnamed-chunk-29-1.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
 
 Repetindo o exemplo, mas para os 3 municípios do ABC:
 
@@ -533,19 +543,10 @@ Repetindo o exemplo, mas para os 3 municípios do ABC:
 ```r
 posicoes_abc <- c(11, 15, 30)
 abc <- rmsp[posicoes_abc,]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp' not found
-```
-
-```r
 plot(abc)
 ```
 
-```
-## Error in plot(abc): object 'abc' not found
-```
+<img src="figures//unnamed-chunk-30-1.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 Examinando a estrutura de "abc" notamos que o conjunto de polígonos e o data frame contém agora apenas 3 observações, como esperávamos.
 
@@ -555,7 +556,13 @@ str(abc, max.level = 2)
 ```
 
 ```
-## Error in str(abc, max.level = 2): object 'abc' not found
+## Formal class 'SpatialPolygonsDataFrame' [package "sp"] with 5 slots
+##   ..@ data       :'data.frame':	3 obs. of  8 variables:
+##   ..@ polygons   :List of 3
+##   ..@ plotOrder  : int [1:3] 1 2 3
+##   ..@ bbox       : num [1:2, 1:2] -46.7 -24 -46.3 -23.6
+##   .. ..- attr(*, "dimnames")=List of 2
+##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
 ```
 
 ### Agregando e visualizando características de objetos espaciais
@@ -567,9 +574,7 @@ Vamos voltar ao nosso mapa da Região Metropolitana de São Paulo:
 plot(rmsp)
 ```
 
-```
-## Error in plot(rmsp): object 'rmsp' not found
-```
+<img src="figures//unnamed-chunk-32-1.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
 
 Bastante sem graça, certo? Não estamos apresentando nenhuma característica dos municípios no mapa, apenas os polígonos que os definem. 
 
@@ -581,7 +586,20 @@ head(rmsp@data)
 ```
 
 ```
-## Error in head(rmsp@data): object 'rmsp' not found
+##    ID COD_IBGE SIGLA           NOME       NOMECAPS POP_2000 DENS_DEMO
+## 0  74  3546801   SIS   Santa Isabel   SANTA ISABEL    43740       120
+## 1  76  3518305   GMA      Guararema      GUARAREMA    21904        81
+## 2  75  3506607   BBM Biritiba-Mirim BIRITIBA MIRIM    24653        77
+## 3 211  3518800   GRU      Guarulhos      GUARULHOS  1072717      3361
+## 4 238  3545001   SPS Sales\xf3polis    SALESOPOLIS    14357        34
+## 5 246  3528502   MRP   Mairipor\xe3      MAIRIPORA    60111       187
+##   AREA_KM2
+## 0 364.1687
+## 1 271.8909
+## 2 318.7029
+## 3 319.0683
+## 4 424.5088
+## 5 321.4058
 ```
 
 Vamos repetir o mapa, colorindo os municípios de acordo com a densidade demográfica:
@@ -591,9 +609,7 @@ Vamos repetir o mapa, colorindo os municípios de acordo com a densidade demogr�
 plot(rmsp, col = log(rmsp@data$DENS_DEMO))
 ```
 
-```
-## Error in plot(rmsp, col = log(rmsp@data$DENS_DEMO)): object 'rmsp' not found
-```
+<img src="figures//unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 Não muito bonito, mas bastante mais interessante. Vamos trazer uma variável externa aos dados para tornar nosso exemplo mais atraente. Utilizaremos os dados de planejamento urbano da MUNIC-IBGE 2015. Note que, por parcimônia, não estamos buscando os dados diretamente na fonte, mas em uma cópia dos dados no repositório do curso.
 
@@ -616,10 +632,6 @@ rmsp@data <- rmsp@data %>%
   left_join(munic_15, by = "COD_IBGE")
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'rmsp' not found
-```
-
 Nada de novo, exceto o fato de que o data frame está dentro de um objeto mais complexo. Vamos agora plotar o ano de elaboração dos Planos Diretores de cada município como cores nos mapas:
 
 
@@ -627,9 +639,7 @@ Nada de novo, exceto o fato de que o data frame está dentro de um objeto mais c
 plot(rmsp, col = factor(rmsp@data$ano_pd))
 ```
 
-```
-## Error in plot(rmsp, col = factor(rmsp@data$ano_pd)): object 'rmsp' not found
-```
+<img src="figures//unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
 
 De novo, bastante feio, mas conseguimos trazer rapidamente dados de uma fonte externa para nosso mapa.
 
@@ -645,9 +655,7 @@ ggplot(data = rmsp,
   coord_map()
 ```
 
-```
-## Error in ggplot(data = rmsp, aes(x = long, y = lat, group = group)): object 'rmsp' not found
-```
+<img src="figures//unnamed-chunk-38-1.png" title="plot of chunk unnamed-chunk-38" alt="plot of chunk unnamed-chunk-38" style="display: block; margin: auto;" />
 
 Para adicionarmos novas variáveis utilizando o _ggplot2_, porém, precisamos reorganizar nossos dados. Infelizmente, se simplesmente adicionarmos uma variável que esteja em \@data ao argumento "fill", por exemplo, obteremos um mensagem de erro.
 
@@ -658,34 +666,9 @@ Na sequência abaixo, criaremos "rmsp_df" com a função fortify. "rmsp_df" ter�
 
 ```r
 rmsp_df <- fortify(rmsp)
-```
-
-```
-## Error in fortify(rmsp): object 'rmsp' not found
-```
-
-```r
 rmsp_df$id <- as.numeric(rmsp_df$id)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'rmsp_df' not found
-```
-
-```r
 rmsp@data$id <- 0:(nrow(rmsp@data)-1)
-```
-
-```
-## Error in nrow(rmsp@data): object 'rmsp' not found
-```
-
-```r
 rmsp_df <- left_join(rmsp_df, rmsp@data, by = "id")
-```
-
-```
-## Error in left_join(rmsp_df, rmsp@data, by = "id"): object 'rmsp_df' not found
 ```
 
 Observemos o objeto "rmsp_df":
@@ -696,7 +679,24 @@ glimpse(rmsp_df)
 ```
 
 ```
-## Error in glimpse(rmsp_df): object 'rmsp_df' not found
+## Observations: 19,673
+## Variables: 16
+## $ long      <dbl> -46.15734, -46.16225, -46.16271, -46.16266, -46.1622...
+## $ lat       <dbl> -23.34258, -23.34526, -23.34622, -23.34684, -23.3475...
+## $ order     <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1...
+## $ hole      <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL...
+## $ piece     <fct> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1...
+## $ id        <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ group     <fct> 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0....
+## $ ID        <int> 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, ...
+## $ COD_IBGE  <dbl> 3546801, 3546801, 3546801, 3546801, 3546801, 3546801...
+## $ SIGLA     <fct> SIS, SIS, SIS, SIS, SIS, SIS, SIS, SIS, SIS, SIS, SI...
+## $ NOME      <fct> Santa Isabel, Santa Isabel, Santa Isabel, Santa Isab...
+## $ NOMECAPS  <fct> SANTA ISABEL, SANTA ISABEL, SANTA ISABEL, SANTA ISAB...
+## $ POP_2000  <dbl> 43740, 43740, 43740, 43740, 43740, 43740, 43740, 437...
+## $ DENS_DEMO <dbl> 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 12...
+## $ AREA_KM2  <dbl> 364.1687, 364.1687, 364.1687, 364.1687, 364.1687, 36...
+## $ ano_pd    <dbl> 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007...
 ```
 
 Note que todas as variáveis que precisamos estão aí. Reorganizando os argumentos do nosso mapa anterior, produzido com _ggplot_, podemos gerar mapas bastante mais elegantes. O primeiro, usando a informação sobre densidade demográfica:
@@ -709,9 +709,7 @@ ggplot(data = rmsp_df,
   coord_map()
 ```
 
-```
-## Error in ggplot(data = rmsp_df, aes(x = long, y = lat, group = group, : object 'rmsp_df' not found
-```
+<img src="figures//unnamed-chunk-41-1.png" title="plot of chunk unnamed-chunk-41" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
 
 E agora o ano dos planos diretores, variável que contém um número grande de _missing values_ para os municípios da RMSP:
 
@@ -723,9 +721,7 @@ ggplot(data = rmsp_df,
   coord_map()
 ```
 
-```
-## Error in ggplot(data = rmsp_df, aes(x = long, y = lat, group = group, : object 'rmsp_df' not found
-```
+<img src="figures//unnamed-chunk-42-1.png" title="plot of chunk unnamed-chunk-42" alt="plot of chunk unnamed-chunk-42" style="display: block; margin: auto;" />
 
 A grande vantagem de trabalharmos com a gramática do _ggplot2_ é que podemos editar os mapas da mesma forma que editamos gráficos e as possibilidades são inúmeras.
 
@@ -741,9 +737,7 @@ ggplot(data = rmsp_df,
   theme_map()
 ```
 
-```
-## Error in ggplot(data = rmsp_df, aes(x = long, y = lat, group = group, : object 'rmsp_df' not found
-```
+<img src="figures//unnamed-chunk-43-1.png" title="plot of chunk unnamed-chunk-43" alt="plot of chunk unnamed-chunk-43" style="display: block; margin: auto;" />
 
 ## Desafio
 
@@ -751,7 +745,6 @@ Vamos trabalhar com dados da Secretaria de Segurança Pública de São Paulo. No
 
 
 ```r
-library(tidyverse)
 library(readxl)
 
 dados <- read_xlsx("https://github.com/R4CS/material/blob/master/dados/bo_homicidio_2017_12.xlsx?raw=true")
