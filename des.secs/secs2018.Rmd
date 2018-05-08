@@ -2,32 +2,137 @@
 title: "SECS 2018"
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
-                      warning = FALSE)
+                      warning = FALSE,
+                      fig.width = 6.0,
+                      fig.height = 5.0)
 ```
 
 ## 1. Introdução
 
+Os dados estão mais próximos de nós do que imaginamos! Podemos consumi-los de diversas formas e uma delas é para nos auxiliar na tomada de decisão ou entendimento sobre algum fenômeno do nosso cotidiano.
+
+```{r, echo = FALSE}
+knitr::include_graphics("imagem2.jpeg")
+```
+Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas tarefas. Vamos pensar no algoritmo do miojo:
+
+> Passo 1: Tire da embalagem\n Passo 2: Aqueça a água\n Passo 3: Coloque o miojo na água quente\n Passo 4: Adicione o tempero\n Passo 5: Sirva!
+
+Simples, não?
+
+Para que possamos enviar essas instruções para o computador nós precisamos utilizar linguagens que são capazes de ser interpretadas pela máquina e uma delas é o __R__. Mas por que o R?
+
+- O custo de entrada é menor*
+
+- É de graça
+
+- Uma comunidade enorme
+
+Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva, como por exemplo, a _função_ `filter` utilizada para filtrar observações de uma tabela
+
+Ok, alguns conceitos apareceram, mas não precisamos ficar assustados vamos entende-los. [explicar o que é pacote e funcao]
+
+[fluxo de ciencia de dados]
+
+[organizacao da oficina]
+
+## 2. Importação de Dados (readr)
+
+```{r}
+library(tidyverse)
+
+candidatos <- read_csv("CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
+```
+
+## 3. Trasformações dos Dados (dplyr e %>%)
+
+Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com valores selecionados; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante.
+
+Primeiro, vamos ver a qualidade dos nossos dados e realizar as devidas transformações.
+
+Vamos começar com a variável de descrição da candidatura (DES_SITUACAO_CANDIDATURA). Ela diz se aquele candidato teve uma candidatura deferida ou não.
+
+Uma maneira de ver todas as categorias é com a função `count()`. Ela literalmente __conta__ as categorias presentes em uma variável.
+
+```{r}
+candidatos %>%
+  count(DES_SITUACAO_CANDIDATURA)
+```
+
+Repare que existem duas alternativas para candidaturas deferidas: "DEFERIDO" e "DEFERIDO COM RECURSO". A princípio, como o nosso objetivo é trabalhar com os candidatos que de fato concorreram para a câmara federal, vamos filtrar os nossos dados. Iremos selecionar apenas pessoas com candidaturas deferidas. Para isso, existe a função `filter()`. Ela recebe como parâmetro uma condição lógica, ou seja, no nosso caso, uma igualdade entre as valores que queremos dentro de uma variável.
+
+```{r}
+candidatos <- candidatos %>%
+  filter(DES_SITUACAO_CANDIDATURA %in% c("DEFERIDO", "DEFERIDO COM RECURSO"))
+```
+
+O operador `%in%` é uma generalização do `==`. Ele testa a igualdade  de um de mais de um valor ao mesmo tempo.
+
+Após organizar a questão das candidaturas, vamos para o resultado da eleição. A variável `DESC_SIT_TOT_TURNO` diz para nós se o candidato foi eleito ou não e em que modalidade ele foi eleito.
+
+```{r}
+candidatos %>%
+  count(DESC_SIT_TOT_TURNO)
+```
+
+De um lado, temos duas categorias de eleitos: "ELEITO POR MÉDIA" e "ELEITO POR QP". Por outro lado, os não eleitos: "NÃO ELEITO" e "SUPLENTE". Precisamos transformar essa variável para uma coisa mais interessante para a nossa análise, embora ela possa ter significado em outras perguntas de pesquisa.
+
+A fim de realizar esse trablho, iremos utilizar a função `ifelse()`. Para quem conhece a estrutura de `if` `else`, o `case_when` é uma maneira mais simples de trabalhar com mais de uma condição ao mesmo tempo.
+
+```{r}
+candidatos <- candidatos %>%
+  mutate(RES_ELEICAO = ifelse(DESC_SIT_TOT_TURNO %in% c("ELEITO POR MÉDIA", "ELEITO POR QP"), "Eleito", "Não Eleito"))
+```
+
+Por fim, nós propomos uma recodificação da variável de cor/raça. Ao invés de trablhar com as categorias do IBGE, vamos reclassicá-las para algo que tenha mais sentido para cientistas sociais.
+
+```{r}
+candidatos %>%
+  count(DESCRICAO_COR_RACA)
+```
+
+```{r}
+candidatos <- candidatos %>%
+  mutate(RACA = case_when(DESCRICAO_COR_RACA == "BRANCA"   ~ "Brancos",
+                          DESCRICAO_COR_RACA == "INDÍGENA" ~ "Não Brancos",
+                          DESCRICAO_COR_RACA == "PARDA"    ~ "Não Brancos",
+                          DESCRICAO_COR_RACA == "PRETA"    ~ "Não Brancos"))
+```
 
 
-## 2. Importação de Dados
+```{r}
+candidatos %>%
+  count(DESCRICAO_SEXO)
+```
+
+```{r}
+candidatos %>%
+  count(DESCRICAO_ESTADO_CIVIL)
+```
+
+```{r}
+candidatos %>%
+  count(DESCRICAO_GRAU_INSTRUCAO)
+```
+
+Tudo certo? Aparentemente sim!
+
+Que tal olhar algumas curiosidades antes de trabalharmos na visualização dos nossos dados?
+
+Você já se perguntou provavelmente quantas mulheres negras concorrem nas eleições. Avaliar isso com o `dplyr` é bem fácil. Basta chamar o `count` com dois parâmetros.
+
+```{r}
+candidatos %>%
+  count(DESCRICAO_SEXO, DESCRICAO_COR_RACA)
+```
 
 
 
-## 3. Conceito de Tidy (tidyr)
+## 4. Visualização dos Dados (ggplot2 e plotly)
 
 
 
-## 4. Trasformações dos Dados (dplyr e %>%)
-
-
-
-## 5. Visualização dos Dados (ggplot2 e plotly)
-
-
-
-## 6. Comunicação (markdown)
-
-
+## 5. Comunicação (markdown)
