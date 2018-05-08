@@ -229,13 +229,6 @@ Introduziremos em nosso mapa uma escala de cores para diferenciar as EMEFs por a
 
 ```r
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 12)
-```
-
-```
-## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=12&size=640x640&scale=2&maptype=roadmap&language=en-EN&sensor=false'
-```
-
-```r
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat, color = ano), data = emef)) +
   geom_point()
