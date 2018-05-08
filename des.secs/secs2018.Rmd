@@ -1,0 +1,33 @@
+---
+title: "SECS 2018"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+## 1. Introdução
+
+
+
+## 2. Importação de Dados
+
+
+
+## 3. Conceito de Tidy (tidyr)
+
+
+
+## 4. Trasformações dos Dados (dplyr e %>%)
+
+
+
+## 5. Visualização dos Dados (ggplot2 e plotly)
+
+
+
+## 6. Comunicação (markdown)
+
+
