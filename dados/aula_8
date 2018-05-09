@@ -1,0 +1,34 @@
+library(dplyr)
+library(tidyr)
+library(rlang)
+library(readxl)
+library(stringr)
+library(ggplot2)
+library(lubridate)
+
+celular_total <- read_excel('data/celular_total.xlsx')
+cres_populacional <- read_excel('data/crescimento_populacional.xlsx')
+exp_tecnologica <- read_excel('data/exportacao_tecnologica.xlsx')
+horas_trab <- read_excel('data/horas_trab_por_semana.xlsx')
+industria <- read_excel('data/Industry (p of GDP).xlsx')
+pop_urbana <- read_excel('data/porcentagem_pop_urbana.xlsx')
+
+lista_bases <- list(
+  celular_total,
+  cres_populacional,
+  exp_tecnologica,
+  horas_trab,
+  industria,
+  pop_urbana
+)
+
+# renomeando a primeira variável 
+for(i in 1:length(lista_bases)) {
+  names(lista_bases[[i]])[1] <- 'paises'
+}
+
+lista_bases[[1]] %>% head()
+
+class(lista_bases[[1]])
+
+
