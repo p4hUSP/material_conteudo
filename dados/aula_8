@@ -40,11 +40,8 @@ nomes_indicadores <- c(
   'industria',
   'pop_urbana'
 )
-nomes_indicadores <- nomes_indicadores[1]
-nomes_indicadores
 
-
-rlang::`!!`()
+#rlang::`!!`()
 for(i in 1:length(lista_bases)) {
   lista_bases[[i]] <- gather(lista_bases[[i]], 
                              key = ano,
