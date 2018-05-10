@@ -31,15 +31,50 @@ lista_bases[[1]] %>% head()
 
 class(lista_bases[[1]])
 
-######
+# 'derretendo' as colunas 
+nomes_indicadores <- c(
+  'celular_total',
+  'cresc_populacional',
+  'exp_tecnologica',
+  'horas_trab',
+  'industria',
+  'pop_urbana'
+)
+nomes_indicadores <- nomes_indicadores[1]
+nomes_indicadores
 
-tab <- left_join(lista_base[[2]], lista_bases[[6]])
+
+rlang::`!!`()
+for(i in 1:length(lista_bases)) {
+  lista_bases[[i]] <- gather(lista_bases[[i]], 
+                             key = ano,
+                             value = !!nomes_indicadores[i], -paises)
+}
+
+for(i in 1:length(lista_bases)) {
+  lista_bases[[i]] <- lista_bases[[i]] %>% 
+    mutate(ano = as.integer(ano),
+           paises = str_to_lower(paises))
+}
+
+lista_bases[[1]] %>% head()
+
+tab <- left_join(lista_bases[[2]], lista_bases[[6]])
 tab <- left_join(tab, lista_bases[[1]])
 tab <- left_join(tab, lista_bases[[5]])
 tab <- left_join(tab, lista_bases[[3]])
 tab <- left_join(tab, lista_bases[[4]])
 
-####
+data_geo <- read_excel('data/data_geo.xlsx', sheet = 2)
+
+data_geo$name <- data_geo$name %>% 
+  str_to_lower()
+
+data_geo <- data_geo %>% 
+  rename(paises = name)
+
+tab <- left_join(tab, data_geo, by = "paises")
+head(tab)
 
 quatro_regioes <- tab %>% 
   group_by(ano, four_regions) %>% 
@@ -48,7 +83,14 @@ quatro_regioes <- tab %>%
             celular_total = mean(celular_total, na.rm = TRUE),
             industria = mean(industria, na.rm = TRUE),
             exp_tecnologica = mean(exp_tecnologica, na.rm = TRUE),
-            horas_trab = mean(horas_trab, na.rm = TRUE))
+            horas_trab = mean(horas_trab, na.rm = TRUE)) %>% 
+  filter(!is.na(four_regions))
+
+# tab %>% 
+#   filter(is.na(geo)) %>% 
+#   select(paises) %>% 
+#   distinct() %>% 
+#   nrow()
 
 head(quatro_regioes)
 
@@ -60,4 +102,22 @@ ggplot(data = quatro_regioes,
        aes(x = ano, y = cresc_populacional, color = four_regions))+
   geom_line(size = 1)
 
+# Maior parte da análise de dados é ARRUMAR OS DADOS!
 
+install.packages("ggthemes")
+library(ggthemes)
+ggplot(data = quatro_regioes,
+       aes(x = ano, y = cresc_populacional, color = four_regions))+
+  geom_line(size = 2) + theme_fivethirtyeight() 
+
+
+# plot <- tab %>% 
+#   ggplot(mapping = aes(x = pop_urbana, y = log(celular_total), frame = ano)) +
+#   geom_point()+
+#   geom_text(aes(label = paises)) +
+#   theme_excel()
+# 
+# 
+# plotly::ggplotly(plot)
+# 
+# plotly::addpo
