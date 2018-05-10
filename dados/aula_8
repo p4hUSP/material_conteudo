@@ -31,4 +31,12 @@ lista_bases[[1]] %>% head()
 
 class(lista_bases[[1]])
 
+######
+
+tab <- left_join(lista_base[[2]], lista_bases[[6]])
+tab <- left_join(tab, lista_bases[[1]])
+tab <- left_join(tab, lista_bases[[5]])
+tab <- left_join(tab, lista_bases[[3]])
+tab <- left_join(tab, lista_bases[[4]])
+
 
