@@ -39,4 +39,25 @@ tab <- left_join(tab, lista_bases[[5]])
 tab <- left_join(tab, lista_bases[[3]])
 tab <- left_join(tab, lista_bases[[4]])
 
+####
+
+quatro_regioes <- tab %>% 
+  group_by(ano, four_regions) %>% 
+  summarise(cresc_populacional = mean(cresc_populacional, na.rm = TRUE),
+            pop_urbana = mean(pop_urbana, na.rm = TRUE),
+            celular_total = mean(celular_total, na.rm = TRUE),
+            industria = mean(industria, na.rm = TRUE),
+            exp_tecnologica = mean(exp_tecnologica, na.rm = TRUE),
+            horas_trab = mean(horas_trab, na.rm = TRUE))
+
+head(quatro_regioes)
+
+media_cresc_populacional <- quatro_regioes$cresc_populacional %>% 
+  mean(na.rm = TRUE) %>% 
+  round(2)
+
+ggplot(data = quatro_regioes,
+       aes(x = ano, y = cresc_populacional, color = four_regions))+
+  geom_line(size = 1)
+
 
