@@ -138,10 +138,19 @@ Com as coordenadas da Praça de Sé, vamos obter um mapa de São Paulo:
 
 ```r
 map_sp <- get_map(se)
+```
+
+```
+## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false'
+```
+
+```r
 plot(map_sp)
 ```
 
-<img src="figures//unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+```
+## Error in plot(map_sp): object 'map_sp' not found
+```
 
 Por padrão, _get\_map_ retorna um mapa de "terreno" e utiliza a API da Google, com zoom e escala automáticos.
 
@@ -153,7 +162,9 @@ ggmap(map_sp) +
   geom_point(aes(lon, lat), data = emef)
 ```
 
-<img src="figures//unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
+```
+## Error in ggmap(map_sp): object 'map_sp' not found
+```
 
 Feio ainda, porém bastante mais informativo. Veja que combinamos duas fontes de dados: o cadastro da PMSP e um mapa obtido na API da Google.
 
@@ -229,6 +240,13 @@ Introduziremos em nosso mapa uma escala de cores para diferenciar as EMEFs por a
 
 ```r
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 12)
+```
+
+```
+## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=12&size=640x640&scale=2&maptype=roadmap&language=en-EN&sensor=false'
+```
+
+```r
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat, color = ano), data = emef)) +
   geom_point()
