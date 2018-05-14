@@ -180,7 +180,7 @@ ceu <- escolas  %>%
 Com a função _geocode_, procuraremos a latitude e longitude dos 46 CEUs. Vamos ver o exemplo do primeiro CEU:
 
 ```{r}
-ceu1 <- geocode(ceu$endereco[1], source = "dsk")
+ceu1 <- geocode(ceu$endereco[1])
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = ceu1)) +
   geom_point()
@@ -190,16 +190,35 @@ Usando o que já havíamos visto, obtivemos um mapa com um único ponto. De fato
 
 Com um _for loop_, procuraremos a latitude e longitude dos 46 endereços:
 
-```{r}
+```{r, echo = FALSE, eval = FALSE}
+ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
+ceu <- ceu[!is.na(ceu$endereco),]
+latlong <- data.frame()
+for (i in 1:nrow(ceu)){
+  latlong <- bind_rows(latlong, geocode(ceu$endereco[i]))
+}
+
+write_rds(latlong, "ceu_geocoded.rds")
+```
+
+```{r, echo = FALSE}
+latlong <- read_rds("ceu_geocoded.rds")
+ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
+ceu <- ceu[!is.na(ceu$endereco),]
+```
+
+```{r, eval = FALSE}
 # Para remover problemas com enconding, removi algumas observacoes usando
 # as linhas marcadas como comentario abaixo. No Windows pode ser desnecessario
 ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
 ceu <- ceu[!is.na(ceu$endereco),]
 latlong <- data.frame()
 for (i in 1:nrow(ceu)){
-  latlong <- bind_rows(latlong, geocode(ceu$endereco[i], source = "dsk"))
+  latlong <- bind_rows(latlong, geocode(ceu$endereco[i]))
 }
+```
 
+```{r}
 ceu <- bind_cols(ceu, latlong)
 ```
 
