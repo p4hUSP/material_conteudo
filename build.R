@@ -30,7 +30,7 @@ create_md <- function(dir, file, content_dir){
 #cria um .md a partir de um .Rmd
 create_Rmd <- function(dir, file, dir_file){
   ezknitr::ezknit(stringr::str_c("./", dir, "/", file),
-                  wd      = stringr::str_c(getwd(), dir),
+                  wd      = stringr::str_c(getwd(),"/", dir),
                   out_dir = stringr::str_c("./content/", dir_file),
                   fig_dir = "figures",
                   keep_html = FALSE)
