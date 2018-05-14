@@ -67,19 +67,30 @@ Por sua vez, _data frames_ são muito semelhantes a planilhas de Excel. Eles sã
 
 <img src="img/excel_ex.jpg" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
-Como criar um _data frame_?
+Como criar um _data frame_? Vamos tentar reproduzir o _data frame_ acima no R? Repare que vou utilizar uma `_` para simbolizar o espaço já que o R não entende espaço, para nomes de objetos.
 
 
 ```r
-data.frame(nome = c("Adriana Alos", "José Henrique"),
-           nota = c(10, 8.2))
+data.frame(PRODUCTO        = c("Prod-1", "Prod-2", "Prod-3", "Prod-4", "Prod-5", "Prod-6", "Prod-7", "Prod-8", "Prod-9", "Prod-10"),
+           CANTIDAD        = c("80 kg", "85 kg", "90 kg", "95 kg", "100 kg", "105 kg", "110 kg", "115 kg", "120 kg", "125 kg"),
+           PRECIO_UNITARIO = c(50, 50, 49, 49, 48, 48, 47,47, 46, 46))
 ```
 
 ```
-##            nome nota
-## 1  Adriana Alos 10.0
-## 2 José Henrique  8.2
+##    PRODUCTO CANTIDAD PRECIO_UNITARIO
+## 1    Prod-1    80 kg              50
+## 2    Prod-2    85 kg              50
+## 3    Prod-3    90 kg              49
+## 4    Prod-4    95 kg              49
+## 5    Prod-5   100 kg              48
+## 6    Prod-6   105 kg              48
+## 7    Prod-7   110 kg              47
+## 8    Prod-8   115 kg              47
+## 9    Prod-9   120 kg              46
+## 10  Prod-10   125 kg              46
 ```
+
+Fique tranquilo que dificilmente nós importamos dados na mão para o R. De modo geral, ou iremos raspar os dados da internet (APIs e webscraping) ou iremos importar o nosso banco de um formato muito conhecido, o __.csv__.
 
 Após ter uma noção dessas duas estruturas de dados, podemos avançar em outros dois conceitos muito importantes dentro do R: funções e pacotes. As funções, basicamente, realizam comandos. Normalmente elas recebem alguns parêmetros e devolvem alguma coisa para a gente. Imagine, por exemplo, uma função que pega uma sequência de números e nos devolve a média desses valores. No __R__, a função `mean()` faz exatamente isso. Experimente colocar um vetor dentro dela.
 
