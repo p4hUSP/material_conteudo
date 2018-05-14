@@ -179,10 +179,6 @@ library(tidyverse)
 candidatos <- read_csv("data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
 ```
 
-```
-## Error: 'data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv' does not exist in current working directory ('/home/travis/build/R4CS/material').
-```
-
 ## 3. Trasformações dos Dados (dplyr e %>%)
 
 Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com valores selecionados; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante.
@@ -200,7 +196,17 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 8 x 2
+##   DES_SITUACAO_CANDIDATURA       n
+##   <chr>                      <int>
+## 1 CANCELADO                     14
+## 2 DEFERIDO                    5861
+## 3 DEFERIDO COM RECURSO           8
+## 4 FALECIDO                       3
+## 5 INDEFERIDO                   806
+## 6 INDEFERIDO COM RECURSO         6
+## 7 NÃO CONHECIMENTO DO PEDIDO    12
+## 8 RENÚNCIA                     328
 ```
 
 Repare que existem duas alternativas para candidaturas deferidas: "DEFERIDO" e "DEFERIDO COM RECURSO". A princípio, como o nosso objetivo é trabalhar com os candidatos que de fato concorreram para a câmara federal, vamos filtrar os nossos dados. Iremos selecionar apenas pessoas com candidaturas deferidas. Para isso, existe a função `filter()`. Ela recebe como parâmetro uma condição lógica, ou seja, no nosso caso, uma igualdade entre as valores que queremos dentro de uma variável.
@@ -209,10 +215,6 @@ Repare que existem duas alternativas para candidaturas deferidas: "DEFERIDO" e "
 ```r
 candidatos <- candidatos %>%
   filter(DES_SITUACAO_CANDIDATURA %in% c("DEFERIDO", "DEFERIDO COM RECURSO"))
-```
-
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
 ```
 
 O operador `%in%` é uma generalização do `==`. Ele testa a igualdade  de um de mais de um valor ao mesmo tempo.
@@ -226,7 +228,13 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 4 x 2
+##   DESC_SIT_TOT_TURNO     n
+##   <chr>              <int>
+## 1 ELEITO POR MÉDIA      73
+## 2 ELEITO POR QP        440
+## 3 NÃO ELEITO          1336
+## 4 SUPLENTE            4020
 ```
 
 De um lado, temos duas categorias de eleitos: "ELEITO POR MÉDIA" e "ELEITO POR QP". Por outro lado, os não eleitos: "NÃO ELEITO" e "SUPLENTE". Precisamos transformar essa variável para uma coisa mais interessante para a nossa análise, embora ela possa ter significado em outras perguntas de pesquisa.
@@ -239,10 +247,6 @@ candidatos <- candidatos %>%
   mutate(RES_ELEICAO = ifelse(DESC_SIT_TOT_TURNO %in% c("ELEITO POR MÉDIA", "ELEITO POR QP"), "Eleito", "Não Eleito"))
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
-
 Por fim, nós propomos uma recodificação da variável de cor/raça. Ao invés de trablhar com as categorias do IBGE, vamos reclassicá-las para algo que tenha mais sentido para cientistas sociais.
 
 
@@ -252,7 +256,14 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 5 x 2
+##   DESCRICAO_COR_RACA     n
+##   <chr>              <int>
+## 1 AMARELA               32
+## 2 BRANCA              3488
+## 3 INDÍGENA              19
+## 4 PARDA               1769
+## 5 PRETA                561
 ```
 
 
@@ -264,10 +275,6 @@ candidatos <- candidatos %>%
                           DESCRICAO_COR_RACA == "PRETA"    ~ "Não Brancos"))
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
-
 
 ```r
 candidatos %>%
@@ -275,7 +282,11 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 2 x 2
+##   DESCRICAO_SEXO     n
+##   <chr>          <int>
+## 1 FEMININO        1723
+## 2 MASCULINO       4146
 ```
 
 
@@ -285,7 +296,14 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 5 x 2
+##   DESCRICAO_ESTADO_CIVIL        n
+##   <chr>                     <int>
+## 1 CASADO(A)                  3298
+## 2 DIVORCIADO(A)               654
+## 3 SEPARADO(A) JUDICIALMENTE   123
+## 4 SOLTEIRO(A)                1674
+## 5 VIÚVO(A)                    120
 ```
 
 
@@ -295,7 +313,16 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 7 x 2
+##   DESCRICAO_GRAU_INSTRUCAO          n
+##   <chr>                         <int>
+## 1 ENSINO FUNDAMENTAL COMPLETO     327
+## 2 ENSINO FUNDAMENTAL INCOMPLETO   154
+## 3 ENSINO MÉDIO COMPLETO          1535
+## 4 ENSINO MÉDIO INCOMPLETO         151
+## 5 LÊ E ESCREVE                     51
+## 6 SUPERIOR COMPLETO              3003
+## 7 SUPERIOR INCOMPLETO             648
 ```
 
 Tudo certo? Aparentemente sim!
@@ -311,7 +338,19 @@ candidatos %>%
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
+## # A tibble: 10 x 3
+##    DESCRICAO_SEXO DESCRICAO_COR_RACA     n
+##    <chr>          <chr>              <int>
+##  1 FEMININO       AMARELA               11
+##  2 FEMININO       BRANCA               961
+##  3 FEMININO       INDÍGENA               9
+##  4 FEMININO       PARDA                539
+##  5 FEMININO       PRETA                203
+##  6 MASCULINO      AMARELA               21
+##  7 MASCULINO      BRANCA              2527
+##  8 MASCULINO      INDÍGENA              10
+##  9 MASCULINO      PARDA               1230
+## 10 MASCULINO      PRETA                358
 ```
 
 ## 4. Visualização dos Dados (ggplot2 e plotly)
@@ -325,9 +364,7 @@ candidatos %>%
   geom_bar()
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
+<img src="figures//unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
 
 
 ```r
@@ -336,9 +373,7 @@ candidatos %>%
   geom_bar()
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
+<img src="figures//unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
 
 Substitua o valor de `x` dentro de `aes()` por outras variáveis e veja a distribuição.
 
@@ -354,9 +389,7 @@ candidatos %>%
   geom_label(alpha = 0.6)
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
+<img src="figures//unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 Muito bacana, não? Se você não sabe, a princípio, as listas de candidatos precisam ter 30% de mulheres. Tendo em vista o gráfico acima, por que não observamos esse padrão em todos os partidos? Será que todos estão fora da lei? Se você olhar o site do [planalto](http://www.planalto.gov.br/ccivil_03/leis/l9504.htm), verá que na verdade essa regra serve tanto para partidos quanto para coligações. Provavelmente, os partidos que estão abaixo da linha realizam coligações e conseguem passar as listas pelo TSE. Nós não iremos investigar isso porque os dados do TSE sobre coligações têm qualidade muito baixa e provavelmente iríamos nos deparar com diversas inconsistências. Fique a vontade para explorar isso em casa e pedir nossa ajuda se precisar. 
 
@@ -384,9 +417,7 @@ candidatos %>%
        caption = "Fonte: TSE")
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
+<img src="figures//unnamed-chunk-27-1.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" style="display: block; margin: auto;" />
 
 Substitua `theme_calc` por outros e veja qual o melhor para você.
 
@@ -451,13 +482,7 @@ Muito bonito, não? Agora precisamos fazer uma pergunta interessante para ser av
 candidatos_uf <- candidatos %>% 
   group_by(SIGLA_UF) %>% 
   summarise(PROP_MULHERES = sum(DESCRICAO_SEXO == "FEMININO")/n())
-```
 
-```
-## Error in eval(lhs, parent, parent): object 'candidatos' not found
-```
-
-```r
 estados <- estados %>% 
   rename(SIGLA_UF = estado_sigla)
 ```
