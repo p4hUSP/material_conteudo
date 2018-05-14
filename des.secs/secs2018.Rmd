@@ -59,7 +59,7 @@ c("Hello World!", "Hello World!²", "Hellor World!³")
 
 Por sua vez, _data frames_ são muito semelhantes a planilhas de Excel. Eles são compostos por linhas e colunas. A princípio, nas linhas teremos as nossas observações e nas colunas, as variáveis. De modo geral, nós iremos transformar sempre os nossos bancos em _data frames_ por meio de algumas funções. É importante você perceber que um _data frame_ nada mais é do que um conjunto de vetores. Cada vetor, nesse caso, é uma coluna de um _data frame_. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.width=8.0, fig.height=7.0}
 knitr::include_graphics("img/excel_ex.jpg")
 ```
 
@@ -114,7 +114,7 @@ mean(data$nota)
 
 ### Fluxo de Ciência de Dados
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, fig.width=8.0, fig.height=5.0}
 knitr::include_graphics("img/data-science.png")
 ```
 
@@ -273,7 +273,7 @@ Tendo em vista o fluxo da ciência de dados, o último passo é comunicar os nos
 Que tal explorar os seus dados espacialmente? Para isso, iremos utilizar três pacotes: `sf` (simple features) e o `ggplot2` (versão de desenvolvedor), `mapproj` (para mapas interativos). Execute os comandos abaixo. Fique atento que provavelmente você terá que instalar o pacote de desenvolvedor do __R__ e isso demora um pouco. A fim de facilitar a nossa vida, iremos utilizar o pacote `brmap` para baixarmos os polígonos do Brasil.
 
 ```{r, eval = FALSE}
-install.packages(c("sf", "mapproj", "devtools"))
+install.packages(c("sf", "mapview", "devtools"))
 devtools::install_github("tidyverse/ggplot2")
 devtools::install_github("italocegatta/brmap")
 ```
@@ -282,7 +282,7 @@ Carregue os pacotes.
 
 ```{r}
 library(sf)
-library(mapproj)
+library(mapview)
 library(ggplot2)
 library(brmap)
 ```
@@ -317,7 +317,34 @@ estados_gen <- estados %>%
 
 estados_gen%>% 
   ggplot(mapping = aes(fill = PROP_MULHERES)) +
-  geom_sf()
+  geom_sf(color = "white")
 ```
+
+```{r}
+estados_gen%>% 
+  ggplot(mapping = aes(fill = PROP_MULHERES)) +
+  geom_sf(color = "white") +
+  coord_sf(datum = NA) + #Remove as linhas
+  theme_map() +
+  labs(fill = "Proporção",
+       title = "Proporção de Mulheres Candidatas por UF",
+       caption = "Fonte: TSE")
+```
+
+Você pode testar coisas parecidas para outras variáveis ou realmente cair de cabeça na ciência política e explorar uma das diversas hipóteses discutidas por aí sobre dependência espacial do voto. Não iremos seguir esse caminho já que envolveria uma limpeza mais cuidadosa dos dados e outras dificuldades que necessitariam mais paciência.
+
+Por fim, que tal colocar o seu mapa de modo interativo? Um mapa já chama atenção, mas imagine se o seu usuário pudesse dar zoom, clicar e navegar pelo mapa de maneira semelhante a um _google maps_. Para fazer isso no R, é muito fácil! Basta utilizar o `mapproj`.
+
+```{r}
+estados_gen %>% 
+  mapview(zcol="PROP_MULHERES",
+          map.types = "OpenStreetMap",
+          legend = T)
+```
+
+Muito legal, não? Eu sinceramente gosto muito de coisas interativas. Confesso que talvez essa visualização em especial não seja muito interessante de ser colocada em um mapa interativo. Porém, imagine se estivessemos trabalhando com municípios ou com todos os países!
+
+Para quem tiver mais interesse, recomendo aprender mais sobre `leaflet`, `plotly` e `shiny`. São dois pacotes básicos para quem gosta de utilizar gráficos e interativos.
+
 
 
