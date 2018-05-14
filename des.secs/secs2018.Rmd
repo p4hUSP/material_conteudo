@@ -17,6 +17,7 @@ Os dados estão mais próximos de nós do que imaginamos! Podemos consumi-los de
 ```{r, echo = FALSE}
 knitr::include_graphics("imagem2.jpeg")
 ```
+
 Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas tarefas. Vamos pensar no algoritmo do miojo:
 
 > Passo 1: Tire da embalagem\n Passo 2: Aqueça a água\n Passo 3: Coloque o miojo na água quente\n Passo 4: Adicione o tempero\n Passo 5: Sirva!
@@ -31,13 +32,72 @@ Para que possamos enviar essas instruções para o computador nós precisamos ut
 
 - Uma comunidade enorme
 
-Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva, como por exemplo, a _função_ `filter` utilizada para filtrar observações de uma tabela
+Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva. Por exemplo, a fim de selecionar observações (linhas) de interesse, podemos utilizar uma _função_ chamada `filter`, que filtra (seleciona) apenas as linhas desejedas de acordo com as intruções fornecidas. Se isso pareceu confuso, calma! Logo nós iremos utilizá-la junto com outras _funções_ e tudo ficará mais claro.
 
-Ok, alguns conceitos apareceram, mas não precisamos ficar assustados vamos entende-los. [explicar o que é pacote e funcao]
+### O R Básico
 
-[fluxo de ciencia de dados]
+Ok, alguns conceitos apareceram, mas não precisamos ficar assustados vamos entende-los. Como queremos utilizar o __R__ para análise de dados, desde o começo iremos nos deparar com duas coisas muito importantes: funções e pacotes. Funções podem ser entendidas como __comandos__. Elas realizam alguma operação. Normalmente, para realizar essa tarefa, elas recebem um _input_ ou parâmetros. Confuso? Vamos com calma, então.
 
-[organizacao da oficina]
+Em primeiro lugar, vamos discutir as estruturas de dados do __R__. Estruturas de dados são formas de guardarmos informações. Existem diferentes tipos dos mais simples aos mais comples. Contudo, tenha em mente apenas duas: vetores e _data frames_. Para entender um vetor, pense em um trem em que cada vagão é um valor. Nesse sentido, se precisarmos guardar a sequência 1, 2, 3, 4 e 5 cada um desses números será um vagão e, como o 1 vem primeiro, você pode entendê-lo como a locomotiva do nosso trem 
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/vectors_ex.svg")
+```
+
+Como oporear isso que acamos de aprender no __R__? Basta utilizar o comando `c()`. Por exemplo, `c(1,2,3,4,5)`. Repare que o __c__ é minúsculo e que cada valor é separado por vírgulas. Tome cuidado já que qualquer erro de escrita irá resultar em __erro__. 
+
+Não se esqueça que é possível colocar _strings_ (textos) como valores de um vetor. Para isso, basta utilizar aspas duplas ou simples. Por exemplo, `"Hello World!"` ou `'Hellor World!'`
+
+```{r}
+c(1,2,3,4,5)
+
+c(5,4,3,2,1)
+
+c("Hello World!", "Hello World!²", "Hellor World!³")
+```
+
+Por sua vez, _data frames_ são muito semelhantes a planilhas de Excel. Eles são compostos por linhas e colunas. A princípio, nas linhas teremos as nossas observações e nas colunas, as variáveis. De modo geral, nós iremos transformar sempre os nossos bancos em _data frames_ por meio de algumas funções. É importante você perceber que um _data frame_ nada mais é do que um conjunto de vetores. Cada vetor, nesse caso, é uma coluna de um _data frame_. 
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/excel_ex.jpg")
+```
+
+Como criar um _data frame_?
+
+```{r}
+data.frame(nome = c("Adriana Alos", "José Henrique"),
+           nota = c(10, 8.2))
+```
+
+Após ter uma noção dessas duas estruturas de dados, podemos avançar em outros dois conceitos muito importantes dentro do R: funções e pacotes. As funções, basicamente, realizam comandos. Normalmente elas recebem alguns parêmetros e devolvem alguma coisa para a gente. Imagine, por exemplo, uma função que pega uma sequência de números e nos devolve a média desses valores. No __R__, a função `mean()` faz exatamente isso. Experimente colocar um vetor dentro dela.
+
+```{r}
+mean(c(1,2,3,4,5))
+
+mean(c(1,2))
+```
+
+Existem outras funções dentro do R para realizar diversas operações. Algumas calculam média, medianas, desvio padrão, etc e outras podem _plotar_ mapas, gráficos, ou até mesmo calcular coeficientes de regressões e outras coisas mais sofisticadas. Quando algúem cria uma função ou um conjunto de funções e quer compartilhar com outras pessoas, ela normalmente irá organizar essas funções dentro de um pacote. No __R__, existe uma infinitude de pacotes disponíveis dentro do __CRAN__. Aliás isso é justamente um dos pontos mais fortes do R, ele possui uma comunidade gigante criando e atualizando esses pacotes. Logo dificilmente você precisa implementar uma função do 0. Em geral, alguém já fez isso para você.
+
+Como instalar pacotes? Utilize a função `install.packages()`
+
+```{r}
+install.packages("tidyverse")
+```
+
+O comando acima instala o pacote `tidyverse`. Após, intalá-lo você precisa carregá-lo dentro do R. Para isso, basta utilizar a função `library()`
+
+```{r}
+library(tidyverse)
+```
+
+### Fluxo de Ciência de Dados
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/data-science.png")
+```
+
+### Organização da Oficina
 
 ## 2. Importação de Dados (readr)
 
