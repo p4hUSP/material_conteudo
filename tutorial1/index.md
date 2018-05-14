@@ -10,6 +10,18 @@ date: "2018-04-05"
 ```
 
 ```
+## The following object is masked from 'package:purrr':
+## 
+##     set_names
+```
+
+```
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+```
+
+```
 ## The following object is masked from 'package:ggmap':
 ## 
 ##     inset

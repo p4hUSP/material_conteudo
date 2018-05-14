@@ -127,10 +127,6 @@ O comando acima instala o pacote `tidyverse`. Após, intalá-lo você precisa ca
 library(tidyverse)
 ```
 
-```
-## Error in library(tidyverse): there is no package called 'tidyverse'
-```
-
 Antes de discutirmos o próximo tópico, vale ressaltar o que é provavelmente a função mais importante do R, o `<-`. Ela salva os nossos dados em objetos. Esses objetos possuem nomes e podem ser __chamados__ facilmente ao longo do nosso _script_.
 
 
@@ -180,13 +176,7 @@ mean(data$nota)
 
 ```r
 library(tidyverse)
-```
 
-```
-## Error in library(tidyverse): there is no package called 'tidyverse'
-```
-
-```r
 candidatos <- read_csv("data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
 ```
 
