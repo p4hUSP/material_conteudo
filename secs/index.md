@@ -446,19 +446,11 @@ library(ggplot2)
 library(brmap)
 ```
 
-```
-## Error in library(brmap): there is no package called 'brmap'
-```
-
 Carregue os polígonos de estados e salve em um objeto.
 
 
 ```r
 estados <- brmap_estado
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'brmap_estado' not found
 ```
 
 Podemos começar _plotando_ o mapa do Brasil, subdidivido em Estados. Normalmente, nós utilizamos o `theme_map` do pacote `ggthemes` para criar mapas. 
@@ -471,9 +463,7 @@ estados %>%
   theme_map()
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'estados' not found
-```
+<img src="figures//unnamed-chunk-31-1.png" title="plot of chunk unnamed-chunk-31" alt="plot of chunk unnamed-chunk-31" style="display: block; margin: auto;" />
 
 Muito bonito, não? Agora precisamos fazer uma pergunta interessante para ser avaliada espacialmente. Que tal avaliar quais estados possuem mais mulheres como candidatas?
 
@@ -485,30 +475,16 @@ candidatos_uf <- candidatos %>%
 
 estados <- estados %>% 
   rename(SIGLA_UF = estado_sigla)
-```
 
-```
-## Error in eval(lhs, parent, parent): object 'estados' not found
-```
-
-```r
 estados_gen <- estados %>% 
   left_join(candidatos_uf)
-```
 
-```
-## Error in eval(lhs, parent, parent): object 'estados' not found
-```
-
-```r
 estados_gen%>% 
   ggplot(mapping = aes(fill = PROP_MULHERES)) +
   geom_sf(color = "white")
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'estados_gen' not found
-```
+<img src="figures//unnamed-chunk-32-1.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
 
 
 ```r
@@ -522,9 +498,7 @@ estados_gen%>%
        caption = "Fonte: TSE")
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'estados_gen' not found
-```
+<img src="figures//unnamed-chunk-33-1.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
 
 Você pode testar coisas parecidas para outras variáveis ou realmente cair de cabeça na ciência política e explorar uma das diversas hipóteses discutidas por aí sobre dependência espacial do voto. Não iremos seguir esse caminho já que envolveria uma limpeza mais cuidadosa dos dados e outras dificuldades que necessitariam mais paciência.
 
@@ -538,9 +512,7 @@ estados_gen %>%
           legend = T)
 ```
 
-```
-## Error in eval(lhs, parent, parent): object 'estados_gen' not found
-```
+<img src="figures//unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 Muito legal, não? Eu sinceramente gosto muito de coisas interativas. Confesso que talvez essa visualização em especial não seja muito interessante de ser colocada em um mapa interativo. Porém, imagine se estivessemos trabalhando com municípios ou com todos os países!
 
