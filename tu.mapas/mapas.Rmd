@@ -199,7 +199,7 @@ readr::write_rds(ceu1, "ceu1.rds")
 ```
 
 ```{r, echo = FALSE}
-ceu1 <- readr::read_rds("./ceu1.rds")
+ceu1 <- readr::read_rds("ceu1.rds")
 ```
 
 ```{r, eval = FALSE}
@@ -228,7 +228,7 @@ readr::write_rds(latlong, "ceu_geocoded.rds")
 ```
 
 ```{r, echo = FALSE}
-latlong <- readr::read_rds("./ceu_geocoded.rds")
+latlong <- readr::read_rds("ceu_geocoded.rds")
 
 ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
 
