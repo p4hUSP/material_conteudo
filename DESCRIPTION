@@ -16,7 +16,7 @@ Imports:
   rgdal,
   sp,
   sf,
-  mapproj
+  mapview
 Remote:
   hadley/ggplot2,
   italocegatta/brmap

@@ -145,8 +145,21 @@ Note que, quando estão fora da base, os pontos são descartados da visualizaç�
 
 Convém, por conta da gramática da família de funções _ggplot_, definir uma camada básica na função _ggmap_, que, no nosso caso, são os pontos que estão em análise (e não a camada de mapa que (sic) dá base à visualização):
 
+```{r, echo = FALSE}
+escolas <- read_delim("temp.csv", delim = ";")
+
+emef <- escolas  %>%
+  rename(lat = LATITUDE, lon = LONGITUDE, tipo = TIPOESC) %>% 
+  mutate(lat = lat / 1000000, 
+         lon = lon / 1000000,
+         ano = as.numeric(substr(DT_INI_FUNC, 7, 10))) %>%
+  filter(tipo == "EMEF")
+```
+
+
 ```{r}
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 11)
+
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = emef)) +
   geom_point()
@@ -158,6 +171,7 @@ Introduziremos em nosso mapa uma escala de cores para diferenciar as EMEFs por a
 
 ```{r}
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 12)
+
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat, color = ano), data = emef)) +
   geom_point()
@@ -179,8 +193,20 @@ ceu <- escolas  %>%
 
 Com a função _geocode_, procuraremos a latitude e longitude dos 46 CEUs. Vamos ver o exemplo do primeiro CEU:
 
-```{r}
+```{r, eval = FALSE, echo = FALSE}
 ceu1 <- geocode(ceu$endereco[1])
+readr::write_rds(ceu1, "ceu1.rds")
+```
+
+```{r, echo = FALSE}
+ceu1 <- readr::read_rds("ceu1.rds")
+```
+
+```{r, eval = FASEL}
+ceu1 <- geocode(ceu$endereco[1])
+```
+
+```{r}
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = ceu1)) +
   geom_point()
@@ -198,12 +224,14 @@ for (i in 1:nrow(ceu)){
   latlong <- bind_rows(latlong, geocode(ceu$endereco[i]))
 }
 
-write_rds(latlong, "ceu_geocoded.rds")
+readr::write_rds(latlong, "ceu_geocoded.rds")
 ```
 
 ```{r, echo = FALSE}
-latlong <- read_rds("ceu_geocoded.rds")
+latlong <- readr::read_rds("ceu_geocoded.rds")
+
 ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
+
 ceu <- ceu[!is.na(ceu$endereco),]
 ```
 
@@ -211,8 +239,11 @@ ceu <- ceu[!is.na(ceu$endereco),]
 # Para remover problemas com enconding, removi algumas observacoes usando
 # as linhas marcadas como comentario abaixo. No Windows pode ser desnecessario
 ceu$endereco <- iconv(ceu$endereco, to = "ASCII//TRANSLIT")
+
 ceu <- ceu[!is.na(ceu$endereco),]
+
 latlong <- data.frame()
+
 for (i in 1:nrow(ceu)){
   latlong <- bind_rows(latlong, geocode(ceu$endereco[i]))
 }
