@@ -411,13 +411,6 @@ Carregue os pacotes.
 ```r
 library(sf)
 library(mapview)
-```
-
-```
-## Error in library(mapview): there is no package called 'mapview'
-```
-
-```r
 library(ggplot2)
 library(brmap)
 ```
