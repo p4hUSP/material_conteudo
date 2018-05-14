@@ -125,7 +125,7 @@ knitr::include_graphics("img/data-science.png")
 ```{r}
 library(tidyverse)
 
-candidatos <- read_csv("CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
+candidatos <- read_csv("data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
 ```
 
 ## 3. Trasformações dos Dados (dplyr e %>%)
