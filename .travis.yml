@@ -2,11 +2,14 @@ language: R
 cache: packages
 addons:
   apt:
+    sources:
+    - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
-      - libgdal-dev
-      - libproj-dev
-      - libudunits2-dev
-
+    - libudunits2-dev
+    - libgdal-dev
+    - libgeos-dev 
+    - libproj-dev 
+    
 before_script:
     - chmod +x ./_build.sh
     - chmod +x ./_deploy.sh
