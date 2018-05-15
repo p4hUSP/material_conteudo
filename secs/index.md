@@ -12,7 +12,15 @@ Os dados estão mais próximos de nós do que imaginamos! Podemos consumi-los de
 
 Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas tarefas. Vamos pensar no algoritmo do miojo:
 
-> Passo 1: Tire da embalagem\n Passo 2: Aqueça a água\n Passo 3: Coloque o miojo na água quente\n Passo 4: Adicione o tempero\n Passo 5: Sirva!
+> Passo 1: Tire da embalagem
+
+> Passo 2: Aqueça a água 
+
+> Passo 3: Coloque o miojo na água quente
+
+> Passo 4: Adicione o tempero
+
+> Passo 5: Sirva!
 
 Simples, não?
 
@@ -22,7 +30,7 @@ Para que possamos enviar essas instruções para o computador nós precisamos ut
 
 - É de graça
 
-- Uma comunidade enorme
+- Tem uma comunidade enorme
 
 Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva. Por exemplo, a fim de selecionar observações (linhas) de interesse, podemos utilizar uma _função_ chamada `filter`, que filtra (seleciona) apenas as linhas desejedas de acordo com as intruções fornecidas. Se isso pareceu confuso, calma! Logo nós iremos utilizá-la junto com outras _funções_ e tudo ficará mais claro.
 
