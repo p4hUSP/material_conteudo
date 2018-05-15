@@ -38,7 +38,7 @@ Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de ent
 
 Ok, alguns conceitos apareceram, mas não precisamos ficar assustados vamos entende-los. Como queremos utilizar o __R__ para análise de dados, desde o começo iremos nos deparar com duas coisas muito importantes: funções e pacotes. Funções podem ser entendidas como __comandos__. Elas realizam alguma operação. Normalmente, para realizar essa tarefa, elas recebem um _input_ ou parâmetros. Confuso? Vamos com calma, então.
 
-Em primeiro lugar, vamos discutir as estruturas de dados do __R__. Estruturas de dados são formas de guardarmos informações. Existem diferentes tipos dos mais simples aos mais comples. Contudo, tenha em mente apenas duas: vetores e _data frames_. Para entender um vetor, pense em um trem em que cada vagão é um valor. Nesse sentido, se precisarmos guardar a sequência 1, 2, 3, 4 e 5 cada um desses números será um vagão e, como o 1 vem primeiro, você pode entendê-lo como a locomotiva do nosso trem 
+Em primeiro lugar, vamos discutir as estruturas de dados do __R__. Estruturas de dados são formas de guardarmos informações. Existem diferentes tipos dos mais simples aos mais complexos. Contudo, tenha em mente apenas duas estruturas: vetores e _data frames_. Para entender um vetor, pense em um trem em que cada vagão é um valor. Nesse sentido, se precisarmos guardar a sequência 1, 2, 3, 4 e 5 cada um desses números será um vagão e, como o 1 vem primeiro, você pode entendê-lo como a locomotiva do nosso trem 
 
 <img src="img/vectors_ex.svg" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 

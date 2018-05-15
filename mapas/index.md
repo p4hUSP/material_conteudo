@@ -138,19 +138,10 @@ Com as coordenadas da Praça de Sé, vamos obter um mapa de São Paulo:
 
 ```r
 map_sp <- get_map(se)
-```
-
-```
-## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false'
-```
-
-```r
 plot(map_sp)
 ```
 
-```
-## Error in plot(map_sp): object 'map_sp' not found
-```
+<img src="figures//unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 Por padrão, _get\_map_ retorna um mapa de "terreno" e utiliza a API da Google, com zoom e escala automáticos.
 
@@ -162,9 +153,7 @@ ggmap(map_sp) +
   geom_point(aes(lon, lat), data = emef)
 ```
 
-```
-## Error in ggmap(map_sp): object 'map_sp' not found
-```
+<img src="figures//unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 Feio ainda, porém bastante mais informativo. Veja que combinamos duas fontes de dados: o cadastro da PMSP e um mapa obtido na API da Google.
 
@@ -227,7 +216,13 @@ Convém, por conta da gramática da família de funções _ggplot_, definir uma 
 
 ```r
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 11)
+```
 
+```
+## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=11&size=640x640&scale=2&maptype=roadmap&language=en-EN&sensor=false'
+```
+
+```r
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat), data = emef)) +
   geom_point()
@@ -244,13 +239,7 @@ Introduziremos em nosso mapa uma escala de cores para diferenciar as EMEFs por a
 
 ```r
 map_sp <- get_map(se, source = "google", maptype = "roadmap", zoom = 12)
-```
 
-```
-## Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb"): cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=-23.550081,-46.636271&zoom=12&size=640x640&scale=2&maptype=roadmap&language=en-EN&sensor=false'
-```
-
-```r
 ggmap(map_sp, 
       base_layer = ggplot(aes(lon, lat, color = ano), data = emef)) +
   geom_point()
