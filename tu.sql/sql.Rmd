@@ -1,16 +1,14 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+title: "SQL"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-# R, dplyr e SQL
+## R, dplyr e SQL
 
-# MySQL e dplyr
+### MySQL e dplyr
 
 Uma das soluções mais simples para trabalharmos com bases de dados grandes em R é, em vez de carregar os dados na memória, conectar o R a uma fonte remota de dados e usar a gramática que aprendemos nos tutoriais anteriores para manipularmos os dados. Veremos a seguir um exemplo para dados em um servidor MySQL, mas ele vale para outros sistemas de gerenciamento de dados como PostgreSQL, MariaDB ou BigQuery. Vamos usar no tutorial uma adaptação do exemplo e dos dados do curso "Data Manipulation in R with dplyr", organizado por Gareth Grolemund, no site Datacamp.
 
@@ -44,7 +42,7 @@ tabela <- tbl(conexao, sql("SELECT * FROM schema.tabela"))
 
 Simples, não? A partir deste ponto, basta trabalhar com objeto "tabela" da mesma maneira que trabalhamos _data frames_ até agora. A gramática oferecida pelo pacote _dplyr_ funciona normalmente e, quando quisermos, podemos exportar os dados com os métodos acima.
 
-## Vôos em atraso - um exemplo do site Datacamp
+### Vôos em atraso - um exemplo do site Datacamp
 
 Vamos ao exemplo do site Datacamp. Os códigos abaixo funcionarão normalmente no seu computador. O site Datacamp mantém um servidor remoto de MySQL que contém um banco de dados denominado "dplyr". Esta, por sua vez, contém uma tabela também chamada "dplyr" (um pouco confuso, pois não precisaria ter o mesmo nome da base de dados) com informações sobre vôos de companhias aéreas.
 
@@ -79,7 +77,7 @@ voos_atraso <- voos %>%
   summarise(total_atraso = sum(atraso))
 ```
 
-## Tradução dplyr-SQL
+### Tradução dplyr-SQL
 
 Podemos traduzir, literalmente, o comando acima para a linguagem de R para SQL como a função _show\_query_
 
@@ -89,13 +87,13 @@ show_query(voos_atraso)
 
 O output, impresso no console, é a query equivalente que deveríamos produzir no MySQL para executar a mesma tarefa.
 
-## Outras bases de dados
+### Outras bases de dados
 
 A conexão a outras bases de dados, MariaDb, SQLite, PostgreSQL e BigQuery, feita exatamente do mesmo modo que fizemos a conexão com um servidor de MySQL. Para as bases citadas usamos, respectivamente, as funções _scr\_mysql_ (sim, para MariaDB a função é a mesma que para MySQL), _scr\_sqlite_, _scr\_postgres_ e _scr\_bigquery_ com os mesmos 5 argumentos que vimos acima: dbname, host, port, user e password.
 
 Os verbos de manipulação de dados do pacote dplyr funcionam normalmente para tabelas nesses servidores.
 
-## Um exemplo com mais de uma tabela
+### Um exemplo com mais de uma tabela
 
 Vamos seguir com outro exemplo de manipulação de dados num servidor MySQL (novamente no servidor do Datacamp) para trabalhar com mais de uma tabela e reforçar o que vimos acima.
 
@@ -127,7 +125,9 @@ Mas queremos evitar o uso da linguagem SQL. Com _tbl_, criamos um objeto de tabe
 
 ```{r}
 comments <- tbl(conexao, "comments")
+
 tweats <- tbl(conexao, "tweats")
+
 users <- tbl(conexao, "users")
 ```
 
@@ -141,7 +141,9 @@ A partir de agora, as funções de manipulação de dados do _dplyr_ são aplic�
 
 ```{r}
 tweats2 <- rename(tweats, tweat_id = id)
+
 tabela_join <- left_join(tweats2, comments, "tweat_id")
+
 head(tabela_join)
 ```
 
@@ -175,7 +177,7 @@ tabela <- as.data.frame(tweats)
 
 Note que "tabela", diferentemente de "tweats", é um _data frame_ no seu _workspace_.
 
-## Tabelas temporárias _versus_ criação de tabelas no MySQL
+### Tabelas temporárias _versus_ criação de tabelas no MySQL
 
 Quando utilizamos os verbos do _dplyr_ para manipulação de dados em servidor MySQL, todas as consultas são geradas como tabelas temporárias no servidor. Como fazer com que as consultas se tornem tabelas permanentes no servidor?
 
@@ -185,8 +187,11 @@ Vamos trabalhar com um servidor fictício, pois não temos permissão para gerar
 conexao <- src_mysql(dbname = "PBF", 
                    user = "root",
                    password = "pass")
+
 tabela <- tbl(conexao, "pagamentos201701")
-minha_query <- tabela %>% filter(UF == "ES")
+
+minha_query <- tabela %>% 
+  filter(UF == "ES")
 ```
 
 Ao produzir o comando acima, na prática, nada aconteceu. A execução da query só ocorrerá quando tentarmos trazer a tabela para a memória ("fetch") ou explicitarmos que ela deve ser computada.
