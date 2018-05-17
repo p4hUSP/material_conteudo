@@ -182,9 +182,13 @@ library(tidyverse)
 
 <img src="img/data-science.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
+Durante nossa análise, em geral trabalhamos com um fluxo de ciências de dados criado por _Hadley Wickham_. Em primeiro lugar, importamos um banco de dados para o __R__. Em seguida, ajustamos a sua estrutura de acordo com um padrão _tidy_, isto é, garantimos que as colunas sejam apenas variáveis e que as linhas sejam objservações. No passo seguinte, nós procuramos responder a nossa pergunta. A caixa _understand_ é o momento em que respondemos a nossa pergunta. Por fim, na última fase, temos a comunicação. Responder uma pergunta para nós mesmos pode ser interessante, mas normalmente queremos comunicar os achados para outras pessoas.
+
 ### Organização da Oficina
 
 ## 2. Importação de Dados (readr)
+
+O primeiro passo para uma análise é a __importação__.
 
 
 ```r
@@ -195,9 +199,9 @@ candidatos <- read_csv("data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
 
 ## 3. Trasformações dos Dados (dplyr e %>%)
 
-Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com valores selecionados; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante.
+Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com valores selecionados; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante. Uma das funções presentes no `tidyverse` é o `%>%` (leia-se _pipe_). Ela é muito importante já que nos permite concatenar funções e, assim, realizar operações de maneira mais eficiente. Você pode ler o _pipe_ como "depois". Nos próximos exemplos, iremos incluir uma leitura recomenda da função.
 
-Primeiro, vamos ver a qualidade dos nossos dados e realizar as devidas transformações.
+Feita essa apresentação, vamos começar com algumas operações básicas e limpesa do nosso banco.
 
 Vamos começar com a variável de descrição da candidatura (DES_SITUACAO_CANDIDATURA). Ela diz se aquele candidato teve uma candidatura deferida ou não.
 
@@ -507,8 +511,8 @@ estados_gen%>%
   geom_sf(color = "white") +
   coord_sf(datum = NA) + #Remove as linhas
   theme_map() +
-  labs(fill = "Proporção",
-       title = "Proporção de Mulheres Candidatas por UF",
+  labs(fill    = "Proporção",
+       title   = "Proporção de Mulheres Candidatas por UF",
        caption = "Fonte: TSE")
 ```
 
@@ -521,9 +525,9 @@ Por fim, que tal colocar o seu mapa de modo interativo? Um mapa já chama atenç
 
 ```r
 estados_gen %>% 
-  mapview(zcol="PROP_MULHERES",
+  mapview(zcol      = "PROP_MULHERES",
           map.types = "OpenStreetMap",
-          legend = T)
+          legend    = T)
 ```
 
 <img src="figures//unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
