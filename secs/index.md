@@ -20,6 +20,7 @@ Uma das formas mais comuns de analisar esses dados é por meio da __programaçã
 
 > Passo 4: Adicione o tempero
 
+
 > Passo 5: Sirva!
 
 Simples, não?
@@ -36,15 +37,15 @@ Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de ent
 
 ### O R Básico
 
-Ok, alguns conceitos apareceram, mas não precisamos ficar assustados vamos entende-los. Como queremos utilizar o __R__ para análise de dados, desde o começo iremos nos deparar com duas coisas muito importantes: funções e pacotes. Funções podem ser entendidas como __comandos__. Elas realizam alguma operação. Normalmente, para realizar essa tarefa, elas recebem um _input_ ou parâmetros. Confuso? Vamos com calma, então.
+Ok, alguns conceitos apareceram, mas não precisamos ficar assustados. Iremos entende-los com o tempo e com a prática. Para começar a nossa jornada dentro do __R__, vamos nos dedicar a entender as estruturas de dados mais utilizdas dentro dele. Estruturas de dados são maneiras de se guardar informações. No R, embora existam outras, temos duas estruturas de dados muito importantes: os vetores e os _data frames_.
 
-Em primeiro lugar, vamos discutir as estruturas de dados do __R__. Estruturas de dados são formas de guardarmos informações. Existem diferentes tipos dos mais simples aos mais complexos. Contudo, tenha em mente apenas duas estruturas: vetores e _data frames_. Para entender um vetor, pense em um trem em que cada vagão é um valor. Nesse sentido, se precisarmos guardar a sequência 1, 2, 3, 4 e 5 cada um desses números será um vagão e, como o 1 vem primeiro, você pode entendê-lo como a locomotiva do nosso trem 
+Um vetor nada mais é do que uma sequência de valores. Podemos imaginá-lo como um trem, em que cada vagão corresponde a um valor. Nesse sentido, se quisermos guardar a sequência 1, 2, 3, 4 e 5, o 1 seria nossa locomotiva, seguida de quatro vagões.
 
 <img src="img/vectors_ex.svg" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
-Como oporear isso que acamos de aprender no __R__? Basta utilizar o comando `c()`. Por exemplo, `c(1,2,3,4,5)`. Repare que o __c__ é minúsculo e que cada valor é separado por vírgulas. Tome cuidado já que qualquer erro de escrita irá resultar em __erro__. 
+Para criar um vetor no __R__, basta utilizar o comando `c()`. Por exemplo, `c(1,2,3,4,5)`. Repare que o __c__ é minúsculo e que cada valor é separado por vírgulas. Tome cuidado já que qualquer erro de escrita irá resultar em __erro__. 
 
-Não se esqueça que é possível colocar _strings_ (textos) como valores de um vetor. Para isso, basta utilizar aspas duplas ou simples. Por exemplo, `"Hello World!"` ou `'Hellor World!'`
+Não se esqueça que é possível colocar _strings_ (textos) como valores de um vetor. Para isso, basta utilizar aspas duplas ("") ou simples (''). Por exemplo, `"Hello World!"` ou `'Hellor World!'`
 
 
 ```r
@@ -75,7 +76,7 @@ Por sua vez, _data frames_ são muito semelhantes a planilhas de Excel. Eles sã
 
 <img src="img/excel_ex.jpg" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
-Como criar um _data frame_? Vamos tentar reproduzir o _data frame_ acima no R? Repare que vou utilizar uma `_` para simbolizar o espaço já que o R não entende espaço, para nomes de objetos.
+Como criar um _data frame_? Basta utilizar a função `data.frame`, que recebe como parâmetro vetores. Vamos tentar reproduzir o _data frame_ acima no R?
 
 
 ```r
@@ -100,16 +101,10 @@ data.frame(PRODUCTO        = c("Prod-1", "Prod-2", "Prod-3", "Prod-4", "Prod-5",
 
 Fique tranquilo que dificilmente nós importamos dados na mão para o R. De modo geral, ou iremos raspar os dados da internet (APIs e webscraping) ou iremos importar o nosso banco de um formato muito conhecido, o __.csv__.
 
-Após ter uma noção dessas duas estruturas de dados, podemos avançar em outros dois conceitos muito importantes dentro do R: funções e pacotes. As funções, basicamente, realizam comandos. Normalmente elas recebem alguns parêmetros e devolvem alguma coisa para a gente. Imagine, por exemplo, uma função que pega uma sequência de números e nos devolve a média desses valores. No __R__, a função `mean()` faz exatamente isso. Experimente colocar um vetor dentro dela.
+Após ter uma noção dessas duas estruturas de dados, podemos avançar em outros dois conceitos muito importantes dentro do R: funções e pacotes. De certo modo, nós já vimos algumas funções. Tanto o `data.frame()` quanto o `c()` são funções, isto é, elas executam algum comando. Podemos ler funções como __ações__. Com isso, a função `c()` pode ser lida como _crie um vetor a partir dos seguintes valores_. "Seguintes valores" são para nós os parâmetros dessa função, os _inputs_ ou entradas necessárias para que uma função seja capaz de executar um comando. Resumindo, funções realizam __ações__ de acordo __parâmetros__. 
 
+Vamos para um outro exemplo. Dentre as diversas funções disponíveis no __R__, existe uma chamada `mean()`. Como o nome diz, ela calcula a média. Mas qual ou quais parâmetros ela recebe? Para descubrir isso, você pode utilizar o comando `?mean` no seu console. Vemos que ela recebe um parâmetro `x` que nada mais é do que um __vetor__ contento valores númericos. Sabendo disso, que tal calcularmos uma média bem simples? Qual a média entre 1 e 2? E qual a média entre 1, 2, 3, 4 e 5?
 
-```r
-mean(c(1,2,3,4,5))
-```
-
-```
-## [1] 3
-```
 
 ```r
 mean(c(1,2))
@@ -119,9 +114,57 @@ mean(c(1,2))
 ## [1] 1.5
 ```
 
-Existem outras funções dentro do R para realizar diversas operações. Algumas calculam média, medianas, desvio padrão, etc e outras podem _plotar_ mapas, gráficos, ou até mesmo calcular coeficientes de regressões e outras coisas mais sofisticadas. Quando algúem cria uma função ou um conjunto de funções e quer compartilhar com outras pessoas, ela normalmente irá organizar essas funções dentro de um pacote. No __R__, existe uma infinitude de pacotes disponíveis dentro do __CRAN__. Aliás isso é justamente um dos pontos mais fortes do R, ele possui uma comunidade gigante criando e atualizando esses pacotes. Logo dificilmente você precisa implementar uma função do 0. Em geral, alguém já fez isso para você.
+```r
+mean(c(1,2,3,4,5))
+```
 
-Como instalar pacotes? Utilize a função `install.packages()`
+```
+## [1] 3
+```
+
+Fácil, não? Porém, até agora, nós estamos trabalhando com o __R__ de maneira muito ineficiente. Toda vez que realizamos uma operação precisamos escrever os valores na mão. Para evitar repitções, nós normalmente salvamos nossos objetos em nomes. Para isso, utilizamos a função `<-` (no RStudio, o atalho é Alt + -). `<-` é uma função, mas ela opera de maneira diferente. Não é necessário utilizar parênteses ao utilizá-la. Do lado esquerdo colocamos o nome do nosso objeto e, do lado direito, o objeto em si. Por exemplo,
+
+
+```r
+vetor1 <- c(1,2)
+
+vetor2 <- c(1,2,3,4,5)
+
+dataframe1 <- data.frame(PRODUCTO        = c("Prod-1", "Prod-2", "Prod-3", "Prod-4", "Prod-5", "Prod-6", "Prod-7", "Prod-8", "Prod-9", "Prod-10"),
+                         CANTIDAD        = c("80 kg", "85 kg", "90 kg", "95 kg", "100 kg", "105 kg", "110 kg", "115 kg", "120 kg", "125 kg"),
+                         PRECIO_UNITARIO = c(50, 50, 49, 49, 48, 48, 47,47, 46, 46))
+```
+
+Pronto nós salvamos os nossos objetos em nomes. Dessa maneira, podemos chamá-los em outras operações.
+
+
+```r
+mean(vetor1)
+```
+
+```
+## [1] 1.5
+```
+
+```r
+mean(vetor2)
+```
+
+```
+## [1] 3
+```
+
+```r
+mean(dataframe1$PRECIO_UNITARIO)
+```
+
+```
+## [1] 48
+```
+
+Você entendeu esse comando `dataframe1$PRECIO_UNITARIO`? Caso tenha ficado confuso, lembre-se que um _data frame_ é um conjunto de vetores, que formam as colunas. Sabendo disso, fica mais fácil entender que o código `dataframe1$PRECIO_UNITARIO` chamou a coluna `PRECIO_UNITARIO` do _data frame_ `dataframe1`, criado por nós anteriormente.
+
+Existem outras funções dentro do R para realizar diversas operações. De um lado, podemos fazer coisas simples como calcular a média, a mediana, o desvio padrão. De outro, é possível _plotar_ mapas, gráficos, além de criar aplicativos. Em geral, a maior parte dessas coisas já está implementada no __R__ e você não precisa criar uma função para, por exemplo, calcular o coeficiente de regressão linear. Porém, quando algúem cria uma função ou um conjunto de funções e quer compartilhar com outras pessoas, ela normalmente irá organizar essas funções dentro de um pacote. No __R__, existe uma infinitude de pacotes disponíveis dentro do __CRAN__ e, para instalá-los, basta um comando `install.packages()`, que recebe o nome do pacote como parâmetro.
 
 
 ```r
@@ -134,44 +177,6 @@ O comando acima instala o pacote `tidyverse`. Após, intalá-lo você precisa ca
 ```r
 library(tidyverse)
 ```
-
-Antes de discutirmos o próximo tópico, vale ressaltar o que é provavelmente a função mais importante do R, o `<-`. Ela salva os nossos dados em objetos. Esses objetos possuem nomes e podem ser __chamados__ facilmente ao longo do nosso _script_.
-
-
-```r
-vetor <- c(1,2,3,4,5)
-
-mean(vetor)
-```
-
-```
-## [1] 3
-```
-
-```r
-data <- data.frame(nome = c("Adriana Alos", "José Henrique"),
-                   nota = c(10, 8.2))
-
-data
-```
-
-```
-##            nome nota
-## 1  Adriana Alos 10.0
-## 2 José Henrique  8.2
-```
-
-No _data frame_, para chamar um coluna, você pode utilizar o `$`. Logo para sabbermos a média das notas
-
-
-```r
-mean(data$nota)
-```
-
-```
-## [1] 9.1
-```
-
 
 ### Fluxo de Ciência de Dados
 
