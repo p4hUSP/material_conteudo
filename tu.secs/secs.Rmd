@@ -16,10 +16,10 @@ knitr::opts_chunk$set(echo = TRUE,
 Os dados estão mais próximos de nós do que imaginamos! Podemos consumi-los de diversas formas e uma delas é para nos auxiliar na tomada de decisão ou entendimento sobre algum fenômeno do nosso cotidiano.
 
 ```{r, echo = FALSE, eval = FALSE}
-knitr::include_graphics("imagem2.jpeg")
+knitr::include_graphics("img/img2.png")
 ```
 
-Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas tarefas. Vamos pensar no algoritmo do miojo:
+Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas ações. Vamos pensar no algoritmo do "miojo":
 
 > Passo 1: Tire da embalagem
 
@@ -28,7 +28,6 @@ Uma das formas mais comuns de analisar esses dados é por meio da __programaçã
 > Passo 3: Coloque o miojo na água quente
 
 > Passo 4: Adicione o tempero
-
 
 > Passo 5: Sirva!
 
@@ -42,13 +41,13 @@ Para que possamos enviar essas instruções para o computador nós precisamos ut
 
 - Tem uma comunidade enorme
 
-Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva. Por exemplo, a fim de selecionar observações (linhas) de interesse, podemos utilizar uma _função_ chamada `filter`, que filtra (seleciona) apenas as linhas desejedas de acordo com as intruções fornecidas. Se isso pareceu confuso, calma! Logo nós iremos utilizá-la junto com outras _funções_ e tudo ficará mais claro.
+Você pode estar se perguntando o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva. Por exemplo, a fim de selecionar observações (linhas) de interesse, podemos utilizar uma _função_ chamada `filter`, que filtra (seleciona) as observações de acordo com algumas condições estabelecidas. Se isso pareceu confuso, calma! Logo nós iremos utilizá-la junto com outras _funções_ e tudo ficará mais claro.
 
-### O R Básico
+### R Básico
 
-Ok, alguns conceitos apareceram, mas não precisamos ficar assustados. Iremos entende-los com o tempo e com a prática. Para começar a nossa jornada dentro do __R__, vamos nos dedicar a entender as estruturas de dados mais utilizdas dentro dele. Estruturas de dados são maneiras de se guardar informações. No R, embora existam outras, temos duas estruturas de dados muito importantes: os vetores e os _data frames_.
+Ok, alguns conceitos apareceram, mas não precisamos ficar assustados. Iremos entende-los com o tempo e com a prática. Para começar a nossa jornada dentro do __R__, vamos nos dedicar a entender as estruturas de dados mais utilizdas dentro dele. Estruturas de dados são maneiras de se guardar informações. No R, embora existam outras, temos duas estruturas de dados muito importantes: os `vetores` e os `data frames`.
 
-Um vetor nada mais é do que uma sequência de valores. Podemos imaginá-lo como um trem, em que cada vagão corresponde a um valor. Nesse sentido, se quisermos guardar a sequência 1, 2, 3, 4 e 5, o 1 seria nossa locomotiva, seguida de quatro vagões.
+Um vetor nada mais é do que uma sequência de valores homogêneos. Podemos imaginá-lo como um trem, em que cada vagão corresponde a um valor. Nesse sentido, se quisermos guardar a sequência 1, 2, 3, 4 e 5, o 1 seria nossa locomotiva, seguida de quatro vagões.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("img/vectors_ex.svg")
@@ -138,6 +137,8 @@ Durante nossa análise, em geral trabalhamos com um fluxo de ciências de dados 
 
 ### Organização da Oficina
 
+Aproveitando que as eleições estão se aproximando, vamos tentar responder algumas perguntas com o __R__?
+
 ## 2. Importação de Dados (readr)
 
 O primeiro passo para uma análise é a __importação__.
@@ -150,7 +151,7 @@ candidatos <- read_csv("data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
 
 ## 3. Trasformações dos Dados (dplyr e %>%)
 
-Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com valores selecionados; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante. Uma das funções presentes no `tidyverse` é o `%>%` (leia-se _pipe_). Ela é muito importante já que nos permite concatenar funções e, assim, realizar operações de maneira mais eficiente. Você pode ler o _pipe_ como "depois". Nos próximos exemplos, iremos incluir uma leitura recomenda da função.
+Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com condições desejadas; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante. Uma das funções presentes no `tidyverse` é o `%>%` (leia-se _pipe_). Ela é muito importante já que nos permite concatenar funções e, assim, realizar operações de maneira mais eficiente. Você pode ler o _pipe_ como "depois". Nos próximos exemplos, iremos incluir uma leitura recomendada da função.
 
 Feita essa apresentação, vamos começar com algumas operações básicas e limpesa do nosso banco.
 
@@ -172,6 +173,12 @@ candidatos <- candidatos %>%
 
 O operador `%in%` é uma generalização do `==`. Ele testa a igualdade  de um de mais de um valor ao mesmo tempo.
 
+Caso tenha curiosidade sobre outros operadores condicionais no __R__, olhe a imagem abaixo:
+
+```{r}
+knitr::include_graphics("img/condicionais.png")
+```
+
 Após organizar a questão das candidaturas, vamos para o resultado da eleição. A variável `DESC_SIT_TOT_TURNO` diz para nós se o candidato foi eleito ou não e em que modalidade ele foi eleito.
 
 ```{r}
@@ -179,16 +186,20 @@ candidatos %>%
   count(DESC_SIT_TOT_TURNO)
 ```
 
-De um lado, temos duas categorias de eleitos: "ELEITO POR MÉDIA" e "ELEITO POR QP". Por outro lado, os não eleitos: "NÃO ELEITO" e "SUPLENTE". Precisamos transformar essa variável para uma coisa mais interessante para a nossa análise, embora ela possa ter significado em outras perguntas de pesquisa.
+De um lado, temos duas categorias de eleitos: "ELEITO POR MÉDIA" e "ELEITO POR QP". Por outro lado, os não eleitos: "NÃO ELEITO" e "SUPLENTE". Precisamos transformar essa variável mm algo mais interessante para a nossa análise, embora ela possa ter significado em outras perguntas de pesquisa.
 
-A fim de realizar esse trablho, iremos utilizar a função `ifelse()`. Para quem conhece a estrutura de `if` `else`, o `case_when` é uma maneira mais simples de trabalhar com mais de uma condição ao mesmo tempo.
+A fim de realizar esse trabalho, iremos utilizar as funções `mutate()` e `ifelse()`. A função `ifelse()` segue o seguinte pensamento:
+
+> Se uma condição for verdadeira (TRUE), faça isso, se não, faça aquilo.
 
 ```{r}
 candidatos <- candidatos %>%
   mutate(RES_ELEICAO = ifelse(DESC_SIT_TOT_TURNO %in% c("ELEITO POR MÉDIA", "ELEITO POR QP"), "Eleito", "Não Eleito"))
 ```
 
-Por fim, nós propomos uma recodificação da variável de cor/raça. Ao invés de trablhar com as categorias do IBGE, vamos reclassicá-las para algo que tenha mais sentido para cientistas sociais.
+Por fim, nós propomos uma recodificação da variável de cor/raça. Ao invés de trabalhar com as categorias do IBGE, vamos reclassicá-las para algo que tenha mais sentido para cientistas sociais.
+
+Para realizar essa recodificação da variável, vamos utilizar a função `case_when()`, uma maneira mais simples de trabalhar com mais de uma condição ao mesmo tempo. Sua explicação é semelhante com a que vimos com o `ifelse()`.
 
 ```{r}
 candidatos %>%
@@ -203,15 +214,23 @@ candidatos <- candidatos %>%
                           DESCRICAO_COR_RACA == "PRETA"    ~ "Não Brancos"))
 ```
 
+Vamos verificar outras variáveis?
+
+- DESCRICAO_SEXO
+
 ```{r}
 candidatos %>%
   count(DESCRICAO_SEXO)
 ```
 
+- DESCRICAO_ESTADO_CIVIL
+
 ```{r}
 candidatos %>%
   count(DESCRICAO_ESTADO_CIVIL)
 ```
+
+- DESCRICAO_GRAU_INSTRUCAO
 
 ```{r}
 candidatos %>%
@@ -228,6 +247,20 @@ Você já se perguntou provavelmente quantas mulheres negras concorrem nas elei�
 candidatos %>%
   count(DESCRICAO_SEXO, DESCRICAO_COR_RACA)
 ```
+
+Uma forma interessante de observamos a tabela acima é transformá-la em uma _tabela de contingência_. Se você não sabe o que significa essa tabela, temos a definição abaixo:
+
+> A tabela de contingência é a tabela que calcula observações por múltiplas variáveis categóricas. As linhas e colunas das tabelas correspondem a essas variáveis categóricas.
+
+Para transformar o caso acima em uma tabela de contingência iremos utilizar a função `spread()`, que irá transformar uma das duas variáveis em coluna. Vamos ver!
+
+```{r}
+candidatos %>%
+  count(DESCRICAO_SEXO, DESCRICAO_COR_RACA) %>% 
+  spread(DESCRICAO_SEXO, n)
+```
+
+No nosso caso, a variável transformada em coluna foi a __DESCRICAO_SEXO__ e os valores que seriam preenchidos em cada coluna criada são os valores contidos em __n__.
 
 ## 4. Visualização dos Dados (ggplot2 e plotly)
 
@@ -284,9 +317,17 @@ candidatos %>%
 
 Substitua `theme_calc` por outros e veja qual o melhor para você.
 
+Você deve ter reparado que para montar um gráfico com o _ggplot2_ utilizamos o símbolo de `+` entre as funções. Isso acontece porque o _ggplot2_ foi criado em um esquema de "building blocks", isto é, adicionamos camadas (também chamas de _layers_) de interesse até formar o gráfico que queremos. Existem muitas camadas, porém costumamos generalizá-las da seguinte forma:
+
+```{r}
+knitr::include_graphics("img/layers.png")
+```
+
 ## 5. Comunicação (R Markdown)
 
 Tendo em vista o fluxo da ciência de dados, o último passo é comunicar os nossos achados. Isso pode ser feito de diversas maneiras. Contudo, ao utilizar o R, nós temos o `RMarkdown`. Para quem já utilizou `markdown` ou Latex, a ideia é bem parecida. A preocupação será principalmente com o conteúdo e deixaremos a diagramação com os padrões utilizados pelo `RMarkdown` ou por um _template_ previamente escolhido.
+
+Para ver alguns exemplos [clique aqui](https://rmarkdown.rstudio.com/gallery.html)
 
 ## 6. EXTRA Mapas
 
