@@ -10,7 +10,7 @@ Os dados estão mais próximos de nós do que imaginamos! Podemos consumi-los de
 
 
 
-Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas tarefas. Vamos pensar no algoritmo do miojo:
+Uma das formas mais comuns de analisar esses dados é por meio da __programação__, instruções que o computador recebe para realizar certas tarefas. Estas "instruções" são também chamadas de __algoritmos__, uma sequência de passos lógicos até a realização de determinadas ações. Vamos pensar no algoritmo do "miojo":
 
 > Passo 1: Tire da embalagem
 
@@ -19,7 +19,6 @@ Uma das formas mais comuns de analisar esses dados é por meio da __programaçã
 > Passo 3: Coloque o miojo na água quente
 
 > Passo 4: Adicione o tempero
-
 
 > Passo 5: Sirva!
 
@@ -33,13 +32,13 @@ Para que possamos enviar essas instruções para o computador nós precisamos ut
 
 - Tem uma comunidade enorme
 
-Você pode estar se perguntando (ou não) o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva. Por exemplo, a fim de selecionar observações (linhas) de interesse, podemos utilizar uma _função_ chamada `filter`, que filtra (seleciona) apenas as linhas desejedas de acordo com as intruções fornecidas. Se isso pareceu confuso, calma! Logo nós iremos utilizá-la junto com outras _funções_ e tudo ficará mais claro.
+Você pode estar se perguntando o seguinte: "Como assim o custo de entrada é menor? Não é uma linguagem de programação assim como as outras?". Então, sim, o __R__ é uma linguagem de programação assim como outras que estão por aí, porém, ao longo dos anos as pessoas desenvolveram muitos _pacotes_ voltados para uma análise de dados de forma mais intuitiva. Por exemplo, a fim de selecionar observações (linhas) de interesse, podemos utilizar uma _função_ chamada `filter`, que filtra (seleciona) as observações de acordo com algumas condições estabelecidas. Se isso pareceu confuso, calma! Logo nós iremos utilizá-la junto com outras _funções_ e tudo ficará mais claro.
 
-### O R Básico
+### R Básico
 
-Ok, alguns conceitos apareceram, mas não precisamos ficar assustados. Iremos entende-los com o tempo e com a prática. Para começar a nossa jornada dentro do __R__, vamos nos dedicar a entender as estruturas de dados mais utilizdas dentro dele. Estruturas de dados são maneiras de se guardar informações. No R, embora existam outras, temos duas estruturas de dados muito importantes: os vetores e os _data frames_.
+Ok, alguns conceitos apareceram, mas não precisamos ficar assustados. Iremos entende-los com o tempo e com a prática. Para começar a nossa jornada dentro do __R__, vamos nos dedicar a entender as estruturas de dados mais utilizdas dentro dele. Estruturas de dados são maneiras de se guardar informações. No R, embora existam outras, temos duas estruturas de dados muito importantes: os `vetores` e os `data frames`.
 
-Um vetor nada mais é do que uma sequência de valores. Podemos imaginá-lo como um trem, em que cada vagão corresponde a um valor. Nesse sentido, se quisermos guardar a sequência 1, 2, 3, 4 e 5, o 1 seria nossa locomotiva, seguida de quatro vagões.
+Um vetor nada mais é do que uma sequência de valores homogêneos. Podemos imaginá-lo como um trem, em que cada vagão corresponde a um valor. Nesse sentido, se quisermos guardar a sequência 1, 2, 3, 4 e 5, o 1 seria nossa locomotiva, seguida de quatro vagões.
 
 <img src="img/vectors_ex.svg" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
 
@@ -186,6 +185,8 @@ Durante nossa análise, em geral trabalhamos com um fluxo de ciências de dados 
 
 ### Organização da Oficina
 
+Aproveitando que as eleições estão se aproximando, vamos tentar responder algumas perguntas com o __R__?
+
 ## 2. Importação de Dados (readr)
 
 O primeiro passo para uma análise é a __importação__.
@@ -199,7 +200,7 @@ candidatos <- read_csv("data/CANDIDATOS_DEPUTADO_FEDERAL_2014.csv")
 
 ## 3. Trasformações dos Dados (dplyr e %>%)
 
-Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com valores selecionados; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante. Uma das funções presentes no `tidyverse` é o `%>%` (leia-se _pipe_). Ela é muito importante já que nos permite concatenar funções e, assim, realizar operações de maneira mais eficiente. Você pode ler o _pipe_ como "depois". Nos próximos exemplos, iremos incluir uma leitura recomenda da função.
+Com objetivo de realizar as nossas transformações, iremos utilizar o pacote `dplyr` do `tidyverse`. A linguagem é bem simples e direta. Por exemplo, `filter` filtra as nossas observações de acordo com condições desejadas; `mutate` (dê um google na tradução) altera ou modifica uma variável do nosso banco; e assim por diante. Uma das funções presentes no `tidyverse` é o `%>%` (leia-se _pipe_). Ela é muito importante já que nos permite concatenar funções e, assim, realizar operações de maneira mais eficiente. Você pode ler o _pipe_ como "depois". Nos próximos exemplos, iremos incluir uma leitura recomendada da função.
 
 Feita essa apresentação, vamos começar com algumas operações básicas e limpesa do nosso banco.
 
@@ -237,6 +238,15 @@ candidatos <- candidatos %>%
 
 O operador `%in%` é uma generalização do `==`. Ele testa a igualdade  de um de mais de um valor ao mesmo tempo.
 
+Caso tenha curiosidade sobre outros operadores condicionais no __R__, olhe a imagem abaixo:
+
+
+```r
+knitr::include_graphics("img/condicionais.png")
+```
+
+<img src="img/condicionais.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
+
 Após organizar a questão das candidaturas, vamos para o resultado da eleição. A variável `DESC_SIT_TOT_TURNO` diz para nós se o candidato foi eleito ou não e em que modalidade ele foi eleito.
 
 
@@ -255,9 +265,11 @@ candidatos %>%
 ## 4 SUPLENTE            4020
 ```
 
-De um lado, temos duas categorias de eleitos: "ELEITO POR MÉDIA" e "ELEITO POR QP". Por outro lado, os não eleitos: "NÃO ELEITO" e "SUPLENTE". Precisamos transformar essa variável para uma coisa mais interessante para a nossa análise, embora ela possa ter significado em outras perguntas de pesquisa.
+De um lado, temos duas categorias de eleitos: "ELEITO POR MÉDIA" e "ELEITO POR QP". Por outro lado, os não eleitos: "NÃO ELEITO" e "SUPLENTE". Precisamos transformar essa variável mm algo mais interessante para a nossa análise, embora ela possa ter significado em outras perguntas de pesquisa.
 
-A fim de realizar esse trablho, iremos utilizar a função `ifelse()`. Para quem conhece a estrutura de `if` `else`, o `case_when` é uma maneira mais simples de trabalhar com mais de uma condição ao mesmo tempo.
+A fim de realizar esse trabalho, iremos utilizar as funções `mutate()` e `ifelse()`. A função `ifelse()` segue o seguinte pensamento:
+
+> Se uma condição for verdadeira (TRUE), faça isso, se não, faça aquilo.
 
 
 ```r
@@ -265,7 +277,9 @@ candidatos <- candidatos %>%
   mutate(RES_ELEICAO = ifelse(DESC_SIT_TOT_TURNO %in% c("ELEITO POR MÉDIA", "ELEITO POR QP"), "Eleito", "Não Eleito"))
 ```
 
-Por fim, nós propomos uma recodificação da variável de cor/raça. Ao invés de trablhar com as categorias do IBGE, vamos reclassicá-las para algo que tenha mais sentido para cientistas sociais.
+Por fim, nós propomos uma recodificação da variável de cor/raça. Ao invés de trabalhar com as categorias do IBGE, vamos reclassicá-las para algo que tenha mais sentido para cientistas sociais.
+
+Para realizar essa recodificação da variável, vamos utilizar a função `case_when()`, uma maneira mais simples de trabalhar com mais de uma condição ao mesmo tempo. Sua explicação é semelhante com a que vimos com o `ifelse()`.
 
 
 ```r
@@ -293,6 +307,10 @@ candidatos <- candidatos %>%
                           DESCRICAO_COR_RACA == "PRETA"    ~ "Não Brancos"))
 ```
 
+Vamos verificar outras variáveis?
+
+- DESCRICAO_SEXO
+
 
 ```r
 candidatos %>%
@@ -306,6 +324,8 @@ candidatos %>%
 ## 1 FEMININO        1723
 ## 2 MASCULINO       4146
 ```
+
+- DESCRICAO_ESTADO_CIVIL
 
 
 ```r
@@ -323,6 +343,8 @@ candidatos %>%
 ## 4 SOLTEIRO(A)                1674
 ## 5 VIÚVO(A)                    120
 ```
+
+- DESCRICAO_GRAU_INSTRUCAO
 
 
 ```r
@@ -371,6 +393,32 @@ candidatos %>%
 ## 10 MASCULINO      PRETA                358
 ```
 
+Uma forma interessante de observamos a tabela acima é transformá-la em uma _tabela de contingência_. Se você não sabe o que significa essa tabela, temos a definição abaixo:
+
+> A tabela de contingência é a tabela que calcula observações por múltiplas variáveis categóricas. As linhas e colunas das tabelas correspondem a essas variáveis categóricas.
+
+Para transformar o caso acima em uma tabela de contingência iremos utilizar a função `spread()`, que irá transformar uma das duas variáveis em coluna. Vamos ver!
+
+
+```r
+candidatos %>%
+  count(DESCRICAO_SEXO, DESCRICAO_COR_RACA) %>% 
+  spread(DESCRICAO_SEXO, n)
+```
+
+```
+## # A tibble: 5 x 3
+##   DESCRICAO_COR_RACA FEMININO MASCULINO
+##   <chr>                 <int>     <int>
+## 1 AMARELA                  11        21
+## 2 BRANCA                  961      2527
+## 3 INDÍGENA                  9        10
+## 4 PARDA                   539      1230
+## 5 PRETA                   203       358
+```
+
+No nosso caso, a variável transformada em coluna foi a __DESCRICAO_SEXO__ e os valores que seriam preenchidos em cada coluna criada são os valores contidos em __n__.
+
 ## 4. Visualização dos Dados (ggplot2 e plotly)
 
 Agora, vamos para uma das coisas mais legais dentro da análise de dados. Após levantar uma pergunta relevante/interessante, o próximo passo é explorar os seus dados e ver se eles estão de acordo com as hipóteses levantadas. Embora existam técnicas bem sofisticadas para esse processo (regressões multivariadas, etc), normalmente nós começamos com algumas visualizações. Dentro do R, há um pacote chamado __ggplot2__ criado por Hadley Wickham (um deus do R). Ele é um dos melhores pacotes para criar gráficos dentro do R e relativamente fácil de utilizar.
@@ -382,7 +430,7 @@ candidatos %>%
   geom_bar()
 ```
 
-<img src="figures//unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
 
 
 ```r
@@ -391,7 +439,7 @@ candidatos %>%
   geom_bar()
 ```
 
-<img src="figures//unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-26-1.png" title="plot of chunk unnamed-chunk-26" alt="plot of chunk unnamed-chunk-26" style="display: block; margin: auto;" />
 
 Substitua o valor de `x` dentro de `aes()` por outras variáveis e veja a distribuição.
 
@@ -407,7 +455,7 @@ candidatos %>%
   geom_label(alpha = 0.6)
 ```
 
-<img src="figures//unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-27-1.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" style="display: block; margin: auto;" />
 
 Muito bacana, não? Se você não sabe, a princípio, as listas de candidatos precisam ter 30% de mulheres. Tendo em vista o gráfico acima, por que não observamos esse padrão em todos os partidos? Será que todos estão fora da lei? Se você olhar o site do [planalto](http://www.planalto.gov.br/ccivil_03/leis/l9504.htm), verá que na verdade essa regra serve tanto para partidos quanto para coligações. Provavelmente, os partidos que estão abaixo da linha realizam coligações e conseguem passar as listas pelo TSE. Nós não iremos investigar isso porque os dados do TSE sobre coligações têm qualidade muito baixa e provavelmente iríamos nos deparar com diversas inconsistências. Fique a vontade para explorar isso em casa e pedir nossa ajuda se precisar. 
 
@@ -435,13 +483,24 @@ candidatos %>%
        caption = "Fonte: TSE")
 ```
 
-<img src="figures//unnamed-chunk-27-1.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-29-1.png" title="plot of chunk unnamed-chunk-29" alt="plot of chunk unnamed-chunk-29" style="display: block; margin: auto;" />
 
 Substitua `theme_calc` por outros e veja qual o melhor para você.
+
+Você deve ter reparado que para montar um gráfico com o _ggplot2_ utilizamos o símbolo de `+` entre as funções. Isso acontece porque o _ggplot2_ foi criado em um esquema de "building blocks", isto é, adicionamos camadas (também chamas de _layers_) de interesse até formar o gráfico que queremos. Existem muitas camadas, porém costumamos generalizá-las da seguinte forma:
+
+
+```r
+knitr::include_graphics("img/layers.png")
+```
+
+<img src="img/layers.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
 
 ## 5. Comunicação (R Markdown)
 
 Tendo em vista o fluxo da ciência de dados, o último passo é comunicar os nossos achados. Isso pode ser feito de diversas maneiras. Contudo, ao utilizar o R, nós temos o `RMarkdown`. Para quem já utilizou `markdown` ou Latex, a ideia é bem parecida. A preocupação será principalmente com o conteúdo e deixaremos a diagramação com os padrões utilizados pelo `RMarkdown` ou por um _template_ previamente escolhido.
+
+Para ver alguns exemplos [clique aqui](https://rmarkdown.rstudio.com/gallery.html)
 
 ## 6. EXTRA Mapas
 
@@ -481,7 +540,7 @@ estados %>%
   theme_map()
 ```
 
-<img src="figures//unnamed-chunk-31-1.png" title="plot of chunk unnamed-chunk-31" alt="plot of chunk unnamed-chunk-31" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
 
 Muito bonito, não? Agora precisamos fazer uma pergunta interessante para ser avaliada espacialmente. Que tal avaliar quais estados possuem mais mulheres como candidatas?
 
@@ -502,7 +561,7 @@ estados_gen%>%
   geom_sf(color = "white")
 ```
 
-<img src="figures//unnamed-chunk-32-1.png" title="plot of chunk unnamed-chunk-32" alt="plot of chunk unnamed-chunk-32" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-35-1.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 
 ```r
@@ -516,7 +575,7 @@ estados_gen%>%
        caption = "Fonte: TSE")
 ```
 
-<img src="figures//unnamed-chunk-33-1.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-36-1.png" title="plot of chunk unnamed-chunk-36" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
 
 Você pode testar coisas parecidas para outras variáveis ou realmente cair de cabeça na ciência política e explorar uma das diversas hipóteses discutidas por aí sobre dependência espacial do voto. Não iremos seguir esse caminho já que envolveria uma limpeza mais cuidadosa dos dados e outras dificuldades que necessitariam mais paciência.
 
@@ -530,7 +589,7 @@ estados_gen %>%
           legend    = T)
 ```
 
-<img src="figures//unnamed-chunk-34-1.png" title="plot of chunk unnamed-chunk-34" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
+<img src="figures//unnamed-chunk-37-1.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
 
 Muito legal, não? Eu sinceramente gosto muito de coisas interativas. Confesso que talvez essa visualização em especial não seja muito interessante de ser colocada em um mapa interativo. Porém, imagine se estivessemos trabalhando com municípios ou com todos os países!
 
