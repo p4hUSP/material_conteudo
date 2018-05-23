@@ -130,6 +130,7 @@ Vamos habilitar os pacotes que utilizaremos e abrir os dados com os discursos.
 
 ```{r}
 library(tidyverse)
+library(lubridate)
 library(quanteda)
 library(wordcloud2)
 library(stringr)
@@ -147,13 +148,14 @@ O banco de dados tem apenas 5 variáveis, com informações sobre a data, o tít
 glimpse(discursos)
 ```
 
-A primeira transformação que faremos vai ser transformar a variável `date` em um objeto interpretado como data e não string, em seguida transformaremos todas as outras variáveis em caixa baixa para termos um padrão nos dados já que como dissemos, as funções para manipulação de texto são _case-sensitive_. Por fim, criaremos uma variável que detecta se o discurso foi ou não proferido no palácio do planalto.
+A primeira transformação que faremos vai ser transformar a variável `date` em um objeto interpretado como data e não string, em seguida transformaremos todas as outras variáveis em caixa baixa para termos um padrão nos dados já que como dissemos, as funções para manipulação de texto são _case-sensitive_. Além disso, com a variável data padronizada de forma correta, vamos criar uma segunda variável para extrair apenas o ano do discurso. Por fim, criaremos uma variável que detecta se o discurso foi ou não proferido no palácio do planalto.
 
 ```{r}
 discursos <- discursos %>% 
   mutate(date = dmy_hm(date),
          title = str_to_lower(title),
          discourse = str_to_lower(discourse),
+         year = year(date),
          palacio_planalto = str_detect(discourse, "(^palácio do planalto)"))
 ```
 
@@ -166,3 +168,103 @@ discursos %>%
 ```
 
 Podemos notar que ambos presidentes costumam discursar fora do palácio do planalto! Isso é interessante rs.
+
+Pois bem, vamos ao que interessa!
+
+Para este tutorial, utilizaremos dois pacotes principais: 
+
+- `quanteda`
+
+- `tidytext`
+
+Apesar de não serem os pacotes mais _"mainstream"_, eles permitem fazer o que o pacote `tm` faz, análises mais robustas com o próprio pacote. Apesar disso, o conceito que percorre estas bibliotecas é muito semelhantes, sobretudo, no `quanteda`, temos três tipos básicos de objetos:
+
+1. Corpus
+
+2. Tokens
+
+3. Document-feature matrix (DFM)
+
+```{r}
+knitr::include_graphics("img/fluxo_text_minging.png")
+```
+
+Falaremos melhor deles mais a diante, porém antes de avançarmos é bom termos na cabeça como funciona a preparação de um texto para a sua análise.
+
+### Preparação do texto
+
+A limpeza do texto, ou até mesmo chamada de "pré-processamento" é um conjunto de práticas voltadas para remover ou alterar partes dos textos que prejudicariam a análise final, como por exemplo, se o texto tiver muitas palavras "tipo", ele vai influênciar na analise das outras palavras, mesmo que ela não tenha sentido nenhum para o que estamos tratando. Se você ainda não se convenceu, pare para pensar quando um colega vai apresentar um trabalho e fica falando "tipo" toda hora!
+
+Podemos nos perguntar: Existe uma limpeza correta? Não! Tudo depende do interesse do pesquisador, como por exemplo, se você está trabalhando com valores em textos, talvez não seja interessante para você removê-los. 
+
+Porém, é bom saber que apesar de não ter uma limpeza melhor do que as outras, elas podem influênciar na análise de estatísticas mais robustas ou até mesmo a frequência das palavras. Se você ficou curiosa(o) para saber mais sobre isso acesse este artigo [aqui](http://www.nyu.edu/projects/spirling/documents/preprocessing.pdf).
+
+Nós vamos seguir a limpeza proposta (ou pelo menos parecida) pelo artigo acima , inclundo uma limpeza número 0A e 0B, muito mais relacionada com as condições dos nossos dados. Dentre estas limpezas temos:
+
+0A. Remover "não discursos"
+
+0B. Filtrar apenas em casos dos quais a linguagem é português
+
+1. Pontuação
+
+2. Números
+
+3. Stemming
+
+4. Remover Stopwords
+
+Algumas destas limpezas como a 0A e a 0B vão ser realizadas utilizando os próprios verbos do `dplyr` e do `stringr`. Para realização dos outros passos iremos introduzir os conceitos de objetos no `quanteda`.
+
+#### 0A. Remover "não discursos"
+
+Prestem atenção no resultado do código abaixo,
+
+```{r}
+discursos %>% top_n(n = 5, discourse) %>% select(discourse)
+```
+
+Muitos deles começam com uma localidade, seguidos de uma sequência de espaços para então chegar no discurso. Além disso, os textos se encerram com um texto escrito "ouça na integra...". Estas coisas não fazem parte do texto, logo precisaremos removê-los!
+
+Não se preocupe caso não entenda de primeira, "regex" é algo que pegamos o costume com o tempo!
+
+Obs: Iremos aproveitar para remover frases como "bom dia", "boa tarde" e "boa noite"
+
+```{r}
+discursos <- discursos %>% mutate(discursos_limpos = str_replace_all(discourse, 
+                                                                     "(ouça a íntegra.*).*|\\n|(desenvolvido com o cms).*|(plone)|(bom dia)|(boa noite)|(boa tarde)", "") %>% str_trim())
+discursos <- discursos %>% mutate(discursos_limpos = str_replace_all(discursos_limpos, ".*[0-9]\\s{4,}", ""))
+```
+
+#### 0B. Filtrar apenas em casos dos quais a linguagem é português
+
+Alguns discursos na nossa base estão em inglês, o que dificulta a análise de texto. Para isso precisamos identificar os idiomas dos textos e assim, filtrar os casos em português. Existe um pacote para isso que chama `textcat`.
+
+```{r}
+#install.packages("textcat")
+library(textcat)
+```
+
+Após instalar, basta identificarmos o idioma utilizando a função `textcat()` e filtrar o nosso caso de interesse.
+
+```{r}
+discursos <- discursos %>% 
+  mutate(idioma = textcat(discursos_limpos)) %>% 
+  filter(idioma == "portuguese")
+```
+
+#### Pausa para conceitos
+
+Como mencionamos acima, o quanteda tem três tipos de objetos...
+
+3. Remover Stopwords
+
+> Stop words (ou palavras de parada – tradução livre) são palavras que podem ser consideradas irrelevantes para o conjunto de resultados a ser exibido em uma busca realizada em uma search engine. Exemplos: as, e, os, de, para, com, sem, foi.
+
+Esse exemplo foi retirado de um site de marketing, mas esclarece exatamente o que é uma stopword
+
+```{r}
+tokens(discursos$discourse, remove_numbers = T, remove_punct = T,
+  remove_symbols = T, remove_separators = TRUE,
+  remove_twitter = T, remove_hyphens = T)
+```
+
