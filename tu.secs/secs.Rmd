@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       fig.width = 7.0,
                       fig.height = 5.0,
+                      results="hide",
                       fig.align = "center")
 ```
 
