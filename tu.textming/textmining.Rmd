@@ -185,9 +185,6 @@ Apesar de não serem os pacotes mais _"mainstream"_, eles permitem fazer o que o
 
 3. Document-feature matrix (DFM)
 
-```{r}
-knitr::include_graphics("img/fluxo_text_minging.png")
-```
 
 Falaremos melhor deles mais a diante, porém antes de avançarmos é bom termos na cabeça como funciona a preparação de um texto para a sua análise.
 
@@ -254,17 +251,132 @@ discursos <- discursos %>%
 
 #### Pausa para conceitos
 
-Como mencionamos acima, o quanteda tem três tipos de objetos...
+Como mencionamos acima, o quanteda tem três tipos de objetos.
 
-3. Remover Stopwords
+```{r}
+knitr::include_graphics("img/fluxo_text_minging.png")
+```
+
+O primeiro deles, é o __Corpus__, que nada mais é do que uma coleção de documentos.
+
+```{r}
+corpus <- corpus(discursos$discourse)
+```
+
+Porém, lembre-se que estamos lidando tanto com discursos da Dilma quanto discursos do Temer, logo precisamos definir no nosso corpus qual discurso pertence a quem e em qual ano.
+
+```{r}
+quem_ano <- discursos %>% select(who, year)
+docvars(corpus, c("who", "year")) <- quem_ano
+
+summary(corpus)
+```
+
+Agora que temos um corpus, podemos transformá-los em __tokens__, que de forma bem rude, são as palavras de cada documento. Vamos também aproveitar para fazer algumas limpezas no nosso corpus, que seriam a remoção da pontuação e dos números.
+
+```{r}
+token <- tokens(corpus, 
+       include_docvars = T,
+       remove_numbers = T, 
+       remove_punct = T)
+
+head(token, n = 2)
+```
+
+Aora que temos os tokens, remover as stopwords. Stemming nada mais é que um método para obter a raiz das palavras! Ele serve para que palavras com mesmo significado, ou significados diferentes sejam interpretadas como as mesmas, como por exemplo, livro e livreiro tem como raiz livr. Se procurarmos pela internet podemos ver a seguinte definição.
+
+No caso das Stopwords está definição pode nos ajudar:
 
 > Stop words (ou palavras de parada – tradução livre) são palavras que podem ser consideradas irrelevantes para o conjunto de resultados a ser exibido em uma busca realizada em uma search engine. Exemplos: as, e, os, de, para, com, sem, foi.
 
-Esse exemplo foi retirado de um site de marketing, mas esclarece exatamente o que é uma stopword
+Sendo assim, para realizar o stemming e retirar os stopwords utilizamos:
 
 ```{r}
-tokens(discursos$discourse, remove_numbers = T, remove_punct = T,
-  remove_symbols = T, remove_separators = TRUE,
-  remove_twitter = T, remove_hyphens = T)
+sw <- stopwords(language = "pt")
+token <- tokens_remove(token, c(sw, "é"))
+token <- tokens_wordstem(token, language = "portuguese")
+```
+
+Vamos finalmente transformar nossos tokens em DFM (Document Feature Matrix), também chamado de DTM (Document-Term Matrix). o DFM é uma matriz em que as linhas são os documentos, que no nosso caso são os discursos, e as colunas são os termos (palavras), o valor contido dentro das células indicam o quão frequente os termos são nos documentos.
+
+A tabela abaixo é um exemplo de um DFM:
+
+|... |casa|janela|porta|
+|----|----|------|-----|
+|Doc1|2   |5     |0    |
+|Doc2|4   |0     |0    |
+|Doc3|0   |0     |1    |
+
+Dizemos que a matriz é esparsa quando ela possui uma grande quantidade de zeros e em algumas análises isso pode ser um problema!
+
+```{r}
+dfm_discursos <- dfm(token)
+
+ndoc(dfm_discursos) # Numero de discursos
+nfeat(dfm_discursos) # Numero de palavras
+sparsity(dfm_discursos) # % da matriz esparsa (% de zeros)
+```
+
+Vamos finalmente para as análises
+
+- Frequência das palavras
+
+```{r}
+freq <- textstat_frequency(dfm_discursos, groups = docvars(dfm_discursos, "who"))
+freq
+```
+
+```{r}
+# Grafico da dilma
+freq %>% 
+  filter(group == "Dilma") %>% 
+  arrange(desc(frequency)) %>% 
+  slice(1:20) %>% 
+ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+    geom_point() + 
+    coord_flip() +
+    labs(x = NULL, y = "Frequency")
+```
+
+```{r}
+# Grafico do Temer
+freq %>% 
+  filter(group == "Temer") %>% 
+  arrange(desc(frequency)) %>% 
+  slice(1:20) %>% 
+ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+    geom_point() + 
+    coord_flip() +
+    labs(x = NULL, y = "Frequency")
+```
+
+- Nuvem de palavras
+
+```{r}
+# Nuvem de palavra dos dois presidentes
+wordcloud2(freq)
+```
+
+```{r}
+# Nuvem da dilma
+freq %>% 
+  filter(group == "Dilma") %>% 
+  wordcloud2()
+```
+
+```{r}
+# Nuvem da Temer
+freq %>% 
+  filter(group == "Temer") %>% 
+  wordcloud2()
+```
+
+Observe os parâmetros da função wordcloud2, podemos mudar uma infinidade de coisas como por exemplo a cor de fundo e o tamanho da fonte
+
+```{r}
+# Nuvem da Temer
+freq %>% 
+  filter(group == "Temer") %>% 
+  wordcloud2(backgroundColor = "gray", size = 0.3)
 ```
 
