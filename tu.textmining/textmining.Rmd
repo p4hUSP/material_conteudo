@@ -2,6 +2,10 @@
 title: "Aula Text Mining"
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+``` 
+
 # Análise de texto no R
 
 A quantidade de informações geradas atualmente são incríveis e consequentemente a forma como eles estão estruturados pode variar muito, entre elas, o casos dos textos.
