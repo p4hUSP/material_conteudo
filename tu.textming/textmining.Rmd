@@ -1,6 +1,5 @@
 ---
 title: "Aula Text Mining"
-output: html_notebook
 ---
 
 # Análise de texto no R
