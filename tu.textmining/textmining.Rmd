@@ -131,6 +131,8 @@ Agora que temos uma noção melhor sobre como manipular textos, vamos analisar o
 
 Vamos habilitar os pacotes que utilizaremos e abrir os dados com os discursos.
 
+Download [aqui](http://material.curso-r.com/stringr/#express%C3%B5es-regulares).
+
 ```{r}
 library(tidyverse)
 library(lubridate)
