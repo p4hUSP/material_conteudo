@@ -361,6 +361,8 @@ wordcloud2(freq)
 # Nuvem da dilma
 freq %>% 
   filter(group == "Dilma") %>% 
+  arrange(desc(frequency)) %>% 
+  slice(1:200) %>% 
   wordcloud2()
 ```
 
@@ -368,6 +370,8 @@ freq %>%
 # Nuvem da Temer
 freq %>% 
   filter(group == "Temer") %>% 
+  arrange(desc(frequency)) %>% 
+  slice(1:200) %>% 
   wordcloud2()
 ```
 
@@ -377,6 +381,10 @@ Observe os parâmetros da função wordcloud2, podemos mudar uma infinidade de c
 # Nuvem da Temer
 freq %>% 
   filter(group == "Temer") %>% 
+  arrange(desc(frequency)) %>% 
+  slice(1:200) %>% 
   wordcloud2(backgroundColor = "gray", size = 0.3)
 ```
+
+
 
