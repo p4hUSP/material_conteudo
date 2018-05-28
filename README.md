@@ -1,4 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/R4CS/material.svg?branch=master)](https://travis-ci.org/R4CS/material)
+[![Travis-CI Build Status](https://travis-ci.org/p4hUSP/material_conteudo.svg?branch=master)](https://travis-ci.org/p4hUSP/material_conteudo)
 
 Materiais do R4CS
 ================
