@@ -1,0 +1,118 @@
+---
+title: "Introdução"
+author: "P4H"
+date: "March 5, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introdução ao R
+
+Nesta seção, iremos abordar como (1) instalar o R e o RStudio, (2) realizar operações aritméticas e salvar valores em variáveis, (3) abrir tabelas, (4) retirar estatísticas descritivas e (5) montar um gráfico de barras e um histograma. A ideia é trazer de maneira breve e superficial as funcionalidades do R para que possam ser exploradas posteriormente nas próximas aulas.
+
+## Primeiros passos
+
+### O que é o R?
+
+R é uma linguagem de programação voltada para a análise de dados. Criada por estatísticos, em 1993 ela vem se tornando alplamente utilizada na academia não só para pesquisas nas exatas, mas também nas ciências humanas, como na ciência política, economia, etc. Ela também tem uma entrada em empresas ao lado do SQL e Python.
+
+### Instalando o R e o RStudio
+
+Antes de tudo, vamos nos certificar de que você possui o R e o RStudio instaldos no seu computador. O R pode ser baixado [aqui](https://cloud.r-project.org/). Instale a versão equivalente com o seu sistema operacional. Após esse processo, você deve ser capaz de iniciar o R e obter essa tela.
+
+```{r, fig.align='center', fig.width = 8}
+knitr::include_graphics("r-project-7840-3.jpg")
+```
+
+É possível utilizar essa interface para programar em R. Contudo, em geral, preferimos utilizar o RStudio, já quele oferece uma carinha mais limpa e amigável, além de possuir diversas funções bem úteis durante a análise de dados. Para instalá-lo, você pode clicar [aqui](https://www.rstudio.com/). Ao instalá-lo, você obterá essa tela:
+
+```{r}
+knitr::include_graphics("")
+```
+
+## Nossas primeiras linhas de código
+
+### Operações aritméticas
+
+Como o R funciona? O R é conhe Todo código escrito no _console_ do R é __avaliado__ pelo interpretador e o resultado é devolvido para você.
+
+Vamos testar isso com algumas operações aritméticas básicas.
+
+```{r}
+1 + 1
+```
+
+```{r}
+2 - 1
+```
+
+```{r}
+5 * 5
+```
+
+```{r}
+9 / 3
+```
+
+### Variáveis
+
+Porém, isso não parece muito eficiente. E se quiséssemos guardar uma informação para acessá-la posteriormente? Para isso, podemos utilizar __variáveis__.
+
+```{r}
+x <- 2
+
+x * 2
+```
+
+```{r}
+x <- 3
+
+x / 3
+```
+
+## Abrindo tabelas no R
+
+Entretando, não queremos fazer apenas isso com o R. O real poder dele aparece durante a análise de dados. Vamos começar carregando um banco de dados no R. Para isso, iremos utilizar o pacote `readr` do `tidyverse`
+
+Mas o que são pacotes e o que é o `tidyverse`? Um pacote contém um conjunto de funções desenvolvidas por outros usuários a fim de realizar uma determinada tarefa. Funções realizam alguma operação sobre um determinado objeto e nos __devolvem__ esse resultado. Por sua vez, o [`tidyverse`](https://www.tidyverse.org/) diz respeito a um conjunto de pacotes criados para facilitar a nossa vida durante a análise de dados. Nos últimos anos, o `tidyverse` revolucionou a maneira que se faz análise no R. Todo o nosso curso irá utilizar o `tidyverse` quando possível.
+
+Agora que sabemos o que é um pacote e uma função. Como carregar um pacote no R? Primeiro precisamos instalá-lo com a função `install.packages()` e depois carregá-lo com o comando `library()`.
+
+```{r}
+install.packages("tidyverse")
+
+library(tidyverse)
+```
+
+Uma vez feito isso, podemos utilizar o comando `read_csv`. Preste atenção pois existe um outro comando `read.csv`. Estamos utilizando aquele com o _ (underline).
+
+```{r}
+read_csv("pokemon.csv")
+```
+
+Para um momento para entender o que aconteceu. Essa é a maneira mais interessante de abrir um banco de dados? Qual ação podemos associar a abertura do banco que possamos reutilizá-lo ao longo de nossa análise?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
