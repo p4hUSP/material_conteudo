@@ -87,30 +87,99 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-Uma vez feito isso, podemos utilizar o comando `read_csv`. Preste atenção pois existe um outro comando `read.csv`. Estamos utilizando aquele com o _ (underline).
+Uma vez feito isso, podemos utilizar o comando `read_csv` para ler um arquivo `.csv` e transformá-lo em um `data.frame`. Preste atenção pois existe um outro comando `read.csv`. Estamos utilizando aquele com o _ (underline).
 
 ```{r}
 read_csv("pokemon.csv")
 ```
 
-Para um momento para entender o que aconteceu. Essa é a maneira mais interessante de abrir um banco de dados? Qual ação podemos associar a abertura do banco que possamos reutilizá-lo ao longo de nossa análise?
+Para um momento para entender o que aconteceu. Essa é a maneira mais interessante de abrir um banco de dados? Qual ação podemos associar a abertura do banco de tal maneira que possamos reutilizá-lo ao longo de nossa análise?
 
+Se você pensou em variáveis, acertou! Sempre devemos salvar bancos e outros dados dentro de variáveis caso haja interesse um utilizá-los continuamente durante a nossa análise.
 
+```{r}
+banco <- read_csv("pokemon.csv")
+```
 
+### Pausa para explicação: mas o que são data frames?
 
+Data frames é uma estrutura de dados com objetivo de organizar tabelas no R. Ele é bastante parecida com planilhas de Excel.Podemos imaginá-lo como um conjunto de colunas ordenadas, sendo que cada coluna representa uma variável, um atributo, das nossas insformações. No nosso caso, as colunas possuem atributos sobre cada um dos 801 pokemons.
 
+<Adicionar imagem>
 
+### De volta para as análises!
 
+Agora que temos o nosso banco salvo em uma variável, podemos começar a extrair algumas informações. Vamos começar pelo básico. Que tal dar uma olhada por cima do banco? Para isso, utilizamos a função `head()`. Ela extrai e imprimi na nossa tela as primeiras linhas do nosso banco. 
 
+```{r}
+head(banco)
+```
 
+Outra função que podemos utilizar para ter uma noção geral do nosso banco é a `glimpse()`
 
+```{r}
+glimpse(banco)
+```
 
+Quais informações chamam a sua atenção?
 
+Podemos ver diversas informações, como nome (`name`), pontos de vida (`hp`), pontos de ataque (`attack`), pontos de defesa (`defense`), entre outras informações.
 
+Contudo, olhar o banco por inteiro quase nunca é um processo eficiente de análise. Nós sempre queremos resumir as informações presentes no nosso banco de dados de alguma maneira. Em geral, uma forma de fazer isso é por meio de estatísticas descritivas (média, desvio padrão, correlação, quartis, etc.). Por exemplo, qual a média de pontos de vida para todos os pokemons? Quais categorias de pokemons são mais frequentes?
 
+```{r}
+mean(banco$hp)
+```
 
+### Pausa para explicação: por que o $?
 
+Você entendeu porque utilizamos o `$` aqui? Lembra que o `data.frame` nada mais é do que um conjunto de colunas uma atrás da outra? Então, com o `$` podemos acessar uma dessas colunas e calcular, por exemplo, a média dos valores presente nela. Como queremos a média dos pontos de vida, utilizamos `banco$hp`. Em outro caso, poderíamos tirar a média dos pontos de ataque. Para isso, utilizaríamos `banco$attack`.
 
+### De volta para as análises
+
+Vamos agora ver a distribuição dos tipos de pokemons (`type1`).
+
+```{r}
+table(banco$type1)
+```
+
+Legal, não? Porém, a tabela não está organizada em ordem crescente nem decrescente. Podemos concertar isso com uma função chamada `sort()`.
+
+```{r}
+tabeça_type1 <- table(banco$type1)
+sort(tabeça_type1)
+```
+
+Bem melhor!
+
+Ainda falta muita coisas para vermos durante o nosso curso, mas você já aprendeu a abrir um banco de dados e a gerar estatísticas descritivas.
+
+## Gráficos
+
+Números são legais e normalmente trazem _insights_ sobre a distribuição dos nossos dados. Contudo, durante uma análise, gráficos são extremamente poderosos uma vez que informam sobre a dispersão e a centralidade dos nossos valores com um simples olhar.
+
+É possível criar gráficos no R sem utilizar pacotes externos. Entretanto, o `ggplot2` é muito poderoso e nos permite fazer praticamente qualquer coisa, ao estabelecer uma gramática para dispor informações. O objetivo da aula de hoje não é avaliar a fundo as funcionalidades desse pacote. Logo tente apenas entender a linguagem para alguns gráficos simples.
+
+Que tal observar a distribuição dos dados acessados anteriormente?
+
+### Variáveis contínuas
+
+Uma maneira de fazer isso 
+
+```{r}
+ggplot(banco,
+       mapping = aes(x = hp)) +
+  geom_histogram()
+```
+
+### Variáveis categóricas
+
+Por outro lado, para variáveis categóricas, podemos utilizar gráficos de barras.
+
+```{r}
+ggplot(banco, mapping = aes(x = type1)) + 
+  geom_bar()
+```
 
 
 
