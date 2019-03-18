@@ -101,11 +101,17 @@ Se você pensou em variáveis, acertou! Sempre devemos salvar bancos e outros da
 banco <- read_csv("pokemon.csv")
 ```
 
-### Pausa para explicação: mas o que são data frames?
+### Pausa para explicação: mas o que são data frames e variáveis?
 
-Data frames é uma estrutura de dados com objetivo de organizar tabelas no R. Ele é bastante parecida com planilhas de Excel.Podemos imaginá-lo como um conjunto de colunas ordenadas, sendo que cada coluna representa uma variável, um atributo, das nossas insformações. No nosso caso, as colunas possuem atributos sobre cada um dos 801 pokemons.
+Data frames é uma estrutura de dados com objetivo de organizar tabelas no R. Ele é bastante parecida com planilhas de Excel.Podemos imaginá-lo como um conjunto de colunas ordenadas, sendo que cada coluna representa uma variável, um atributo, das nossas insformações. No nosso caso, as colunas possuem variáveis sobre cada um dos 801 pokemons.
 
-<Adicionar imagem>
+As variáveis podem ser divididas em dois tipos:
+
+1. Variáveis categóricas: representam características que podem ser descritas em categorias (gênero, nacionalidade, nível de satisfação, etc.). Elas podem ser __nominal__, ou seja, as categorias não possuem uma ordem intrísica (gênero, nacionalidade), ou __ordinal__, as categorias possuem uma ordem (nível de satisfação).
+
+2. Variáveis quantitativas: são representadas por números e, em geral, podem ser do tipo __discretas__ ou __contínuas__.  As discretas são variáveis relacionadas a contagens (número de gols, número de vitórias, número de alunos, etc.). Já as contínuas fazem referências a fenômenos que podem possuir, em tese, infinitos valores (altura, peso, renda, etc.).
+
+Fique atento pois muitas vezes iremos nos referir a variáveis quantitativas apenas como contínuas. Contudo, isso é uma aproximação e não necessariamente é verdade para todos os casos.
 
 ### De volta para as análises!
 
@@ -181,7 +187,10 @@ ggplot(banco, mapping = aes(x = type1)) +
   geom_bar()
 ```
 
+## Exercícios
 
+1. O que é uma função? O que é um pacote?
 
+2. Em que devo guardar um valor para que eu possa acessá-lo posteriormente?
 
-
+3. Escolha 2 variáveis categóricas e 2 variáveis contínuas que te chamem atenção. Agora, retire algumas estatísticas descritivas (média, desvio padrão, etc.) e faça um gráfico de acordo o tipo da variável.
