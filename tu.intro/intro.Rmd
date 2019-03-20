@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 # Introdução ao R
@@ -87,7 +87,7 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-Uma vez feito isso, podemos utilizar o comando `read_csv` para ler um arquivo `.csv` e transformá-lo em um `data.frame`. Preste atenção pois existe um outro comando `read.csv`. Estamos utilizando aquele com o _ (underline).
+Uma vez feito isso, podemos utilizar o comando `read_csv` para ler um arquivo `.csv` e transformá-lo em um `data.frame`. Preste atenção pois existe um outro comando `read.csv`. Estamos utilizando aquele com o _ (underline). Nesta aula, iremos trabalhar com um banco de dados de Pokemons! Você pode baixá-lo [aqui](https://github.com/p4hUSP/material_conteudo/blob/master/tu.intro/pokemon.csv). O banco original pode ser acessado no [Kaggle](https://www.kaggle.com/rounakbanik/pokemon).
 
 ```{r}
 read_csv("pokemon.csv")
