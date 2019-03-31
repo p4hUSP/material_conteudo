@@ -19,6 +19,10 @@ url_cadastros_escolas <- "http://dados.prefeitura.sp.gov.br/dataset/8da55b0e-b38
 download.file(url_cadastros_escolas, "temp.csv")
 ```
 
+```
+## Error in download.file(url_cadastros_escolas, "temp.csv"): cannot open URL 'http://dados.prefeitura.sp.gov.br/dataset/8da55b0e-b385-4b54-9296-d0000014ddd5/resource/39db5031-7238-4139-bcaa-e620a3180188/download/escolasr34fev2017.csv'
+```
+
 Veja que baixar o arquivo diretamente no R é preferível ao processo manual, pois podemos rapidamente reproduzir o processo, além de documentá-lo. Vamos abrir o arquivo:
 
 
@@ -26,6 +30,10 @@ Veja que baixar o arquivo diretamente no R é preferível ao processo manual, po
 library(readr)
 
 escolas <- read_delim("temp.csv", delim = ";")
+```
+
+```
+## Error: 'temp.csv' does not exist in current working directory ('/home/travis/build/p4hUSP/material_conteudo/tu.mapas').
 ```
 
 Explore o arquivo com o comando _glimpse_:
@@ -38,59 +46,7 @@ glimpse(escolas)
 ```
 
 ```
-## Observations: 5,324
-## Variables: 51
-## $ DRE         <chr> "G", "FO", "MP", "BT", "PJ", "BT", "FO", "JT", "JT",…
-## $ CODESC      <chr> "000086", "000094", "000108", "000191", "000205", "0…
-## $ TIPOESC     <chr> "EMEI", "EMEI", "EMEF", "EMEF", "EMEBS", "EMEI", "EM…
-## $ NOMESC      <chr> "PAULO CAMILHIER FLORENCANO", "VICENTE PAULO DA SILV…
-## $ DIRETORIA   <chr> "GUAIANASES", "FREGUESIA/BRASILANDIA", "SAO MIGUEL",…
-## $ SUBPREF     <chr> "GUAIANASES", "CASA VERDE/CACHOEIRINHA", "SAO MIGUEL…
-## $ CEU         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ ENDERECO    <chr> "RUA FELICIANO DE MENDON\xc7A", "RUA DOUTOR FLEURY S…
-## $ NUMERO      <chr> "502", "295", "159", "140", "206", "90", "51", "340"…
-## $ BAIRRO      <chr> "JARDIM S\xc3O PAULO(ZONA LESTE)", "VILA SANTA MARIA…
-## $ CEP         <chr> "08460365", "02563010", "08090290", "05742100", "051…
-## $ TEL1        <chr> "25578348", "39813227", "25865294", "58450121", "390…
-## $ TEL2        <chr> "25571947", NA, "25811484", NA, "39067229", NA, NA, …
-## $ FAX         <chr> "25571947", NA, NA, "58450121", NA, "58425113", "393…
-## $ SITUACAO    <chr> "Ativa", "Ativa", "Ativa", "Ativa", "Ativa", "Ativa"…
-## $ CODDIST     <chr> "31", "50", "44", "94", "63", "94", "29", "89", "81"…
-## $ DISTRITO    <chr> "GUAIANASES", "LIMAO", "JARDIM HELENA", "VILA SONIA"…
-## $ SETOR       <chr> "3103", "5002", "4402", "9404", "6301", "9404", "291…
-## $ CODINEP     <dbl> 35098711, 35098361, 35098760, 35098462, 35079029, 35…
-## $ CODCIE      <chr> "098711", "098361", "098760", "098462", "079029", "0…
-## $ EH          <dbl> 1.610781e+14, 1.610702e+14, 1.610771e+14, 1.610792e+…
-## $ DT_CRIACAO  <chr> "13/06/1988", "04/07/1988", "05/07/1988", "27/05/198…
-## $ ATO_CRIACAO <chr> "26.134", "26.314", "26.312", "26.003", "26.229", "2…
-## $ DOM_CRIACAO <chr> "13/06/1988", "04/07/1988", "05/07/1988", "27/05/198…
-## $ DT_INI_FUNC <chr> "22/09/1988", "01/08/1988", "01/09/1988", "02/10/198…
-## $ DT_AUTORIZA <chr> "16/03/1991", "16/03/1991", "13/03/2001", "16/03/199…
-## $ NOME_ANT    <chr> NA, NA, "VILA NITRO OPERARIA", NA, NA, NA, "INSTALAD…
-## $ T2D3D       <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D15     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D14     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D13     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D12     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D11     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D10     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D"…
-## $ T2D3D09     <chr> "2D", "2D", "2D", "2D", "2D", "2D", "2D", "2D", "3D"…
-## $ T2D3D08     <chr> "3D", "3D", "2D", "2D", "2D", "3D", "2D", "2D", "3D"…
-## $ T2D3D07     <chr> "3D", "3D", "3D", "2D", "2D", "3D", "2D", "3D", "3D"…
-## $ DTURNOS     <chr> "2D", "3D", "3D", "2D", "2D", "3D", "3D", "3D", "3D"…
-## $ DTURNOS15   <chr> "MT", "MT", "MT", "MT", "MT", "MT", "MT", "MT", "MT"…
-## $ DTURNOS14   <chr> "MT", "MT", "MT", "MT", "MT", "MT", "MT", "MT", "MT"…
-## $ DTURNOS13   <chr> "MT", "MT", "MT", "MT", "MT", "MT", "MT", "MT", "MT"…
-## $ DTURNOS12   <chr> "MT", "MT", "MT", "MT", "MTN", "MT", "MT", "MT", "MT…
-## $ DTURNOS11   <chr> "MT", "MT", "MT", "MT", "MTN", "MT", "MT", "MT", "MT…
-## $ DTURNOS10   <chr> "MT", "MT", "MTN", "MT", "MTN", "MT", "MT", "MT", "M…
-## $ DTURNOS09   <chr> "MT", "MT", "MTN", "MT", "MTN", "MT", "MT", "MT", "M…
-## $ DTURNOS08   <chr> "MT", "MT", "MTN", "MT", "MTN", "MT", "MT", "MT", "M…
-## $ DTURNOS07   <chr> "MIV", "MIV", "MTN", "MT", "MTN", "MIV", "MT", "MT",…
-## $ LATITUDE    <dbl> -23553905, -23489728, -23478312, -23612237, -2348614…
-## $ LONGITUDE   <dbl> -46398452, -46670198, -46427344, -46749888, -4673390…
-## $ REDE        <chr> "DIR", "DIR", "DIR", "DIR", "DIR", "DIR", "DIR", "DI…
-## $ DATABASE    <chr> "28/02/2017", "28/02/2017", "28/02/2017", "28/02/201…
+## Error in glimpse(escolas): object 'escolas' not found
 ```
 
 Não há nada de extraordinário no arquivo, que se assemelha aos que vimos até então. Há, porém, uma dupla de variáveis que nos permite trabalhar "geograficamente" com o dado: LATITUDE e LONGITUDE. "Lat e Long" são a informação fundamental de um dos sistemas de coordenadas (_coordinate reference system_, CRS) mais utilizados para localização de objetos na superfície da terra.
@@ -107,6 +63,10 @@ emef <- escolas  %>%
   filter(tipo == "EMEF")
 ```
 
+```
+## Error in eval(lhs, parent, parent): object 'escolas' not found
+```
+
 Pronto! Temos agora uma informação geográfica das EMEFs e uma variável de interesse -- ano -- que utilizaremos para investigar a expansão da rede.
 
 Vamos construir um primeiro mapa, usando a função que conhecemos -- ggplot -- a partir das informações de latitude e longitude das escolas:
@@ -119,7 +79,9 @@ ggplot(aes(lon, lat), data = emef) +
   geom_point()
 ```
 
-<img src="figures//unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+```
+## Error in ggplot(aes(lon, lat), data = emef): object 'emef' not found
+```
 
 Veja que podemos "imaginar" o formato da cidade de São Paulo com os pontos, mas o mapa não é propriamente um mapa. Falta uma "camada" básica, sobre a qual os pontos serão desenhados.
 
@@ -223,6 +185,13 @@ Note que, quando estão fora da base, os pontos são descartados da visualizaç�
 Convém, por conta da gramática da família de funções _ggplot_, definir uma camada básica na função _ggmap_, que, no nosso caso, são os pontos que estão em análise (e não a camada de mapa que (sic) dá base à visualização):
 
 
+```
+## Error: 'temp.csv' does not exist in current working directory ('/home/travis/build/p4hUSP/material_conteudo/tu.mapas').
+```
+
+```
+## Error in eval(lhs, parent, parent): object 'escolas' not found
+```
 
 
 
@@ -284,6 +253,10 @@ ceu <- escolas  %>%
   mutate(endereco = paste(ENDERECO, NUMERO, BAIRRO, CEP, ", Sao Paulo, Brazil"))
 ```
 
+```
+## Error in eval(lhs, parent, parent): object 'escolas' not found
+```
+
 Com a função _geocode_, procuraremos a latitude e longitude dos 46 CEUs. Vamos ver o exemplo do primeiro CEU:
 
 
@@ -313,6 +286,13 @@ Com um _for loop_, procuraremos a latitude e longitude dos 46 endereços:
 
 
 
+```
+## Error in iconv(ceu$endereco, to = "ASCII//TRANSLIT"): object 'ceu' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'ceu' not found
+```
 
 
 ```r
@@ -332,6 +312,10 @@ for (i in 1:nrow(ceu)){
 
 ```r
 ceu <- bind_cols(ceu, latlong)
+```
+
+```
+## Error in dots_values(...): object 'ceu' not found
 ```
 
 Simples, não! O principal problema da função _geocode_ é que há um limite de consultas por conta dos termos da Google Maps API. A alternativa é usar como argumento "source = 'dsk'" [Data Science Toolkit](http://www.datasciencetoolkit.org/about), que reune uma série de fontes de dados e utiliza outra API para a consulta de latitude e longitude de logradouros.
