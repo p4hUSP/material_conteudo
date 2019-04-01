@@ -1,0 +1,264 @@
+---
+title: "Aula 3"
+author: "Ana Beatriz Dutra"
+date: "31 de março de 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Manipulação de bancos de dados
+
+A manipulação de dados é a parte do trabalho que antecepe a produção de gráfico e a análise dos resultados. Seja se você está utilizando uma base de dados produzida por terceiros ou de produção própria, utilizará ferramentas de manipulação de dados. Tais ferramentas são essenciais para que você consiga obter o resultado final desejado com a sua análise.
+Com essas ferramentas você poderá:
+- visualizar as informações que o banco fornece, permitindo checagens e pequenas explorações
+- criar novas variáveis a partir de variáveis já extistentes no banco.
+- modificar a estrutura do banco, seja modificando nome de variáveis, e quais as variáveis são de seu interesse.
+- agregar informações de outras bases de dados.
+
+[colocar o ciclo de ciencia de dados]
+
+Depois de todo o processso de manipulação, você obterá sua própria base de dados!
+
+# Por que utilizamos o pacote tidyverse para manipular dados?
+
+Nós que utilizamos a programação sem sermos programadores nos favorecemos com a criação de pacotes como o tidyverse. Esse super pacote abriga dentro de si uma série de outros pacotes (que podem ser utilizados separadamente, mas que poupam muito trabalhando sendo reunidos em um só) que dão conta de todas as etapas do ciclo da ciência de dados.
+
+- Importação (readr, DBI)
+
+- Tidy (tidyr)
+
+- Transformação (dplyr)
+
+- Visualização (ggplot2)
+
+- Modelagem (modelr)
+
+Nas aulas três e quatro passaremos pela importação, mas nosso foco será a transformação de nossas bases em formato tidy e a manipulação de dados utilizando o dplyr.
+
+# Começando pelo começo
+
+Para utilizar o tidyverse temos que instalá-lo e habitá-lo em nossos computadores. Então, vamos nessa!
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+# Tydr R
+
+Existem dois conjuntos de pacotes que utilizamos para estruturar bancos de dados 
+
+- 1º conjunto: estrutura como as variáveis aparecem
+
+Derreter (gather)
+Esticar (spread)
+
+- 2º conjunto: permite unir o conteúdo de dois ou mais variáveis
+
+Unir (unite)
+Separar (separate)
+
+[inserir imagem do tidyr]
+
+# Tidyr parte 1: Estruturar o seu banco de dados no formato tidy
+
+
+Esse primeiro conjunto de variáveisé aquele capaz de realizar modificações estruturais no nosso banco de dados, e antes de explicar o que isso quer dizer vamos comparar duas bases de dados que trazem as mesmas informações, mas com estruturas diferentes para pensarmos no impacto que isso gera sobre a utilização dos funções.
+
+Primeiro, importe esse banco.
+
+```{r}
+VOTOS_PRIMEIROTURNO_UF_2018 <- read_csv("https://raw.githubusercontent.com/anabeatrizdutra04/tu.tyverse/master/VOTOS_PRIMEIROTURNO_UF_2018.csv")
+
+# se tiver problemas com a internet, tente:
+
+VOTOS_PRIMEIROTURNO_UF_2018 <- read_csv("H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRIMEIROTURNO_UF_2018.csv")
+```
+
+O que esse banco mostra?
+O total de votos que todos os candidatos à presidência obtiveram no primeiro turno da eleição.
+
+```{r}
+VOTOS_PRIMEIROTURNO_UF_2018_2 <- read_csv("https://raw.githubusercontent.com/anabeatrizdutra04/tu.tyverse/master/VOTOS_PRIMEIROTURNO_UF_2018_2.csv")
+
+# se tiver problemas com a internet, tente:
+
+VOTOS_PRIMEIROTURNO_UF_2018_2 <- read_csv("H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRIMEIROTURNO_UF_2018_2.csv")
+```
+
+Nesse segundo banco, temos a mesma informação. Mas a estrutura do banco está diferente, os estados deixaram de ser representados em uma mesma coluna passando a nomear novas colunas. Qual dos dois bancos seria o ideal para aplicar as ferramentas de manipulação?
+
+Para entender a diferença e saber qual é o melhor, temos que pensar como queremos agregar a informação sobre os estados em nossa análise. A informação sobre os estados é também uma variável que se agrega dentro da variável de UFs, o que quer dizer que quando ela está da forma não tidy, não conseguimos aplicar muitos das funções de manipulação.  
+
+O formato da primeira tabela é o que consideramos tidy, esse formato é o ideal para que possamos aplicar os verbos do pacote tidyverse.
+
+Existe um comando que é capaz de realizar ambas as transformações. 
+
+Gather: 
+
+Caso quereiramos transformar o segundo banco no formato tidy pode usar o comando gather.
+Esse comando derrete/agrupa colunas em duas colunas finais
+
+gather(casos, "performance", "n", "valores")
+
+Data frame a ser remodelado
+Nome da nova coluna-chave (character string)
+Nome da nova coluna de valores
+Nomes ou índices numéricos das colunas agrupadas
+
+
+```{r}
+
+VOTOS_PRIMEIROTURNO_UF_2018_tidy <- gather(VOTOS_PRIMEIROTURNO_UF_2018, AC:ZZ, key = "UF", value = "QTDE_VOTOS")
+
+```
+
+Spread
+
+Com essa função, podemos fazer com que uma das variáveis se transforme em nome das variáveis, ou seja,gera multiplas colunas a partir de duas colunas.
+
+spread(casos, "performance", casos, valores)
+
+Data frame a ser remodelado
+Coluna para usar para as 'chaves' (nomes das novas colunas)
+Coluna para usar para os valores (novas células nas colunas)
+
+```{r}
+VOTOS_PRIMEIROTURNO_UF_2018_2_spread <- spread(VOTOS_PRIMEIROTURNO_UF_2018_2, UF, QTDE_VOTOS)
+```
+
+
+# Unite e separate
+
+Vamos começar pela unite. Essa função permite a criação de uma nova variável formada pelo conteúdo de duas outras delas. Ou seja, ela concatena duas ou mais informações.    
+
+Vamos unir então o ano da eleição e o turno.
+
+unite(banco, "nova_variavel", primeira_variavel, segunda_variavel, sep = " - ")
+
+```{r}
+VOTOS_PRIMEIROTURNO_UF_2018_2_unite <- unite(VOTOS_PRIMEIROTURNO_UF_2018_2,"ANO_TURNO", ANO_ELEICAO, NUM_TURNO, sep = " -" )
+
+```
+
+Já a separate que vai fazer o oposto, a partir de uma variável separa em mais variáveis.
+
+separate(banco, variável_criada, into = c("variável_1", "variavel_2""), sep = " - ")
+
+```{r}
+VOTOS_PRIMEIROTURNO_UF_2018_2_separate <- separate(VOTOS_PRIMEIROTURNO_UF_2018_2_unite, ANO_TURNO, into = c("ANO", "TURNO"), sep = " - ")
+
+```
+
+# Dplyr e seus verbos
+
+Agora que entendemos sobre a estrutura de um banco de dados, vamos começar a explorar as funções que permitem a manipulação de dados. Para isso vamos analisar o banco de dados que originou esse que utilizamos anterior. Nosso objetivo nessas aulas é cpnseguir entender quais a aplicações foram feitas para chegar ao estado das tabelas acima, replicar esse comandos e avançar ainda mais nas possibilidades de manipulação.
+
+# Rename
+
+Esse verbo permite renomear uma variável. Então ela se aplica apenas aos nomes das variáveis.
+
+Vamos utilizar o banco que deu origem aos dois primeiros anteriores. Ou seja, é a quantidade de votos obtidas pelos candidatos à presidência em cada estado da federação no primeiro e no segunda turno.
+
+rename(banco, nome_novo = nome_velho)
+
+```{r}
+#Vamos importar o banco completo:
+
+VOTOS_PRESIDENTE_UF_2018 <-read_csv("https://raw.githubusercontent.com/anabeatrizdutra04/tu.tyverse/master/VOTOS_PRESIDENTE_UF_2018.csv")
+
+#ou caso tenha problema com a internet.
+
+VOTOS_PRESIDENTE_UF_2018 <-read_csv("H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRESIDENTE_UF_2018.csv")
+
+# Vamos renomear a variável UF
+
+VOTOS_PRESIDENTE_UF_2018_rename <- rename(VOTOS_PRESIDENTE_UF_2018, ESTADO = UF)
+
+```
+
+
+# Select
+
+Essa variável permite a seleção de algumas variáveis entre todas as disponíveis 
+
+
+select(dataframe, variavel_1, variavel_2)
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_select <- select(VOTOS_PRESIDENTE_UF_2018, ANO_ELEICAO, NUM_TURNO, UF, NUMERO_CANDIDATO, QTDE_VOTOS)
+```
+
+
+# Filter
+
+Se a função select seleciona as variáveis, agora apresentaremos funções que lidam com as observações das variáveis.
+
+filter(dataframe, variavel == "observação")
+
+Dessa forma, podemos fazer uma tabela que contenha apenas resultado de um estado.
+
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_filter1 <- filter(VOTOS_PRESIDENTE_UF_2018, UF == "SP")
+```
+
+Podemos selecionar mais de uma categoria de uma vez usando o sinal de |
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_filter2 <- filter(VOTOS_PRESIDENTE_UF_2018, UF == "SP"| UF == "RJ"| UF == "ES"| UF == "MG")
+```
+
+
+E também observações de diferentes categorias. Nesse caso podemos usar ou uma vírgula ou o sinal &.
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_filter3 <- filter(VOTOS_PRESIDENTE_UF_2018, UF == "SP", NUM_TURNO == 2)
+
+VOTOS_PRESIDENTE_UF_2018_filter3 <- filter(VOTOS_PRESIDENTE_UF_2018, UF == "SP" & NUM_TURNO == 2)
+```
+
+Repare a importância sobre a diferença entre os tipos de variáveis e a forma como são representantas. Quanto temos variáveis de tipo texto, devemos usar aspas, diferente de quando temos números.
+
+Podemos usar o filtro para excluir a variável usando o sinal (!=)
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_filter4 <- filter(VOTOS_PRESIDENTE_UF_2018, UF != "SP")
+```
+
+A seleção de números é feita de forma um pouco diferente da anterior porque diferente do filtro de variáveis categóricas. Podemos selecionar intervalos de valores com os seguintes operadores: maior (>), maior ou igual (>=), menor (<), menor ou igual (<=).
+
+Vamos selecionar as observações dos estados que obtiveram mais de 1000 votos.
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_filter5 <- filter(VOTOS_PRESIDENTE_UF_2018, QTDE_VOTOS > 1000)
+```
+
+
+# Mutate + criar uma nova variável
+
+O mutate é o verbo usando amplamente dentro das funções do dyplr já que tem o seu sentido é o de produzir mudanças, como a criação de uma nova variável.
+
+Podemos criar uma variável em branco dessa forma.
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_nova1 <- mutate(VOTOS_PRESIDENTE_UF_2018, nova_var = NA)
+```
+
+Podemos também copiar uma outra variável e fazer operações com ela para resultar em uma nova.
+
+```{r}
+VOTOS_PRESIDENTE_UF_2018_nova2 <- mutate(VOTOS_PRESIDENTE_UF_2018, nova_var2 = QTDE_VOTOS-1)
+
+```
+
+# Exercícios
+
+Com tudo o que aprendemos hoje utilize o banco VOTOS_PRESIDENTE_UF_2018 e siga as seguintes instruções:
+
+1- Crie uma nova variável que vai conter as regiões
+2- Selecione apenas observações do segundo turno da região nordeste
+3- Selecione as variáveis de numero do candidato, região e de quantidade de votos.
