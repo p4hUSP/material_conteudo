@@ -1,8 +1,5 @@
 ---
-title: "Aula 3"
-author: "Ana Beatriz Dutra"
-date: "31 de março de 2019"
-output: html_document
+title: "Dplyr"
 ---
 
 ```{r setup, include=FALSE}
@@ -43,7 +40,7 @@ Nas aulas três e quatro passaremos pela importação, mas nosso foco será a tr
 Para utilizar o tidyverse temos que instalá-lo e habitá-lo em nossos computadores. Então, vamos nessa!
 
 ```{r}
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library(tidyverse)
 ```
 
