@@ -15,7 +15,10 @@ Com essas ferramentas você poderá:
 - modificar a estrutura do banco, seja modificando nome de variáveis, e quais as variáveis são de seu interesse.
 - agregar informações de outras bases de dados.
 
-[colocar o ciclo de ciencia de dados]
+
+```{r}
+knitr::include_graphics('img/data-science.png')
+```
 
 Depois de todo o processso de manipulação, você obterá sua própria base de dados!
 
@@ -68,7 +71,7 @@ Esse primeiro conjunto de variáveisé aquele capaz de realizar modificações e
 Primeiro, importe esse banco.
 
 ```{r}
-VOTOS_PRIMEIROTURNO_UF_2018 <- read_csv("https://raw.githubusercontent.com/anabeatrizdutra04/tu.tyverse/master/VOTOS_PRIMEIROTURNO_UF_2018.csv")
+VOTOS_PRIMEIROTURNO_UF_2018 <- read_csv("VOTOS_PRIMEIROTURNO_UF_2018.csv")
 
 # se tiver problemas com a internet, tente:
 
@@ -79,11 +82,7 @@ O que esse banco mostra?
 O total de votos que todos os candidatos à presidência obtiveram no primeiro turno da eleição.
 
 ```{r}
-VOTOS_PRIMEIROTURNO_UF_2018_2 <- read_csv("https://raw.githubusercontent.com/anabeatrizdutra04/tu.tyverse/master/VOTOS_PRIMEIROTURNO_UF_2018_2.csv")
-
-# se tiver problemas com a internet, tente:
-
-VOTOS_PRIMEIROTURNO_UF_2018_2 <- read_csv("H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRIMEIROTURNO_UF_2018_2.csv")
+VOTOS_PRIMEIROTURNO_UF_2018_2 <- read_csv("VOTOS_PRIMEIROTURNO_UF_2018_2.csv")
 ```
 
 Nesse segundo banco, temos a mesma informação. Mas a estrutura do banco está diferente, os estados deixaram de ser representados em uma mesma coluna passando a nomear novas colunas. Qual dos dois bancos seria o ideal para aplicar as ferramentas de manipulação?
@@ -165,11 +164,7 @@ rename(banco, nome_novo = nome_velho)
 ```{r}
 #Vamos importar o banco completo:
 
-VOTOS_PRESIDENTE_UF_2018 <-read_csv("https://raw.githubusercontent.com/anabeatrizdutra04/tu.tyverse/master/VOTOS_PRESIDENTE_UF_2018.csv")
-
-#ou caso tenha problema com a internet.
-
-VOTOS_PRESIDENTE_UF_2018 <-read_csv("H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRESIDENTE_UF_2018.csv")
+VOTOS_PRESIDENTE_UF_2018 <-read_csv("VOTOS_PRESIDENTE_UF_2018.csv")
 
 # Vamos renomear a variável UF
 
@@ -256,6 +251,8 @@ VOTOS_PRESIDENTE_UF_2018_nova2 <- mutate(VOTOS_PRESIDENTE_UF_2018, nova_var2 = Q
 
 Com tudo o que aprendemos hoje utilize o banco VOTOS_PRESIDENTE_UF_2018 e siga as seguintes instruções:
 
-1- Crie uma nova variável que vai conter as regiões
-2- Selecione apenas observações do segundo turno da região nordeste
-3- Selecione as variáveis de numero do candidato, região e de quantidade de votos.
+1. Crie uma nova variável que vai conter as regiões
+
+2. Selecione apenas observações do segundo turno da região nordeste
+
+3. Selecione as variáveis de numero do candidato, região e de quantidade de votos.
