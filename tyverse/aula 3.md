@@ -1,8 +1,5 @@
 ---
-title: "Aula 3"
-author: "Ana Beatriz Dutra"
-date: "31 de março de 2019"
-output: html_document
+title: "Dplyr"
 ---
 
 
@@ -42,15 +39,7 @@ Para utilizar o tidyverse temos que instalá-lo e habitá-lo em nossos computado
 
 
 ```r
-install.packages("tidyverse")
-```
-
-```
-## Installing package into '/home/travis/R/Library'
-## (as 'lib' is unspecified)
-```
-
-```r
+#install.packages("tidyverse")
 library(tidyverse)
 ```
 
