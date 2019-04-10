@@ -1,7 +1,172 @@
 ---
-title: "Dplyr"
+title: "Aula 3"
+author: "Ana Beatriz Dutra"
+date: "31 de março de 2019"
+output: html_document
 ---
 
+
+
+## Manipulação de dados
+
+Na aula de hoje, antes de retornar as ferramentas de manipulação de dados iremos entender um pouco melhor sobre tipos de dados e estruturas de dados.
+
+# Objetos e atribuições I
+
+“To understand computations in R, two slogans are helpful:
+• Everything that exists is an object.
+• Everything that happens is a function call."
+— John Chambers
+
+Dados são guardados dentro de objetos.
+Objetos possuem diferentes formas de estruturas os dados. Podemos ter objetos de diferentes tipos:
+Vetores
+Listas 
+Dataframes
+
+Objetos podem conter  dados de diferentes tipos, como:
+Números
+Strings
+Fatores
+
+#### Atribuindo valores à variáveis (`<-`)
+
+Ocorre que os códigos digitados até aqui apenas são executados no console, o que significa que não estamos salvando estes objetos na memória do computador, o que não nos possibilita manipular as estruturas de uma forma mais fácil. 
+
+
+```r
+1
+a <- 1
+a
+b <- (“Hello, world”)
+b
+dado <- c(1,2,3,4,5,6)
+dado
+```
+
+## Tipos de dados
+
+
+```r
+knitr::include_graphics("imgs/TipoDeDados.png")
+```
+
+<img src="imgs/TipoDeDados.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" />
+
+### Lidando com números
+
+O tipo mais comum de dado é o tipo númerico. O número de votos que um candidato recebeu, número de ministérios em cada governo e a taxa de sucesso do Executivo e etc..  Estes valores podem ser classificados em dois tipos: `Inteiros` e `Reais`.
+
+
+```r
+3 # numero inteiro
+```
+
+
+```r
+55.4 # numero real
+```
+
+### Lidando com texto
+
+Outro tipo de dado muito conhecido é o tipo texto, ou também chamado strings. Para formarmos um dado do tipo texto basta utilizarmos aspas simples (`''`) ou aspas duplas (`""`), mas lembre-se não podemos intercalar as aspas, como por exemplo, `'olá mundo"`.
+
+
+```r
+"Vargas"
+```
+
+
+```r
+'Janio Quadros'
+```
+
+
+```r
+"1945"
+```
+
+Perceba que devido ao fato de 1945 estar entre aspas, ele não é mais um dado do tipo número, mas sim texto.
+
+### Lidando com fatores
+
+Vamos supor que estamos trabalhando com dados de survey e em uma das questões temos a escala likert, em que as respostas vão do "Discordo totalmente" até o "Concordo totalmente" contabilizando um total de 6 categorias de resposta. Ocorre que para que o __R__ entenda este tipo de dado como algo categórico, precisamos transformá-los em fatores (factors).
+
+Para fazer essa transformação, utilizaremos uma função chamada `factor()` que recebe como parâmetro um vetor com o que queremos transformar em categorias.
+
+
+```r
+factor(c("Discordo totalmente", "Discordo parcialmente", "Indiferente", "Concordo parcialmente", "Concordo totalmente"))
+```
+
+Diferente de quando executamos um dado tipo texto, os dados categóricos apresentam os níveis das categorias (levels). Perceba que as nossas categorias não estão de acordo com o que a escala likert pressupõe e para arrumar este problema, precisamos definir os níveis através de um outro parâmetro da função `factor()` chamado `levels = `.
+
+
+```r
+factor(c("Discordo totalmente", "Discordo parcialmente", "Indiferente", "Concordo parcialmente", "Concordo totalmente"),
+       levels = c("Discordo totalmente", "Discordo parcialmente", "Indiferente", "Concordo parcialmente", "Concordo totalmente"))
+```
+
+Pode parecer um pouco confuso agora, mas iremos esclarecer estes pontos nos próximos tópicos.
+
+
+### Lidando com lógicos/booleanos
+
+Valores booleanos são resultados de operações booleanas e podem ser definidos como __verdadeiros__ ou __falsos__. Por convenção, trabalhamos com os termos em inglês. Portanto, __TRUE__ ou __FALSE__.
+
+Por operações booleanas, podemos pensar em diferentes testes que tenham __necessariamente__ uma resposta ou verdadeira ou falsa. Por exemplo, 3 é maior do que 1? Verdadeiro! E 3 é menor do que 2? Falso! 
+
+Vamos realizar essas duas operações no R.
+
+
+```r
+# 3 é maior do que 1?
+3 > 1
+```
+
+
+```r
+# 3 é maior do que 1?
+3 < 2
+```
+
+Existem, obviamente, outras operações. É possível também testar a igualdade entre dois valores com `==`.
+
+
+```r
+# 2 é igual a 2?
+2 == 2
+```
+
+Também podemos testar se dois valores são diferentes.
+
+
+```r
+#120 é diferente de 20?
+120 != 20
+```
+
+Outras variações utilizadas são o maior ou igual (`>=`) e o menor ou igual (`<=`). Além disso, também é possível realizar essas operações com textos.
+
+
+```r
+# "harvard" é igual a "MIT"?
+"Harvard" == "MIT"
+```
+
+Não iremos introduzir essa ideia aqui, mas caso seja de interesse também podemos utilizar as noções de maior e menor para textos. Você teria um palpite de como um texto pode ser maior do que outro?
+
+Além disso, o TRUE/FALSE, como veremos adiante, podem ser utilizados em parâmetros de funções, como por exemplo, "Você gostaria que ao fazer a média de um conjunto de valores sejam removidos os valores ausentes?". Se você preenche com TRUE, o resultado provavelmente será númerico, caso preencha com FALSE e você tenha dados ausentes, com toda certeza seu resultado será um valor ausente, ou também chamado de missing.
+
+### Valores ausentes/ missings
+
+Existem dois tipos de valores missing, o `NA` (not avaible) e o `NaN` (not a number), ambos tem sentidos semelhantes, porém o primeiro é mais genérico para cada tipo de dado. Para sabermos se um certo dado é missing, utilizamos a função `is.na()`.
+
+
+```r
+is.na(NA)
+is.na(99)
+```
 
 
 # Manipulação de bancos de dados
@@ -12,14 +177,6 @@ Com essas ferramentas você poderá:
 - criar novas variáveis a partir de variáveis já extistentes no banco.
 - modificar a estrutura do banco, seja modificando nome de variáveis, e quais as variáveis são de seu interesse.
 - agregar informações de outras bases de dados.
-
-
-
-```r
-knitr::include_graphics('img/data-science.png')
-```
-
-![plot of chunk unnamed-chunk-1](img/data-science.png)
 
 Depois de todo o processso de manipulação, você obterá sua própria base de dados!
 
@@ -45,25 +202,8 @@ Para utilizar o tidyverse temos que instalá-lo e habitá-lo em nossos computado
 
 
 ```r
-#install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
-```
-
-```
-## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
-```
-
-```
-## ✔ ggplot2 3.1.0.9000     ✔ purrr   0.3.2     
-## ✔ tibble  2.1.1          ✔ dplyr   0.8.0.1   
-## ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
-## ✔ readr   1.3.1          ✔ forcats 0.4.0
-```
-
-```
-## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 # Tydr R
@@ -80,8 +220,6 @@ Esticar (spread)
 Unir (unite)
 Separar (separate)
 
-[inserir imagem do tidyr]
-
 # Tidyr parte 1: Estruturar o seu banco de dados no formato tidy
 
 
@@ -94,55 +232,12 @@ Primeiro, importe esse banco.
 VOTOS_PRIMEIROTURNO_UF_2018 <- read_csv("VOTOS_PRIMEIROTURNO_UF_2018.csv")
 ```
 
-```
-## Warning: Missing column names filled in: 'X1' [1]
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   DESCRICAO_CARGO = col_character()
-## )
-```
-
-```
-## See spec(...) for full column specifications.
-```
-
-```r
-# se tiver problemas com a internet, tente:
-
-VOTOS_PRIMEIROTURNO_UF_2018 <- read_csv("H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRIMEIROTURNO_UF_2018.csv")
-```
-
-```
-## Error: 'H:/P4H/Curso semestral 2019.1/Aula 3/VOTOS_PRIMEIROTURNO_UF_2018.csv' does not exist.
-```
-
 O que esse banco mostra?
 O total de votos que todos os candidatos à presidência obtiveram no primeiro turno da eleição.
 
 
 ```r
 VOTOS_PRIMEIROTURNO_UF_2018_2 <- read_csv("VOTOS_PRIMEIROTURNO_UF_2018_2.csv")
-```
-
-```
-## Warning: Missing column names filled in: 'X1' [1]
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   ANO_ELEICAO = col_double(),
-##   UF = col_character(),
-##   NUM_TURNO = col_double(),
-##   NUMERO_CANDIDATO = col_double(),
-##   DESCRICAO_CARGO = col_character(),
-##   QTDE_VOTOS = col_double()
-## )
 ```
 
 Nesse segundo banco, temos a mesma informação. Mas a estrutura do banco está diferente, os estados deixaram de ser representados em uma mesma coluna passando a nomear novas colunas. Qual dos dois bancos seria o ideal para aplicar as ferramentas de manipulação?
@@ -158,34 +253,31 @@ Gather:
 Caso quereiramos transformar o segundo banco no formato tidy pode usar o comando gather.
 Esse comando derrete/agrupa colunas em duas colunas finais
 
-gather(casos, "performance", "n", "valores")
+gather(dataframe, intervalos de colunas, key, values)
 
-Data frame a ser remodelado
-Nome da nova coluna-chave (character string)
-Nome da nova coluna de valores
-Nomes ou índices numéricos das colunas agrupadas
-
+data = Data frame a ser remodelado
+'intervalos de colunas' = Nomes ou índices numéricos das colunas agrupadas
+key = Nome da nova coluna-chave (character string)
+value = Nome da nova coluna de valores
 
 
 ```r
 VOTOS_PRIMEIROTURNO_UF_2018_tidy <- gather(VOTOS_PRIMEIROTURNO_UF_2018, AC:ZZ, key = "UF", value = "QTDE_VOTOS")
 ```
-
 Spread
 
 Com essa função, podemos fazer com que uma das variáveis se transforme em nome das variáveis, ou seja,gera multiplas colunas a partir de duas colunas.
 
-spread(casos, "performance", casos, valores)
+spread(data, key, values)
 
-Data frame a ser remodelado
-Coluna para usar para as 'chaves' (nomes das novas colunas)
-Coluna para usar para os valores (novas células nas colunas)
+Data =  dataframe a ser remodelado
+key = Coluna para usar para as 'chaves' (nomes das novas colunas)
+values = Coluna para usar para os valores (novas células nas colunas)
 
 
 ```r
 VOTOS_PRIMEIROTURNO_UF_2018_2_spread <- spread(VOTOS_PRIMEIROTURNO_UF_2018_2, UF, QTDE_VOTOS)
 ```
-
 
 # Unite e separate
 
@@ -209,11 +301,6 @@ separate(banco, variável_criada, into = c("variável_1", "variavel_2""), sep = 
 VOTOS_PRIMEIROTURNO_UF_2018_2_separate <- separate(VOTOS_PRIMEIROTURNO_UF_2018_2_unite, ANO_TURNO, into = c("ANO", "TURNO"), sep = " - ")
 ```
 
-```
-## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 421 rows [1,
-## 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].
-```
-
 # Dplyr e seus verbos
 
 Agora que entendemos sobre a estrutura de um banco de dados, vamos começar a explorar as funções que permitem a manipulação de dados. Para isso vamos analisar o banco de dados que originou esse que utilizamos anterior. Nosso objetivo nessas aulas é cpnseguir entender quais a aplicações foram feitas para chegar ao estado das tabelas acima, replicar esse comandos e avançar ainda mais nas possibilidades de manipulação.
@@ -231,26 +318,11 @@ rename(banco, nome_novo = nome_velho)
 #Vamos importar o banco completo:
 
 VOTOS_PRESIDENTE_UF_2018 <-read_csv("VOTOS_PRESIDENTE_UF_2018.csv")
-```
 
-```
-## Parsed with column specification:
-## cols(
-##   ANO_ELEICAO = col_double(),
-##   UF = col_character(),
-##   NUM_TURNO = col_double(),
-##   NUMERO_CANDIDATO = col_double(),
-##   DESCRICAO_CARGO = col_character(),
-##   QTDE_VOTOS = col_double()
-## )
-```
+# Vamos renomear a variável NUMERO_CANDIDATO
 
-```r
-# Vamos renomear a variável UF
-
-VOTOS_PRESIDENTE_UF_2018_rename <- rename(VOTOS_PRESIDENTE_UF_2018, ESTADO = UF)
+VOTOS_PRESIDENTE_UF_2018_rename <- rename(VOTOS_PRESIDENTE_UF_2018, NUM_CANDIDATO = NUMERO_CANDIDATO)
 ```
-
 
 # Select
 
@@ -261,9 +333,8 @@ select(dataframe, variavel_1, variavel_2)
 
 
 ```r
-VOTOS_PRESIDENTE_UF_2018_select <- select(VOTOS_PRESIDENTE_UF_2018, ANO_ELEICAO, NUM_TURNO, UF, NUMERO_CANDIDATO, QTDE_VOTOS)
+VOTOS_PRESIDENTE_UF_2018_select <- select(VOTOS_PRESIDENTE_UF_2018, ANO_ELEICAO, NUM_TURNO, NUMERO_CANDIDATO, QTDE_VOTOS)
 ```
-
 
 # Filter
 
@@ -314,7 +385,6 @@ Vamos selecionar as observações dos estados que obtiveram mais de 1000 votos.
 VOTOS_PRESIDENTE_UF_2018_filter5 <- filter(VOTOS_PRESIDENTE_UF_2018, QTDE_VOTOS > 1000)
 ```
 
-
 # Mutate + criar uma nova variável
 
 O mutate é o verbo usando amplamente dentro das funções do dyplr já que tem o seu sentido é o de produzir mudanças, como a criação de uma nova variável.
@@ -332,13 +402,57 @@ Podemos também copiar uma outra variável e fazer operações com ela para resu
 ```r
 VOTOS_PRESIDENTE_UF_2018_nova2 <- mutate(VOTOS_PRESIDENTE_UF_2018, nova_var2 = QTDE_VOTOS-1)
 ```
+Mutate() + ifelse
+
+Podemos preencher algum campo que exija alguma condicionalidade. Assim como vimos no exercício da semana passada. 
+
+VOTOS_PRESIDENTE_UF_2018 <- mutate(VOTOS_PRESIDENTE_UF_2018, regiao = ifelse(UF == SP, "SUDESTE", NA))
+
+# Count
+
+A função count() irá contar as categorias de uma variável. Para isso, apresentará os resultados em um dataframe diferendo do dataframe que contém os dados.
+
+Podemos, por exemplo, contar o número de observações por turno.
+
+contar_segundoturno <- count(VOTOS_PRESIDENTE_UF_2018, NUM_TURNO)
+
+### group_by() + summarise() 
+
+O `group_by()` e `summarise()` são funções que trabalham, na maioria das vezes, juntas. Eles servem para sumarizar os dados de acordo com grupos, ou seja, a contagem que haviamos feito com o `count()` pode ser reproduzida aqui da seguinte forma:
+
+
+```r
+temp_1 <- group_by(VOTOS_PRESIDENTE_UF_2018, UF)
+summarise(temp_1, Soma = sum())
+```
+
+O objeto `temp_1` é uma tabela agrupada! Visualmente ela parece normal, porém qualquer operação feita nela será realizada de acordo com os grupos nos quais ela encontrou, que neste caso é: MAIOR QUE 40 e MENOR QUE 40.
+
+Quando utilizamos o summarise, iremos agrupar as categorias em torno de uma estatística, no caso, a contagem. Para fazer isso, utilizamos a função `n()`, uma função utilizada para contar obervações. Caso a variável que fossemos sumarizar fosse númerica, poderiamos utilizar a média (`mean()`), mediana (`median()`) e assim por diante.
+
+Portanto, a vantagem do `group_by()` e `summarise()` é que conseguimos sumarizar com outras estatísticas além da contagem. Vejamos o exemplo abaixo. Estamos agrupando pela categoria de idade e a cor/raça do candidato. Após isto, estamos contando o número de observações que apresentam estas categorias.
+
+
+## %>%
+
+Até então, vimos os principais verbos do `dplyr`. Para todas as operações realizadas tivemos que criar diversas linhas de código, salvando várias vezes as saídas dentro de um mesmo objeto, algo que é muito trabalhoso.
+
+O Pipe nos permite uma forma diferente de escrever nossos códigos, permitindo que sejam escritos de forma linear, tornando mais clara a forma de reproduzir uma sequência de tarefas.
+
+Ou seja, o pipe permite que emendemos tarefas.
+
+Imagine que queremos saber a média de votos conquistada pelo candidato Meirelles no primeiro turno por estado. Na nossa tabela final queremos apenas a quantidade de votos e os estados.
+
+Novo_banco <- VOTOS_PRESIDENTE_UF_2018 %>%
+	filter(variável == observação)%>%
+group_by(variável)%>%
+summarize(variavel_nova = mean(variavel))%>%
+select(variavel_1, variavel_2)
+
 
 # Exercícios
 
-Com tudo o que aprendemos hoje utilize o banco VOTOS_PRESIDENTE_UF_2018 e siga as seguintes instruções:
-
-1. Crie uma nova variável que vai conter as regiões
-
-2. Selecione apenas observações do segundo turno da região nordeste
-
-3. Selecione as variáveis de numero do candidato, região e de quantidade de votos.
+1- nova variável com as regiões
+2- crie uma nova variável que contenha a porcentagem de votos obtidas por cada candidato (sem votos brancos e nulos) no segundo turno em cada região.
+Atenção que esse exercício requer que realizemos várias operações antes da realização do cálculo.
+Tente responder utilizando o pipe
