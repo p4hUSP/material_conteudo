@@ -7,7 +7,7 @@ output: html_document
 
 ## Introdução
 
-Parabéns, você já é capaz de importar dados, manipulá-los e retirar alguns insights de gráficos e tabelas. Contudo, vimos isso em aulas separadas e talvez você não se sinta confiante para realizar uma análise do começo ao fim. Nesta aula, o objetivo é justamente capacitá-la o ciclo de ciência de dados.
+Parabéns, você já é capaz de importar dados, manipulá-los e retirar alguns _insights_ de gráficos e tabelas. Contudo, vimos isso em aulas separadas e talvez você não se sinta confiante para realizar uma análise do começo ao fim. Nesta aula, o objetivo é justamente capacitá-la o ciclo de ciência de dados.
 
 ## Parte 1 - A pergunta
 
@@ -15,7 +15,7 @@ Toda análise é motivada por uma pergunta. Essa pergunta pode ter origem uma or
 
 ![plot of chunk unnamed-chunk-1](img/data-science-cicle.png)
 
-Qual será o desafio de hoje? Eu quero que vocês imaginem como parte de um time de futebol e vocês são responsáveis por montar 
+Qual será o desafio de hoje? Eu quero que vocês imaginem como parte integrantes da parte técnica de um time de futebol. Hoje, vocês são as cientistas de dados responsáveis por criar o melhor time! Para isso iremos utilizar um banco de dados do FIFA 19 para os jogadores masculinas (infelizmente não achei o feminino...).
 
 
 ```r
@@ -28,9 +28,11 @@ library(tidyverse)
 data <- readr::read_csv('data/fifa19.zip')
 ```
 
-[Estratégias no Futubol - Nexo](https://www.youtube.com/watch?v=FZ4Sb82myi0)
+Referências:
 
-[Guia dos Atributos](https://pt.fifauteam.com/atributos-de-jogadores-fifa-18/)
+- [Estratégias no Futubol - Nexo](https://www.youtube.com/watch?v=FZ4Sb82myi0)
+
+- [Guia dos Atributos](https://pt.fifauteam.com/atributos-de-jogadores-fifa-18/)
 
 ## Como vamos atacar o problema?
 
@@ -105,7 +107,6 @@ data <-  data %>%
 ```
 
 ## Análise Exploratória
-
 
 ### Goleiros
 
@@ -302,7 +303,11 @@ nosso_time %>%
   select(Name)
 ```
 
+## Exercícios
 
+1. Imagine que o seu time precisa enviar olheiros para alguns países atrás dos seguintes tipos de jogadores: zagueiros e atacantes. Quais são os três melhores países para cada uma dessas duas posições?
+
+2. O seu clube está preocupado com a evolução do rendimento dos próprios jogadores ao longo dos anos. Faça um estudo a partir do `Overrall` para as seguintes posições (`Position`): goleiro (`GK`), zagueiro central (`CB`), ala esquerda (`LW`).
 
 
 
